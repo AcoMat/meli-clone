@@ -9,5 +9,4 @@ public class SeguiTusComprasGrupo1Application {
 	public static void main(String[] args) {
 		SpringApplication.run(SeguiTusComprasGrupo1Application.class, args);
 	}
-
 }
