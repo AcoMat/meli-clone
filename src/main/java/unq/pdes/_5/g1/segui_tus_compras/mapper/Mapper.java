@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.mappers;
+package unq.pdes._5.g1.segui_tus_compras.mapper;
 
 import org.springframework.stereotype.Component;
 import unq.pdes._5.g1.segui_tus_compras.model.User;
