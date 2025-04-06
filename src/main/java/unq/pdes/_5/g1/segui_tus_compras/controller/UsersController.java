@@ -1,33 +1,26 @@
 package unq.pdes._5.g1.segui_tus_compras.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.UserDTO;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.UserRegisterDTO;
+import unq.pdes._5.g1.segui_tus_compras.service.UsersService;
+import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
 @RestController
 @RequestMapping("/users")
 public class UsersController {
 
-    @GetMapping("/register")
-    public String register() {
-        return "Hello Users!";
-    }
+    @Autowired
+    private UsersService usersService;
 
-    @GetMapping("/login")
-    public String login() {
-        return "Hello Users!";
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse<UserDTO>> register(@Valid @RequestBody UserRegisterDTO userDTO) {
+        UserDTO new_user = usersService.register(userDTO);
+        ApiResponse<UserDTO> response = new ApiResponse<>(true, "User registered successfully", new_user, null);
+        return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/")
-    public String getAllUsers() {
-        return "Hello Users!";
-    }
-
-    @GetMapping("/{id}")
-    public String getUser(@PathVariable String id) {
-        return "TODO: devolver usuario " + id;
-    }
-
 }
 
