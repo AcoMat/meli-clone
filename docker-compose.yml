@@ -21,9 +21,10 @@ services:
     image: mysql:8.0.39  # MySQL image version.
     ports:
       - 13306:3306  # Maps port 3306 in the container to port 13306 on the host.
+    command: --init-file /data/application/init.sql
     volumes:
       - mysql-data:/var/lib/mysql  # Persistent storage for MySQL data.
-      - ./mysql-init:/docker-entrypoint-initdb.d  # Initialization scripts.
+      - ./init.sql:/data/application/init.sql  # Initialization scripts.
     networks:
       - springboot-mysql-network  # Connects to the specified network.
     environment:
