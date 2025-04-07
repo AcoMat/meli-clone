@@ -11,14 +11,14 @@ import unq.pdes._5.g1.segui_tus_compras.model.dto.AuthResponseDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.LoginCredentials;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.RegisterData;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
-import unq.pdes._5.g1.segui_tus_compras.util.JwtUtil;
+import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
 
 @Service
 public class AuthService {
     @Autowired private UsersRepository usersRepository;
     @Autowired private Mapper mapper;
 
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired private PasswordEncoder passwordEncoder;
 
 
     public AuthResponseDTO register(RegisterData registerData) {
@@ -32,7 +32,7 @@ public class AuthService {
 
         usersRepository.save(new_user);
 
-        return new AuthResponseDTO(mapper.toDTO(new_user), JwtUtil.generateToken(new_user.getId()));
+        return new AuthResponseDTO(mapper.toDTO(new_user), JwtTokenProvider.generateToken(new_user.getId()));
     }
 
     public AuthResponseDTO login(LoginCredentials credentials){
@@ -41,6 +41,6 @@ public class AuthService {
             throw new IllegalArgumentException("Email or password is incorrect");
         }
 
-        return new AuthResponseDTO(mapper.toDTO(user), JwtUtil.generateToken(user.getId()));
+        return new AuthResponseDTO(mapper.toDTO(user), JwtTokenProvider.generateToken(user.getId()));
     }
 }

@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.util;
+package unq.pdes._5.g1.segui_tus_compras.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -8,7 +8,7 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 
 import java.util.Date;
 
-public class JwtUtil {
+public class JwtTokenProvider {
 
     private static final String SECRET = "mi_clave_secreta_segura";
     private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hora
