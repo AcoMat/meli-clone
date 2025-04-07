@@ -18,7 +18,7 @@ public class AuthService {
     @Autowired private UsersRepository usersRepository;
     @Autowired private Mapper mapper;
 
-    @Autowired private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     public AuthResponseDTO register(RegisterData registerData) {
