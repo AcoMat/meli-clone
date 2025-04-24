@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.util;
+package unq.pdes._5.g1.segui_tus_compras.exception.handlers;
 
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,16 +1,25 @@
 package unq.pdes._5.g1.segui_tus_compras.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.ProductDto;
+import unq.pdes._5.g1.segui_tus_compras.service.ProductsService;
+import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
 @RestController
 @RequestMapping("/products")
 public class ProductsController {
 
-    @GetMapping("/")
-    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
+    private final ProductsService productsService;
+
+    public ProductsController(ProductsService productsService) {
+        this.productsService = productsService;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductDto>> getProductById(@PathVariable String id) {
+        ProductDto product = productsService.getProductById(id);
+        ApiResponse<ProductDto> response = new ApiResponse<>(true, "Product retrieved successfully", product, null);
+        return ResponseEntity.ok(response);
     }
 }
