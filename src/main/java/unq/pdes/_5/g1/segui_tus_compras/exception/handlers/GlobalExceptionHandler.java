@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.exception.handlers;
+package unq.pdes._5.g1.segui_tus_compras.util;
 
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
+import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,5 +46,24 @@ public class GlobalExceptionHandler {
                 null
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({AlreadyExistingUser.class})
+    public ResponseEntity<ApiResponse<Object>> alreadyExistingUser(AlreadyExistingUser ex) {
+        ApiResponse<Object> response = new ApiResponse<>(
+                false,
+                ex.getMessage(),
+                null,
+                null
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiResponse<Void>> handleGenericRuntime(RuntimeException ex) {
+        if (ex.getMessage().contains("Token")) {
+            return ResponseEntity.status(401).body(new ApiResponse<>(false, ex.getMessage(), null, null));
+        }
+        return ResponseEntity.status(400).body(new ApiResponse<>(false, ex.getMessage(), null, null));
     }
 }

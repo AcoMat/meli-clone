@@ -1,9 +1,6 @@
 package unq.pdes._5.g1.segui_tus_compras.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
@@ -11,11 +8,15 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String password;
 
     public Long getId() {
         return id;
+    }
+
+    public User() {
     }
 
     public User(String firstName, String lastName, String email, String password) {
@@ -25,15 +26,16 @@ public class User {
         this.password = password;
     }
 
-    public User() {
-    }
-
     public String getEmail() {
         return email;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getLastName() {

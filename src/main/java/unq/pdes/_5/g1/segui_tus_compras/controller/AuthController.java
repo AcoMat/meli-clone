@@ -4,9 +4,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.AuthResponseDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.UserDTO;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.UserLoginDTO;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.UserRegisterDTO;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.LoginCredentials;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.RegisterData;
 import unq.pdes._5.g1.segui_tus_compras.service.AuthService;
 import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
@@ -14,21 +15,20 @@ import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
-
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponse<UserDTO>> login(@Valid @RequestBody UserLoginDTO userDTO) {
-        UserDTO loggued_user = authService.login(userDTO);
-        // Implement login logic here
-        return ResponseEntity.ok(new ApiResponse<>(true, "Login successful", loggued_user, null));
-    }
+    @Autowired private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserDTO>> register(@Valid @RequestBody UserRegisterDTO userDTO) {
-        UserDTO new_user = authService.register(userDTO);
-        ApiResponse<UserDTO> response = new ApiResponse<>(true, "User registered successfully", new_user, null);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<UserDTO>> register(@Valid @RequestBody RegisterData data) {
+        AuthResponseDTO new_user = authService.register(data);
+        ApiResponse<UserDTO> response = new ApiResponse<>(true, "User registered successfully", new_user.getUser(), null);
+        return ResponseEntity.ok().header("Authorization", "Bearer " + new_user.getToken()).body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<UserDTO>> login(@Valid @RequestBody LoginCredentials credentials) {
+        AuthResponseDTO logged_user = authService.login(credentials);
+        ApiResponse<UserDTO> response = new ApiResponse<>(true, "User logged successfully", logged_user.getUser(), null);
+        return ResponseEntity.ok().header("Authorization", "Bearer " + logged_user.getToken()).body(response);
     }
 }
 
