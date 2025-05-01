@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
 import unq.pdes._5.g1.segui_tus_compras.mapper.Mapper;
 import unq.pdes._5.g1.segui_tus_compras.model.User;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.AuthResponseDTO;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.LoginCredentials;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.RegisterData;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.AuthResponseDTO;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.LoginCredentials;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.RegisterData;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
 import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
 

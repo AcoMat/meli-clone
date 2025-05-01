@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.model.dto;
+package unq.pdes._5.g1.segui_tus_compras.model.dto.auth;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;

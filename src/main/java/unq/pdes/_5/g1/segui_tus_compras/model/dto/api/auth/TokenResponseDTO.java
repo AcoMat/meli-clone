@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.model.dto;
+package unq.pdes._5.g1.segui_tus_compras.model.dto.api.auth;
 
 public class TokenResponseDTO {
     private String access_token;
