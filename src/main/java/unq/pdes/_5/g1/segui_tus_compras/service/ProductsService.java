@@ -1,7 +1,7 @@
 package unq.pdes._5.g1.segui_tus_compras.service;
 
 import org.springframework.stereotype.Service;
-import unq.pdes._5.g1.segui_tus_compras.model.Product;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
 

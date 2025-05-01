@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.util;
+package unq.pdes._5.g1.segui_tus_compras.exception.handlers;
 
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
+import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +65,6 @@ public class GlobalExceptionHandler {
         if (ex.getMessage().contains("Token")) {
             return ResponseEntity.status(401).body(new ApiResponse<>(false, ex.getMessage(), null, null));
         }
-        return ResponseEntity.status(400).body(new ApiResponse<>(false, ex.getMessage(), null, null));
+        return ResponseEntity.status(500).body(new ApiResponse<>(false, ex.getMessage(), null, null));
     }
 }
