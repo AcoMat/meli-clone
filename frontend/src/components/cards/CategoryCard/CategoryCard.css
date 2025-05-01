@@ -1,0 +1,18 @@
+.category-card {
+    max-width: 212px;
+    max-height: 106px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 4px 0px #00000026;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.icon {
+    filter: invert(43%) sepia(99%) saturate(1895%) hue-rotate(197deg) brightness(100%) contrast(97%);
+}
+
+.category-card:hover {
+    img {
+        filter: invert(30%) sepia(15%) saturate(3103%) hue-rotate(181deg) brightness(96%) contrast(96%);
+    }
+}

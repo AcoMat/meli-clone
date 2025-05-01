@@ -1,0 +1,15 @@
+.purchase-summary {
+    min-width: 350px;
+    height: 85vh;
+    padding: 4rem;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.50), rgba(255, 255, 255, 0)); /* Add gradient effect */
+}
+
+@media (max-width: 768px) {
+    .purchase-summary {
+        height: auto;
+        min-width: 100%;
+        padding: 2rem;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.50), rgba(255, 255, 255, 0)); /* Add gradient effect */
+    }
+}
