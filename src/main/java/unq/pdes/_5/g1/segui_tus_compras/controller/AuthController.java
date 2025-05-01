@@ -4,10 +4,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.AuthResponseDTO;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.UserDTO;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.LoginCredentials;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.RegisterData;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.AuthResponseDTO;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.UserDTO;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.LoginCredentials;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.RegisterData;
 import unq.pdes._5.g1.segui_tus_compras.service.AuthService;
 import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
