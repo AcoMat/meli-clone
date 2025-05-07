@@ -30,6 +30,14 @@ public class UserService {
         return user.getFavorites();
     }
 
+    public List<Purchase> getPurchases(Long userId) {
+        User user = _usersRepository.findById(userId).orElse(null);
+        if (user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+        return user.getPurchases();
+    }
+
     public List<Product> toggleFavorite(Long userId, String productId) {
         Product product = _productsService.getProductById(productId);
         if (product == null) {
@@ -55,8 +63,8 @@ public class UserService {
         if(products.isEmpty() || products.stream().anyMatch(Objects::isNull)) {
             throw new ErrorDuringPurchaseException("Some products are not valid");
         }
-        Purchase purchase = new Purchase(user, products);
-
+        user.addPurchase(new Purchase(user, products));
+        _usersRepository.save(user);
     }
 
 

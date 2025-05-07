@@ -48,4 +48,8 @@ public class User {
             this.favorites.add(product);
         }
     }
+
+    public void addPurchase(Purchase purchase) {
+        this.purchases.add(purchase);
+    }
 }

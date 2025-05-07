@@ -1,8 +1,8 @@
 package unq.pdes._5.g1.segui_tus_compras.controller;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import unq.pdes._5.g1.segui_tus_compras.model.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.user.FavoriteDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.user.PurchaseDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
@@ -29,20 +29,24 @@ public class UserController {
     }
 
     @PutMapping("/favorites")
-    public ResponseEntity<?> toggleFavorite(@RequestBody FavoriteDto value, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<ApiResponse<List<Product>>> toggleFavorite(@RequestBody FavoriteDto dto, @RequestHeader("Authorization") String token) {
         Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
-        List<Product> favorites = _userService.toggleFavorite(userId, value.getProductId());
-        return ResponseEntity.ok(new ApiResponse<>(true, "Favorite switched successfully", null, favorites.stream()));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Favorite switched successfully", null, _userService.toggleFavorite(userId, dto.productId)));
     }
 
     @PostMapping("/purchases")
-    public ResponseEntity<?> postNewPurchase(@RequestBody PurchaseDto value) {
-        throw new NotImplementedException();
+    public ResponseEntity<ApiResponse<?>> postNewPurchase(@RequestBody PurchaseDto dto, @RequestHeader("Authorization") String token) {
+        Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
+        List<String> productsIds = dto.productsIds;
+        _userService.postNewPurchase(userId, productsIds);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Purchase created successfully", null, null));
     }
 
     @GetMapping("/purchases")
-    public ResponseEntity<?> getPurchases() {
-        throw new NotImplementedException();
+    public ResponseEntity<?> getPurchases(@RequestHeader("Authorization") String token) {
+        Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
+        List<Purchase> purchases = _userService.getPurchases(userId);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Purchases retrieved successfully", null, purchases));
     }
 
 }

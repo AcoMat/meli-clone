@@ -1,5 +1,6 @@
 package unq.pdes._5.g1.segui_tus_compras.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
@@ -14,6 +15,7 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
     private ZonedDateTime date;
