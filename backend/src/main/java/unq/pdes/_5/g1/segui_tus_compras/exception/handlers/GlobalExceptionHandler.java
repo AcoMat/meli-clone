@@ -1,5 +1,6 @@
 package unq.pdes._5.g1.segui_tus_compras.exception.handlers;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +61,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(JWTVerificationException.class)
+    public ResponseEntity<ApiResponse<Object>> handleJWTVerificationException(JWTVerificationException ex) {
+        ApiResponse<Object> response = new ApiResponse<>(
+                false,
+                ex.getMessage(),
+                null,
+                null
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiResponse<Void>> handleGenericRuntime(RuntimeException ex) {
         if (ex.getMessage().contains("Token")) {
@@ -67,4 +79,5 @@ public class GlobalExceptionHandler {
         }
         return ResponseEntity.status(500).body(new ApiResponse<>(false, ex.getMessage(), null, null));
     }
+
 }

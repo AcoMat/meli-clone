@@ -27,8 +27,12 @@ public class AuthService {
             throw new AlreadyExistingUser("User already exists");
         }
 
-        User new_user = mapper.toEntity(registerData);
-        new_user.setPassword(passwordEncoder.encode(registerData.getPassword()));
+        User new_user = new User(
+                registerData.getFirstName(),
+                registerData.getLastName(),
+                registerData.getEmail(),
+                passwordEncoder.encode(registerData.getPassword())
+        );
 
         usersRepository.save(new_user);
 

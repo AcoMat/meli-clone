@@ -22,13 +22,14 @@ public class ProductsService {
 
     public Product getProductById(String id) {
         if(productsRepository.existsById(id)) {
+            System.out.println("Product found in database");
             return productsRepository.findById(id).orElse(null);
         }
         ExternalProductDto apiProduct = meLiService.getProductById(id);
         if (apiProduct == null) {
             return null;
         }
-        return new Product(apiProduct);
+        return productsRepository.save(new Product(apiProduct));
     }
 
     public List<Product> searchProducts(String keywords, int offset, int limit) {

@@ -1,0 +1,48 @@
+package unq.pdes._5.g1.segui_tus_compras.controller;
+
+import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.user.FavoriteDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.user.PurchaseDto;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
+import unq.pdes._5.g1.segui_tus_compras.service.UserService;
+import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+
+    private final UserService _userService;
+
+    public UserController(UserService userService) {
+        this._userService = userService;
+    }
+
+    @GetMapping("/favorites")
+    public ResponseEntity<ApiResponse<List<Product>>> getFavorites(@RequestHeader("Authorization") String token) {
+        Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Favorites retrieved successfully", null, _userService.getFavorites(userId)));
+    }
+
+    @PutMapping("/favorites")
+    public ResponseEntity<?> toggleFavorite(@RequestBody FavoriteDto value, @RequestHeader("Authorization") String token) {
+        Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
+        List<Product> favorites = _userService.toggleFavorite(userId, value.getProductId());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Favorite switched successfully", null, favorites.stream()));
+    }
+
+    @PostMapping("/purchases")
+    public ResponseEntity<?> postNewPurchase(@RequestBody PurchaseDto value) {
+        throw new NotImplementedException();
+    }
+
+    @GetMapping("/purchases")
+    public ResponseEntity<?> getPurchases() {
+        throw new NotImplementedException();
+    }
+
+}

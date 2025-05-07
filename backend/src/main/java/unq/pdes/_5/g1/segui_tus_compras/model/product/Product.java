@@ -15,10 +15,13 @@ public class Product {
     @NotBlank
     String name;
     Double price;
+    @Column(columnDefinition = "TEXT")
     String description;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "product_id")
     private List<ProductAttribute> attributes;
+    @ElementCollection
+    @Column(length = 255)
     List<String> pictures;
     Integer priceDiscountPercentage;
     Boolean isFreeShipping;
@@ -52,6 +55,13 @@ public class Product {
             this.isFreeShipping = apiProduct.buyBoxWinner.shipping != null ?
                     apiProduct.buyBoxWinner.shipping.freeShipping : null;
         }
+    }
+
+    public Double getPriceWithDiscountApplied() {
+        if (priceDiscountPercentage != null && priceDiscountPercentage > 0) {
+            return price - (price * priceDiscountPercentage / 100);
+        }
+        return price;
     }
 
     public Product() {

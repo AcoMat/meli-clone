@@ -2,12 +2,13 @@ package unq.pdes._5.g1.segui_tus_compras.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component
 public class JwtTokenProvider {
 
     private static final String SECRET = "mi_clave_secreta_segura";
@@ -22,13 +23,9 @@ public class JwtTokenProvider {
                 .sign(algorithm);
     }
 
-    public static String validateTokenAndGetUsername(String token) {
-        try {
-            JWTVerifier verifier = JWT.require(algorithm).build();
-            DecodedJWT jwt = verifier.verify(token);
-            return jwt.getSubject(); // username
-        } catch (JWTVerificationException e) {
-            throw new RuntimeException("Token inválido o expirado");
-        }
+    public static Long validateTokenAndGetUserId(String token) {
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT jwt = verifier.verify(token.replace("Bearer ", ""));
+        return jwt.getSubject() != null ? Long.valueOf(jwt.getSubject()) : null;
     }
 }
