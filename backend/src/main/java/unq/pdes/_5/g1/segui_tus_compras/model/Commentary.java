@@ -1,6 +1,7 @@
 package unq.pdes._5.g1.segui_tus_compras.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,5 +40,10 @@ public class Commentary {
         this.product = product;
         this.comment = comment;
         this.createdAt = LocalDateTime.now();
+    }
+
+    @JsonProperty("by")
+    public String getUserName() {
+        return this.user.getFirstName();
     }
 }

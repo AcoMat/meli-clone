@@ -7,7 +7,8 @@ import unq.pdes._5.g1.segui_tus_compras.model.dto.CommentDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.PagingDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
-import unq.pdes._5.g1.segui_tus_compras.service.ProductsService;
+import unq.pdes._5.g1.segui_tus_compras.service.CommentService;
+import unq.pdes._5.g1.segui_tus_compras.service.ProductService;
 import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
 import java.util.List;
@@ -16,15 +17,17 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductsController {
 
-    private final ProductsService productsService;
+    private final ProductService productService;
+    private final CommentService commentService;
 
-    public ProductsController(ProductsService productsService) {
-        this.productsService = productsService;
+    public ProductsController(ProductService productService, CommentService commentService) {
+        this.productService = productService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Product>> getProductById(@PathVariable String id) {
-        Product product = productsService.getProductById(id);
+        Product product = productService.getProductById(id);
         ApiResponse<Product> response = new ApiResponse<>(true, "Product retrieved successfully", product, null);
         return ResponseEntity.ok(response);
     }
@@ -35,7 +38,7 @@ public class ProductsController {
             @RequestParam(required = false, defaultValue = "0") Integer offset,
             @RequestParam(required = false, defaultValue = "10") Integer limit
     ) {
-        List<Product> productsSearch = productsService.searchProducts(q, offset, limit);
+        List<Product> productsSearch = productService.searchProducts(q, offset, limit);
         if(productsSearch == null || productsSearch.isEmpty()) {
             ApiResponse<List<Product>> response = new ApiResponse<>(false, "No products found", null, null);
             return ResponseEntity.status(404).body(response);
@@ -48,21 +51,23 @@ public class ProductsController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/product/{productId}/comments")
+    @GetMapping("/comments/{productId}")
     public ResponseEntity<ApiResponse<List<Commentary>>> getCommentsFromProduct(@PathVariable String productId) {
         ApiResponse<List<Commentary>> response =
-                new ApiResponse<>(true, "Commentaries retrieved successfully", null, productsService.getCommentariesFromProduct(productId));
+                new ApiResponse<>(true, "Commentaries retrieved successfully", null, commentService.getCommentariesFromProduct(productId));
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/product/{productId}/comments")
-    public ResponseEntity<ApiResponse<Product>> addCommentToProduct(@PathVariable String productId, @RequestBody CommentDto commentDto, @RequestHeader("Authorization") String token) {
+    @PostMapping("/comments/{productId}")
+    public ResponseEntity<ApiResponse<Product>> addCommentToProduct(
+            @PathVariable String productId, @RequestBody CommentDto commentDto, @RequestHeader("Authorization") String token
+    ) {
         Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
         ApiResponse<Product> response =
                 new ApiResponse<>(true,
                         "Comment added successfully",
                         null,
-                        productsService.addCommentToProduct(productId, commentDto.comment, userId)
+                        commentService.addCommentToProduct(productId, commentDto.comment, userId)
                 );
         return ResponseEntity.ok(response);
     }

@@ -18,14 +18,14 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     private UsersRepository usersRepository;
-    private ProductsService productsService;
+    private ProductService productService;
     private UserService userService;
 
     @BeforeEach
     void setUp() {
         usersRepository = mock(UsersRepository.class);
-        productsService = mock(ProductsService.class);
-        userService = new UserService(usersRepository, productsService);
+        productService = mock(ProductService.class);
+        userService = new UserService(usersRepository, productService);
     }
 
     @Test
@@ -80,13 +80,13 @@ class UserServiceTest {
         Product product = mock(Product.class);
 
         when(usersRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(productsService.getProductById("product1")).thenReturn(product);
+        when(productService.getProductById("product1")).thenReturn(product);
 
         List<Product> favorites = userService.toggleFavorite(1L, "product1");
 
         assertTrue(favorites.contains(product));
         verify(usersRepository, times(1)).findById(1L);
-        verify(productsService, times(1)).getProductById("product1");
+        verify(productService, times(1)).getProductById("product1");
         verify(usersRepository, times(1)).save(user);
     }
 
@@ -95,7 +95,7 @@ class UserServiceTest {
         Product product = mock(Product.class);
 
         when(usersRepository.findById(1L)).thenReturn(Optional.empty());
-        when(productsService.getProductById("product1")).thenReturn(product);
+        when(productService.getProductById("product1")).thenReturn(product);
 
         assertThrows(UserNotFoundException.class, () -> userService.toggleFavorite(1L, "product1"));
         verify(usersRepository, times(1)).findById(1L);
@@ -107,13 +107,13 @@ class UserServiceTest {
         Product product = mock(Product.class);
 
         when(usersRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(productsService.getProductById("product1")).thenReturn(product);
+        when(productService.getProductById("product1")).thenReturn(product);
 
         userService.postNewPurchase(1L, List.of("product1"));
 
         assertEquals(1, user.getPurchases().size());
         verify(usersRepository, times(1)).findById(1L);
-        verify(productsService, times(1)).getProductById("product1");
+        verify(productService, times(1)).getProductById("product1");
         verify(usersRepository, times(1)).save(user);
     }
 
@@ -122,10 +122,10 @@ class UserServiceTest {
         User user = new User("John", "Doe", "john.doe@example.com", "password");
 
         when(usersRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(productsService.getProductById("product1")).thenReturn(null);
+        when(productService.getProductById("product1")).thenReturn(null);
 
         assertThrows(ErrorDuringPurchaseException.class, () -> userService.postNewPurchase(1L, List.of("product1")));
         verify(usersRepository, times(1)).findById(1L);
-        verify(productsService, times(1)).getProductById("product1");
+        verify(productService, times(1)).getProductById("product1");
     }
 }

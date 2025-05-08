@@ -2,8 +2,6 @@ package unq.pdes._5.g1.segui_tus_compras.service;
 
 import org.springframework.stereotype.Service;
 import unq.pdes._5.g1.segui_tus_compras.exception.ProductNotFoundException;
-import unq.pdes._5.g1.segui_tus_compras.model.Commentary;
-import unq.pdes._5.g1.segui_tus_compras.model.User;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
@@ -13,17 +11,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class ProductsService {
+public class ProductService {
 
     private final ProductsRepository productsRepository;
-
     private final MeLiApiService meLiService;
-    private final UserService userService;
 
-    public ProductsService(ProductsRepository productsRepository, MeLiApiService externalApiService, UserService userService) {
+    public ProductService(ProductsRepository productsRepository, MeLiApiService externalApiService) {
         this.productsRepository = productsRepository;
         this.meLiService = externalApiService;
-        this.userService = userService;
     }
 
     public Product getProductById(String id) {
@@ -38,6 +33,13 @@ public class ProductsService {
         return productsRepository.save(new Product(apiProduct));
     }
 
+    public Product updateProduct(Product product) {
+        if (!productsRepository.existsById(product.getId())) {
+            throw new ProductNotFoundException("Product not found");
+        }
+        return productsRepository.save(product);
+    }
+
     public List<Product> searchProducts(String keywords, int offset, int limit) {
         ApiSearchDto apiProducts = meLiService.search(keywords, offset, limit);
         if (apiProducts.results.isEmpty()) {
@@ -48,18 +50,5 @@ public class ProductsService {
                 .filter(Objects::nonNull)
                 .map(Product::new)
                 .toList();
-    }
-
-    public List<Commentary> getCommentariesFromProduct(String productId) {
-        Product product = getProductById(productId);
-        return product.getCommentaries();
-    }
-
-    public Product addCommentToProduct(String productId, String comment, Long userId) {
-        User user = userService.getUserById(userId);
-        Product product = getProductById(productId);
-        Commentary newCommentary = new Commentary(user, product, comment);
-        product.addComment(newCommentary);
-        return productsRepository.save(product);
     }
 }

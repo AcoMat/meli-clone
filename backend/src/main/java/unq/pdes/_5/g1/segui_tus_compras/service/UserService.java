@@ -15,11 +15,11 @@ import java.util.Objects;
 public class UserService {
 
     private final UsersRepository _usersRepository;
-    private final ProductsService _productsService;
+    private final ProductService _productService;
 
-    public UserService(UsersRepository usersRepository, ProductsService productsService) {
+    public UserService(UsersRepository usersRepository, ProductService productService) {
         this._usersRepository = usersRepository;
-        this._productsService = productsService;
+        this._productService = productService;
     }
 
     public User getUserById(Long id) {
@@ -27,42 +27,27 @@ public class UserService {
     }
 
     public List<Product> getFavorites(Long userId) {
-        User user = _usersRepository.findById(userId).orElse(null);
-        if (user == null) {
-            throw new UserNotFoundException("User not found");
-        }
+        User user = getUserById(userId);
         return user.getFavorites();
     }
 
     public List<Purchase> getPurchases(Long userId) {
-        User user = _usersRepository.findById(userId).orElse(null);
-        if (user == null) {
-            throw new UserNotFoundException("User not found");
-        }
+        User user = getUserById(userId);
         return user.getPurchases();
     }
 
     public List<Product> toggleFavorite(Long userId, String productId) {
-        Product product = _productsService.getProductById(productId);
-        if (product == null) {
-            throw new ErrorDuringPurchaseException("Product not found");
-        }
-        User user = _usersRepository.findById(userId).orElse(null);
-        if (user == null) {
-            throw new UserNotFoundException("User not found");
-        }
+        Product product = _productService.getProductById(productId);
+        User user = getUserById(userId);
         user.toggleFavorite(product);
         _usersRepository.save(user);
         return user.getFavorites();
     }
 
     public void postNewPurchase(Long userId, List<String> productsIds) {
-        User user = _usersRepository.findById(userId).orElse(null);
-        if (user == null) {
-            throw new UserNotFoundException("User not found");
-        }
+        User user = getUserById(userId);
         List<Product> products = productsIds.stream()
-                .map(_productsService::getProductById)
+                .map(_productService::getProductById)
                 .toList();
         if(products.isEmpty() || products.stream().anyMatch(Objects::isNull)) {
             throw new ErrorDuringPurchaseException("Some products are not valid");
