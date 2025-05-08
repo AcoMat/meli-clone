@@ -50,11 +50,16 @@ public class ProductsService {
                 .toList();
     }
 
-    public void addCommentToProduct(String productId, String comment, Long userId) {
+    public List<Commentary> getCommentariesFromProduct(String productId) {
+        Product product = getProductById(productId);
+        return product.getCommentaries();
+    }
+
+    public Product addCommentToProduct(String productId, String comment, Long userId) {
         User user = userService.getUserById(userId);
         Product product = getProductById(productId);
         Commentary newCommentary = new Commentary(user, product, comment);
         product.addComment(newCommentary);
-        productsRepository.save(product);
+        return productsRepository.save(product);
     }
 }

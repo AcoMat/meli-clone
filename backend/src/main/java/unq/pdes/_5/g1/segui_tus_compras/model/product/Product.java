@@ -28,7 +28,7 @@ public class Product {
     Integer priceDiscountPercentage;
     Boolean isFreeShipping;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Commentary> comments;
+    private List<Commentary> commentaries;
 
     public Product(ExternalProductDto apiProduct) {
         this.id = apiProduct.id;
@@ -60,7 +60,7 @@ public class Product {
                     apiProduct.buyBoxWinner.shipping.freeShipping : null;
         }
 
-        this.comments = new ArrayList<>();
+        this.commentaries = new ArrayList<>();
     }
 
     public Double getPriceWithDiscountApplied() {
@@ -71,7 +71,7 @@ public class Product {
     }
 
     public void addComment(Commentary newComment) {
-        this.comments.add(newComment);
+        this.commentaries.add(newComment);
     }
 
     public Product() {

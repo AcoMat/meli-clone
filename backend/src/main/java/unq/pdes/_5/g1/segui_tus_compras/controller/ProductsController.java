@@ -2,6 +2,7 @@ package unq.pdes._5.g1.segui_tus_compras.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import unq.pdes._5.g1.segui_tus_compras.model.Commentary;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.CommentDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.PagingDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
@@ -47,11 +48,22 @@ public class ProductsController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/product/{productId}")
-    public ResponseEntity<?> addCommentToProduct(@PathVariable String productId, @RequestBody CommentDto commentDto, @RequestHeader("Authorization") String token) {
+    @GetMapping("/product/{productId}/comments")
+    public ResponseEntity<ApiResponse<List<Commentary>>> getCommentsFromProduct(@PathVariable String productId) {
+        ApiResponse<List<Commentary>> response =
+                new ApiResponse<>(true, "Commentaries retrieved successfully", null, productsService.getCommentariesFromProduct(productId));
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/product/{productId}/comments")
+    public ResponseEntity<ApiResponse<Product>> addCommentToProduct(@PathVariable String productId, @RequestBody CommentDto commentDto, @RequestHeader("Authorization") String token) {
         Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
-        productsService.addCommentToProduct(productId, commentDto.comment, userId);
-        ApiResponse<?> response = new ApiResponse<>(true, "Comment added successfully", null, null);
+        ApiResponse<Product> response =
+                new ApiResponse<>(true,
+                        "Comment added successfully",
+                        null,
+                        productsService.addCommentToProduct(productId, commentDto.comment, userId)
+                );
         return ResponseEntity.ok(response);
     }
 }
