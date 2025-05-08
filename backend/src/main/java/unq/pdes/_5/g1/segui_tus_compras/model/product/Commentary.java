@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.model;
+package unq.pdes._5.g1.segui_tus_compras.model.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+import unq.pdes._5.g1.segui_tus_compras.model.User;
 
 import java.time.LocalDateTime;
 

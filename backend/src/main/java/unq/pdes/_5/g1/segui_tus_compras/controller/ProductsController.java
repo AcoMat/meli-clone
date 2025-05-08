@@ -2,13 +2,16 @@ package unq.pdes._5.g1.segui_tus_compras.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import unq.pdes._5.g1.segui_tus_compras.model.Commentary;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.ReviewDto;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.CommentDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.PagingDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
-import unq.pdes._5.g1.segui_tus_compras.service.CommentService;
-import unq.pdes._5.g1.segui_tus_compras.service.ProductService;
+import unq.pdes._5.g1.segui_tus_compras.service.product.CommentService;
+import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
+import unq.pdes._5.g1.segui_tus_compras.service.product.ReviewService;
 import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
 import java.util.List;
@@ -19,10 +22,12 @@ public class ProductsController {
 
     private final ProductService productService;
     private final CommentService commentService;
+    private final ReviewService reviewService;
 
-    public ProductsController(ProductService productService, CommentService commentService) {
+    public ProductsController(ProductService productService, CommentService commentService, ReviewService reviewService) {
         this.productService = productService;
         this.commentService = commentService;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/{id}")
@@ -51,14 +56,14 @@ public class ProductsController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/comments/{productId}")
+    @GetMapping("/{productId}/comments")
     public ResponseEntity<ApiResponse<List<Commentary>>> getCommentsFromProduct(@PathVariable String productId) {
         ApiResponse<List<Commentary>> response =
                 new ApiResponse<>(true, "Commentaries retrieved successfully", null, commentService.getCommentariesFromProduct(productId));
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/comments/{productId}")
+    @PostMapping("/{productId}/comments")
     public ResponseEntity<ApiResponse<Product>> addCommentToProduct(
             @PathVariable String productId, @RequestBody CommentDto commentDto, @RequestHeader("Authorization") String token
     ) {
@@ -69,6 +74,21 @@ public class ProductsController {
                         null,
                         commentService.addCommentToProduct(productId, commentDto.comment, userId)
                 );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{productId}/reviews")
+    public ResponseEntity<ApiResponse<List<Review>>> getReviewsFromProduct(@PathVariable String productId) {
+        ApiResponse<List<Review>> response =
+                new ApiResponse<>(true, "Reviews retrieved successfully", null, reviewService.getReviewsFromProduct(productId));
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{productId}/reviews")
+    public ResponseEntity<ApiResponse<Product>> postReviewToProduct(@PathVariable String productId, @RequestBody ReviewDto reviewDto, @RequestHeader("Authorization") String token) {
+        Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
+        ApiResponse<Product> response =
+                new ApiResponse<>(true, "Reviews retrieved successfully", null, reviewService.addReviewToProduct(productId, reviewDto.rating, reviewDto.review , userId));
         return ResponseEntity.ok(response);
     }
 }

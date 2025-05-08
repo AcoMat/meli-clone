@@ -3,7 +3,6 @@ package unq.pdes._5.g1.segui_tus_compras.model.product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import unq.pdes._5.g1.segui_tus_compras.model.Commentary;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
 
 import java.util.ArrayList;
@@ -29,6 +28,11 @@ public class Product {
     Boolean isFreeShipping;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Commentary> commentaries;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
+
+    public Product() {
+    }
 
     public Product(ExternalProductDto apiProduct) {
         this.id = apiProduct.id;
@@ -74,6 +78,7 @@ public class Product {
         this.commentaries.add(newComment);
     }
 
-    public Product() {
+    public void addReview(Review newReview) {
+        this.reviews.add(newReview);
     }
 }

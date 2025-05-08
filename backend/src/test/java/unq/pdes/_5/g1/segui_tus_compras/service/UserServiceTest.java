@@ -8,6 +8,8 @@ import unq.pdes._5.g1.segui_tus_compras.model.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.model.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
+import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
+import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 
 import java.util.List;
 import java.util.Optional;

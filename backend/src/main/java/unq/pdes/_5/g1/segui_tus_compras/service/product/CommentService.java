@@ -1,9 +1,11 @@
-package unq.pdes._5.g1.segui_tus_compras.service;
+package unq.pdes._5.g1.segui_tus_compras.service.product;
 
 import org.springframework.stereotype.Service;
-import unq.pdes._5.g1.segui_tus_compras.model.Commentary;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
 import unq.pdes._5.g1.segui_tus_compras.model.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
+
 import java.util.List;
 
 @Service

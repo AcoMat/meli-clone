@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.service;
+package unq.pdes._5.g1.segui_tus_compras.service.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

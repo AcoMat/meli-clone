@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.service;
+package unq.pdes._5.g1.segui_tus_compras.service.product;
 
 import org.springframework.stereotype.Service;
 import unq.pdes._5.g1.segui_tus_compras.exception.ProductNotFoundException;
