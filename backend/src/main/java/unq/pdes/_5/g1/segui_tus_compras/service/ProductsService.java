@@ -1,6 +1,9 @@
 package unq.pdes._5.g1.segui_tus_compras.service;
 
 import org.springframework.stereotype.Service;
+import unq.pdes._5.g1.segui_tus_compras.exception.ProductNotFoundException;
+import unq.pdes._5.g1.segui_tus_compras.model.Commentary;
+import unq.pdes._5.g1.segui_tus_compras.model.User;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
@@ -13,11 +16,14 @@ import java.util.Objects;
 public class ProductsService {
 
     private final ProductsRepository productsRepository;
-    private final MeLiApiService meLiService;
 
-    public ProductsService(ProductsRepository productsRepository, MeLiApiService externalApiService) {
+    private final MeLiApiService meLiService;
+    private final UserService userService;
+
+    public ProductsService(ProductsRepository productsRepository, MeLiApiService externalApiService, UserService userService) {
         this.productsRepository = productsRepository;
         this.meLiService = externalApiService;
+        this.userService = userService;
     }
 
     public Product getProductById(String id) {
@@ -27,7 +33,7 @@ public class ProductsService {
         }
         ExternalProductDto apiProduct = meLiService.getProductById(id);
         if (apiProduct == null) {
-            return null;
+            throw new ProductNotFoundException("Product not found");
         }
         return productsRepository.save(new Product(apiProduct));
     }
@@ -42,5 +48,13 @@ public class ProductsService {
                 .filter(Objects::nonNull)
                 .map(Product::new)
                 .toList();
+    }
+
+    public void addCommentToProduct(String productId, String comment, Long userId) {
+        User user = userService.getUserById(userId);
+        Product product = getProductById(productId);
+        Commentary newCommentary = new Commentary(user, product, comment);
+        product.addComment(newCommentary);
+        productsRepository.save(product);
     }
 }

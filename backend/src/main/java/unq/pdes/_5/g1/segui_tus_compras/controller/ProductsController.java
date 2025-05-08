@@ -2,8 +2,10 @@ package unq.pdes._5.g1.segui_tus_compras.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.CommentDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.PagingDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
 import unq.pdes._5.g1.segui_tus_compras.service.ProductsService;
 import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
@@ -22,12 +24,6 @@ public class ProductsController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Product>> getProductById(@PathVariable String id) {
         Product product = productsService.getProductById(id);
-        if(product == null) {
-            ApiResponse<Product> response = new ApiResponse<>(false, "Product not found", null, null);
-            return ResponseEntity.status(404).body(response);
-        }
-        System.out.println("Product found in external API");
-        System.out.println(product.getId());
         ApiResponse<Product> response = new ApiResponse<>(true, "Product retrieved successfully", product, null);
         return ResponseEntity.ok(response);
     }
@@ -48,6 +44,14 @@ public class ProductsController {
                 "Products retrieved successfully",
                 new PagingDto(productsSearch.size(), limit, offset),
                 productsSearch);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/product/{productId}")
+    public ResponseEntity<?> addCommentToProduct(@PathVariable String productId, @RequestBody CommentDto commentDto, @RequestHeader("Authorization") String token) {
+        Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
+        productsService.addCommentToProduct(productId, commentDto.comment, userId);
+        ApiResponse<?> response = new ApiResponse<>(true, "Comment added successfully", null, null);
         return ResponseEntity.ok(response);
     }
 }

@@ -22,6 +22,10 @@ public class UserService {
         this._productsService = productsService;
     }
 
+    public User getUserById(Long id) {
+        return _usersRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
     public List<Product> getFavorites(Long userId) {
         User user = _usersRepository.findById(userId).orElse(null);
         if (user == null) {
