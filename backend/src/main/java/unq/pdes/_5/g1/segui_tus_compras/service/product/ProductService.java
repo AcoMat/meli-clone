@@ -28,14 +28,14 @@ public class ProductService {
         }
         ExternalProductDto apiProduct = meLiService.getProductById(id);
         if (apiProduct == null) {
-            throw new ProductNotFoundException("Product not found");
+            throw new ProductNotFoundException();
         }
         return productsRepository.save(new Product(apiProduct));
     }
 
     public Product updateProduct(Product product) {
         if (!productsRepository.existsById(product.getId())) {
-            throw new ProductNotFoundException("Product not found");
+            throw new ProductNotFoundException();
         }
         return productsRepository.save(product);
     }

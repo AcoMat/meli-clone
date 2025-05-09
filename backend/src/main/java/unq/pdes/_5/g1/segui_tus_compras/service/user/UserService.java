@@ -57,5 +57,10 @@ public class UserService {
         _usersRepository.save(user);
     }
 
-
+    public Boolean userBoughtProduct(Long userId, String productId) {
+        User user = getUserById(userId);
+        return user.getPurchases().stream()
+                .flatMap(purchase -> purchase.getProducts().stream())
+                .anyMatch(product -> product.getId().equals(productId));
+    }
 }
