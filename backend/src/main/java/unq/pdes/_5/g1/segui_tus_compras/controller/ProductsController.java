@@ -2,7 +2,7 @@ package unq.pdes._5.g1.segui_tus_compras.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import unq.pdes._5.g1.segui_tus_compras.model.Paging;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.PagingDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.service.ProductsService;
 import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
@@ -46,7 +46,7 @@ public class ProductsController {
         ApiResponse<List<Product>> response = new ApiResponse<>(
                 true,
                 "Products retrieved successfully",
-                new Paging(productsSearch.size(), limit, offset),
+                new PagingDto(productsSearch.size(), limit, offset),
                 productsSearch);
         return ResponseEntity.ok(response);
     }
