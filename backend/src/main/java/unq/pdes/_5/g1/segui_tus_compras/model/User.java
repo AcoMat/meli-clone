@@ -3,6 +3,7 @@ package unq.pdes._5.g1.segui_tus_compras.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,10 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Purchase> purchases;
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
 
     @ManyToMany
     @JoinTable(
@@ -52,4 +54,7 @@ public class User {
     public void addPurchase(Purchase purchase) {
         this.purchases.add(purchase);
     }
+
+
+
 }

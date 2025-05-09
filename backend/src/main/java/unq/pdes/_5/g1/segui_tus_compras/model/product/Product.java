@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,10 +22,17 @@ public class Product {
     @JoinColumn(name = "product_id")
     private List<ProductAttribute> attributes;
     @ElementCollection
-    @Column(length = 255)
+    @Column
     List<String> pictures;
     Integer priceDiscountPercentage;
     Boolean isFreeShipping;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Commentary> commentaries;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
+
+    public Product() {
+    }
 
     public Product(ExternalProductDto apiProduct) {
         this.id = apiProduct.id;
@@ -55,6 +63,8 @@ public class Product {
             this.isFreeShipping = apiProduct.buyBoxWinner.shipping != null ?
                     apiProduct.buyBoxWinner.shipping.freeShipping : null;
         }
+
+        this.commentaries = new ArrayList<>();
     }
 
     public Double getPriceWithDiscountApplied() {
@@ -64,6 +74,11 @@ public class Product {
         return price;
     }
 
-    public Product() {
+    public void addComment(Commentary newComment) {
+        this.commentaries.add(newComment);
+    }
+
+    public void addReview(Review newReview) {
+        this.reviews.add(newReview);
     }
 }

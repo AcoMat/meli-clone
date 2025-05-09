@@ -8,7 +8,7 @@ import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.AuthResponseDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.UserDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.LoginCredentials;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.RegisterData;
-import unq.pdes._5.g1.segui_tus_compras.service.AuthService;
+import unq.pdes._5.g1.segui_tus_compras.service.auth.AuthService;
 import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
 @RestController

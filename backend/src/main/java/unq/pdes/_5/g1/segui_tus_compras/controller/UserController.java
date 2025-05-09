@@ -7,7 +7,7 @@ import unq.pdes._5.g1.segui_tus_compras.model.dto.user.FavoriteDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.user.PurchaseDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
-import unq.pdes._5.g1.segui_tus_compras.service.UserService;
+import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 
 import java.util.List;

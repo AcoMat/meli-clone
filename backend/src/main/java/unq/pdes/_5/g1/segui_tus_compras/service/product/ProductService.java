@@ -1,6 +1,7 @@
-package unq.pdes._5.g1.segui_tus_compras.service;
+package unq.pdes._5.g1.segui_tus_compras.service.product;
 
 import org.springframework.stereotype.Service;
+import unq.pdes._5.g1.segui_tus_compras.exception.ProductNotFoundException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
@@ -10,12 +11,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class ProductsService {
+public class ProductService {
 
     private final ProductsRepository productsRepository;
     private final MeLiApiService meLiService;
 
-    public ProductsService(ProductsRepository productsRepository, MeLiApiService externalApiService) {
+    public ProductService(ProductsRepository productsRepository, MeLiApiService externalApiService) {
         this.productsRepository = productsRepository;
         this.meLiService = externalApiService;
     }
@@ -27,9 +28,16 @@ public class ProductsService {
         }
         ExternalProductDto apiProduct = meLiService.getProductById(id);
         if (apiProduct == null) {
-            return null;
+            throw new ProductNotFoundException();
         }
         return productsRepository.save(new Product(apiProduct));
+    }
+
+    public Product updateProduct(Product product) {
+        if (!productsRepository.existsById(product.getId())) {
+            throw new ProductNotFoundException();
+        }
+        return productsRepository.save(product);
     }
 
     public List<Product> searchProducts(String keywords, int offset, int limit) {
