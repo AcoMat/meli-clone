@@ -26,18 +26,32 @@ public class Product {
     public Product(ExternalProductDto apiProduct) {
         this.id = apiProduct.id;
         this.name = apiProduct.name;
-        this.price = apiProduct.buyBoxWinner.originalPrice;
-        this.description = apiProduct.description.content;
-        this.attributes = apiProduct.attributes.stream()
+        this.description = apiProduct.description != null ? apiProduct.description.content : null;
+        this.attributes = apiProduct.attributes != null ? apiProduct.attributes.stream()
                 .map(attribute -> new ProductAttribute(attribute.id, attribute.name, attribute.value))
-                .toList();
-        this.pictures = apiProduct.pictures.stream()
+                .toList() : null;
+        this.pictures = apiProduct.pictures != null ? apiProduct.pictures.stream()
                 .map(picture -> picture.url)
-                .toList();
-        this.priceDiscountPercentage = apiProduct.buyBoxWinner.price != null
-                ? (int) Math.round((1 - (apiProduct.buyBoxWinner.price / apiProduct.buyBoxWinner.originalPrice)) * 100)
-                : null;
-        this.isFreeShipping = apiProduct.buyBoxWinner.shipping.freeShipping;
+                .toList() : null;
+
+        if(apiProduct.buyBoxWinner != null) {
+            // Handle null originalPrice
+            this.price = apiProduct.buyBoxWinner.originalPrice;
+
+            // Calculate discount only if both price and originalPrice are not null
+            if(apiProduct.buyBoxWinner.price != null && apiProduct.buyBoxWinner.originalPrice != null
+                    && apiProduct.buyBoxWinner.originalPrice > 0) {
+                this.priceDiscountPercentage = (int) Math.round(
+                        (1 - (apiProduct.buyBoxWinner.price / apiProduct.buyBoxWinner.originalPrice)) * 100
+                );
+            } else {
+                this.priceDiscountPercentage = null;
+            }
+
+            // Handle null shipping
+            this.isFreeShipping = apiProduct.buyBoxWinner.shipping != null ?
+                    apiProduct.buyBoxWinner.shipping.freeShipping : null;
+        }
     }
 
     public Product() {

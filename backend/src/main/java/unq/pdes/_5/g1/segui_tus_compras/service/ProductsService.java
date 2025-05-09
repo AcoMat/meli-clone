@@ -1,9 +1,13 @@
 package unq.pdes._5.g1.segui_tus_compras.service;
 
 import org.springframework.stereotype.Service;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductsService {
@@ -25,5 +29,17 @@ public class ProductsService {
             return null;
         }
         return new Product(apiProduct);
+    }
+
+    public List<Product> searchProducts(String keywords, int offset, int limit) {
+        ApiSearchDto apiProducts = meLiService.search(keywords, offset, limit);
+        if (apiProducts.results.isEmpty()) {
+            return null;
+        }
+        return apiProducts.results.stream()
+                .map(result -> meLiService.getProductById(result.id))
+                .filter(Objects::nonNull)
+                .map(Product::new)
+                .toList();
     }
 }

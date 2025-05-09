@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import unq.pdes._5.g1.segui_tus_compras.exception.ExternalApiException;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
-
 
 @Service
 public class MeLiApiService {
@@ -31,6 +31,18 @@ public class MeLiApiService {
                     .body(ExternalProductDto.class);
         } catch (Exception e) {
             throw new ExternalApiException("Error fetching product with ID: " + productId + " - " + e.getMessage());
+        }
+    }
+
+    public ApiSearchDto search(String keywords, Integer offset, Integer limit) {
+        try {
+            return restClient.get()
+                    .uri("/products/search?status=active&offset="+ offset +"&limit=" + limit + "&site_id=MLA&q=" + keywords)
+                    .header("Authorization", "Bearer " + apiToken)
+                    .retrieve()
+                    .body(ApiSearchDto.class);
+        } catch (Exception e) {
+            throw new ExternalApiException("Error searching for products with keywords: " + keywords + " - " + e.getMessage());
         }
     }
 }
