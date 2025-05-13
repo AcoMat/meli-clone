@@ -1,7 +1,6 @@
 package unq.pdes._5.g1.segui_tus_compras.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.AuthResponseDTO;
@@ -15,7 +14,11 @@ import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired private AuthService authService;
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<UserDTO>> register(@Valid @RequestBody RegisterData data) {
@@ -31,4 +34,3 @@ public class AuthController {
         return ResponseEntity.ok().header("Authorization", "Bearer " + logged_user.getToken()).body(response);
     }
 }
-
