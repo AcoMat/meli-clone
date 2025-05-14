@@ -3,15 +3,10 @@ import searchIcon from '../../../assets/ui/search-icon.svg'
 import cart from '../../../assets/cart/cart.svg'
 import downLine from '../../../assets/arrows/down-line.svg'
 import './Header.css'
-import loading from '../../../assets/ui/loading.svg'
-import { useNavigate } from 'react-router-dom'
 import { useUserContext } from '../../../context/AuthContext'
-import { useCategories } from '../../../hooks/useCategories'
 
 function Header({ submitfcn }) {
   const { user } = useUserContext();
-  const { categories, error } = useCategories();
-  let navigate = useNavigate();
 
   return (
     <header className='header'>
@@ -30,41 +25,6 @@ function Header({ submitfcn }) {
           </div>
         </div>
         <div className="row pb-1 w-100">
-          <div className="col-md-6 my-md-0 my-2">
-            <ul className='header-links px-0 text-break'>
-              <li className='me-4'>
-                <div className="dropdown">
-                  <button className="bg-transparent border-0 p-0 d-flex" data-bs-toggle="dropdown" aria-expanded="false">
-                    <a>Categorías</a>
-                    <img src={downLine} style={{ opacity: "0.3" }} width={15} height={12} />
-                  </button>
-                  <ul className="dropdown-menu header-categories">
-                    {
-                      Array.isArray(categories) ?
-                        categories.map((category) => {
-                          return (
-                            <li key={category.id}>
-                              <button
-                                onClick={() => { navigate(`categories/${category.id}`) }}
-                                className="dropdown-item header-category-item text-capitalize"
-                              >
-                                {category.name.replace("-", " ")}
-                              </button>
-                            </li>
-                          );
-                        })
-                        :
-                        <li>
-                          <div className="text-center" type="button">
-                            <img width={25} height={25} src={loading} />
-                          </div>
-                        </li>
-                    }
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </div>
           <div className="col d-flex justify-content-end p-0">
             <ul className='header-links px-0'>
               {
