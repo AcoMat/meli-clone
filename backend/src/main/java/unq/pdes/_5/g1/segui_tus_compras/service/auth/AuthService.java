@@ -1,6 +1,5 @@
 package unq.pdes._5.g1.segui_tus_compras.service.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,17 @@ import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
 
 @Service
 public class AuthService {
-    @Autowired private UsersRepository usersRepository;
-    @Autowired private Mapper mapper;
+    private final UsersRepository usersRepository;
+    private final Mapper mapper;
+    private final JwtTokenProvider jwtTokenProvider;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    public AuthService(UsersRepository usersRepository, Mapper mapper, JwtTokenProvider jwtTokenProvider) {
+        this.usersRepository = usersRepository;
+        this.mapper = mapper;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     public AuthResponseDTO register(RegisterData registerData) {
 
@@ -27,16 +32,16 @@ public class AuthService {
             throw new AlreadyExistingUser("User already exists");
         }
 
-        User new_user = new User(
-                registerData.getFirstName(),
-                registerData.getLastName(),
-                registerData.getEmail(),
-                passwordEncoder.encode(registerData.getPassword())
+        User new_user = usersRepository.save(
+                new User(
+                        registerData.getFirstName(),
+                        registerData.getLastName(),
+                        registerData.getEmail(),
+                        passwordEncoder.encode(registerData.getPassword())
+                )
         );
 
-        usersRepository.save(new_user);
-
-        return new AuthResponseDTO(mapper.toDTO(new_user), JwtTokenProvider.generateToken(new_user.getId()));
+        return new AuthResponseDTO(mapper.toDTO(new_user), jwtTokenProvider.generateToken(new_user.getId()));
     }
 
     public AuthResponseDTO login(LoginCredentials credentials){
@@ -45,6 +50,6 @@ public class AuthService {
             throw new IllegalArgumentException("Email or password is incorrect");
         }
 
-        return new AuthResponseDTO(mapper.toDTO(user), JwtTokenProvider.generateToken(user.getId()));
+        return new AuthResponseDTO(mapper.toDTO(user), jwtTokenProvider.generateToken(user.getId()));
     }
 }

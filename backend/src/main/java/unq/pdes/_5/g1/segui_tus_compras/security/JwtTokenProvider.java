@@ -11,11 +11,11 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private static final String SECRET = "mi_clave_secreta_segura";
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 2; // 1 hora
-    private static final Algorithm algorithm = Algorithm.HMAC256(SECRET);
+    private final String SECRET = "mi_clave_secreta_segura";
+    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 2; // 1 hora
+    private final Algorithm algorithm = Algorithm.HMAC256(SECRET);
 
-    public static String generateToken(Long id) {
+    public String generateToken(Long id) {
         return JWT.create()
                 .withSubject(id.toString())
                 .withIssuedAt(new Date())
@@ -23,7 +23,7 @@ public class JwtTokenProvider {
                 .sign(algorithm);
     }
 
-    public static Long validateTokenAndGetUserId(String token) {
+    public Long validateTokenAndGetUserId(String token) {
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT jwt = verifier.verify(token.replace("Bearer ", ""));
         return jwt.getSubject() != null ? Long.valueOf(jwt.getSubject()) : null;

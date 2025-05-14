@@ -3,8 +3,10 @@ package unq.pdes._5.g1.segui_tus_compras.model.dto.auth;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+@AllArgsConstructor
 public class RegisterData {
     @NotBlank(message = "First name is required")
     private String firstName;
