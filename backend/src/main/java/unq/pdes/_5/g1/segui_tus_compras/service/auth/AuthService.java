@@ -40,8 +40,8 @@ public class AuthService {
     }
 
     public AuthResponseDTO login(LoginCredentials credentials){
-        User user = usersRepository.findByEmail(credentials.getEmail());
-        if (user == null || !passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {
+        User user = usersRepository.findByEmail(credentials.email);
+        if (user == null || !passwordEncoder.matches(credentials.password, user.getPassword())) {
             throw new IllegalArgumentException("Email or password is incorrect");
         }
 

@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.util;
+package unq.pdes._5.g1.segui_tus_compras.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
