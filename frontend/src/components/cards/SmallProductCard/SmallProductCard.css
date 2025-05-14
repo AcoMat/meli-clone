@@ -1,0 +1,100 @@
+.sm-product-card-wrapper {
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-direction: column;
+    border-radius: 8px;
+    justify-content: space-around;
+    cursor: pointer;
+    height: 100%;
+    max-width: 220px;
+    margin: auto;
+
+}
+
+.sm-product-info {
+    font-weight: 400;
+    font-size: 14px;
+    margin: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sm-product-info .price-sm {
+    font-size: 18px;
+    line-height: 1.25;
+    margin-bottom: 0px;
+}
+
+.sm-product-info .price-md {
+    font-size: 20px;
+    line-height: 1.25;
+    margin-bottom: 0px;
+}
+
+.sm-product-info .title {
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Limitar a 2 líneas */
+    line-clamp: 2;
+    /* Limitar a 2 líneas */
+    -webkit-box-orient: vertical;
+    min-height: calc(1.2em * 2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Mostrar "..." si el texto es muy largo */
+    white-space: normal;
+}
+
+.product-card-extra-info {
+    padding: 5px 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 600;
+}
+
+.sm-product-info .cuotas {
+    color: #757575;
+    margin-bottom: 0;
+}
+
+.card-img-container-sm {
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.card-img-container-md {
+    padding-left: 0px;
+    text-align: center;
+    padding-right: 0px;
+    overflow: hidden;
+}
+
+/* Add styles for the image itself */
+.card-img-container-sm img, .card-img-container-md img {
+    object-fit: contain;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.sm-product-card-wrapper:hover .sm-product-info .title {
+    color: #3483fa;
+}
+
+.sm-freeShip {
+    color: #15ad5e;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.sm-freeShip.hidden {
+    visibility: hidden;
+}
+
+.sm-freeShip.visible {
+    visibility: visible;
+}

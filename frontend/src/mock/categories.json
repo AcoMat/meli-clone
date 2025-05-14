@@ -1,0 +1,90 @@
+[
+    {
+        "id": "c_1",
+        "name": "beauty"
+    },
+    {
+        "id": "c_2",
+        "name": "fragrances"
+    },
+    {
+        "id": "c_3",
+        "name": "furniture"
+    },
+    {
+        "id": "c_4",
+        "name": "groceries"
+    },
+    {
+        "id": "c_5",
+        "name": "home-decoration"
+    },
+    {
+        "id": "c_6",
+        "name": "kitchen-accessories"
+    },
+    {
+        "id": "c_7",
+        "name": "laptops"
+    },
+    {
+        "id": "c_8",
+        "name": "shirts"
+    },
+    {
+        "id": "c_9",
+        "name": "shoes"
+    },
+    {
+        "id": "c_10",
+        "name": "watches"
+    },
+    {
+        "id": "c_11",
+        "name": "mobile-accessories"
+    },
+    {
+        "id": "c_12",
+        "name": "motorcycle"
+    },
+    {
+        "id": "c_13",
+        "name": "skin-care"
+    },
+    {
+        "id": "c_14",
+        "name": "smartphones"
+    },
+    {
+        "id": "c_15",
+        "name": "sports-accessories"
+    },
+    {
+        "id": "c_16",
+        "name": "sunglasses"
+    },
+    {
+        "id": "c_17",
+        "name": "tablets"
+    },
+    {
+        "id": "c_18",
+        "name": "tops"
+    },
+    {
+        "id": "c_19",
+        "name": "vehicle"
+    },
+    {
+        "id": "c_20",
+        "name": "bags"
+    },
+    {
+        "id": "c_21",
+        "name": "dresses"
+    },
+    {
+        "id": "c_22",
+        "name": "jewellery"
+    }
+]

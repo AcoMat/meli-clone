@@ -1,0 +1,28 @@
+#adscarousel {
+    position: relative;
+    margin-bottom: -9%;
+    min-height: 450px;
+}
+
+.ad-carousel-btn {
+    opacity: 0;
+}
+
+#adscarousel:hover .ad-carousel-btn {
+    opacity: 1 !important;
+    transition: opacity 0.5s;
+}
+
+.ad-carousel-indicators {
+    position: absolute;
+    bottom: 24%;
+}
+
+#adscarousel img:active {
+    border-bottom: none;
+}
+
+#adscarousel img{
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 50%);
+    mask-image: linear-gradient(to top, transparent 0%, black 50%);
+}

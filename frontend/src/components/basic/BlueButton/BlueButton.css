@@ -1,0 +1,17 @@
+.blue-btn {
+    background-Color: #3483fa;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 16px;
+    border: 0px;
+    transition: 0.5s;
+}
+
+.blue-btn:hover {
+    background-Color: rgb(48, 107, 216);
+}
+
+.blue-btn:active { 
+    transform: scale(0.98); 
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.048); 
+} 
