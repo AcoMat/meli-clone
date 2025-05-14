@@ -8,7 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
-import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
+import unq.pdes._5.g1.segui_tus_compras.controller.model.ApiResponse;
 import unq.pdes._5.g1.segui_tus_compras.exception.InvalidTokenException;
 import unq.pdes._5.g1.segui_tus_compras.exception.MissingAuthorizationHeaderException;
 

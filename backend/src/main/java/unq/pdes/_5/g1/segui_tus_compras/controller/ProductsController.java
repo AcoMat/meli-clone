@@ -12,7 +12,8 @@ import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
 import unq.pdes._5.g1.segui_tus_compras.service.product.CommentService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ReviewService;
-import unq.pdes._5.g1.segui_tus_compras.util.ApiResponse;
+import unq.pdes._5.g1.segui_tus_compras.controller.model.ApiResponse;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class ProductsController {
 
     @PostMapping("/{productId}/comments")
     public ResponseEntity<ApiResponse<Product>> addCommentToProduct(
-            @PathVariable String productId, @RequestBody CommentDto commentDto, @RequestHeader("Authorization") String token
+            @PathVariable String productId, @Valid @RequestBody CommentDto commentDto, @RequestHeader("Authorization") String token
     ) {
         Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
         ApiResponse<Product> response =
@@ -85,10 +86,10 @@ public class ProductsController {
     }
 
     @PostMapping("/{productId}/reviews")
-    public ResponseEntity<ApiResponse<Product>> postReviewToProduct(@PathVariable String productId, @RequestBody ReviewDto reviewDto, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<ApiResponse<Product>> postReviewToProduct(@PathVariable String productId, @Valid @RequestBody ReviewDto reviewDto, @RequestHeader("Authorization") String token) {
         Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
         ApiResponse<Product> response =
-                new ApiResponse<>(true, "Reviews retrieved successfully", null, reviewService.addReviewToProduct(productId, reviewDto.rating, reviewDto.review , userId));
+                new ApiResponse<>(true, "Review posted successfully", null, reviewService.addReviewToProduct(productId, reviewDto.rating, reviewDto.review , userId));
         return ResponseEntity.ok(response);
     }
 }
