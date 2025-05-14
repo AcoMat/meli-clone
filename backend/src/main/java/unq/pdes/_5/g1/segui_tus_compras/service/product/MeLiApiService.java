@@ -6,6 +6,7 @@ import org.springframework.web.client.RestClient;
 import unq.pdes._5.g1.segui_tus_compras.exception.ExternalApiException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
+import org.springframework.util.StringUtils;
 
 @Service
 public class MeLiApiService {
@@ -18,6 +19,14 @@ public class MeLiApiService {
             @Value("${mercadolibre.api.url}") String apiUrl,
             @Value("${mercadolibre.api.most.recent.token}") String apiToken
     ) {
+        // Check if environment variables are properly set
+        if (!StringUtils.hasText(apiUrl)) {
+            throw new IllegalStateException("Environment variable 'mercadolibre.api.url' is not set");
+        }
+        if (!StringUtils.hasText(apiToken)) {
+            throw new IllegalStateException("Environment variable 'mercadolibre.api.most.recent.token' is not set");
+        }
+        
         this.restClient = restClientBuilder.baseUrl(apiUrl).build();
         this.apiToken = apiToken;
     }
