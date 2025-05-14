@@ -1,5 +1,6 @@
 package unq.pdes._5.g1.segui_tus_compras.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.ReviewDto;
@@ -8,7 +9,7 @@ import unq.pdes._5.g1.segui_tus_compras.model.dto.CommentDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.PagingDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
-import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
+import unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth;
 import unq.pdes._5.g1.segui_tus_compras.service.product.CommentService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ReviewService;
@@ -64,11 +65,14 @@ public class ProductsController {
         return ResponseEntity.ok(response);
     }
 
+    @NeedsAuth
     @PostMapping("/{productId}/comments")
     public ResponseEntity<ApiResponse<Product>> addCommentToProduct(
-            @PathVariable String productId, @Valid @RequestBody CommentDto commentDto, @RequestHeader("Authorization") String token
+            @PathVariable String productId,
+            @Valid @RequestBody CommentDto commentDto,
+            HttpServletRequest request
     ) {
-        Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
+        Long userId = (Long) request.getAttribute("userId");
         ApiResponse<Product> response =
                 new ApiResponse<>(true,
                         "Comment added successfully",
@@ -85,9 +89,14 @@ public class ProductsController {
         return ResponseEntity.ok(response);
     }
 
+    @NeedsAuth
     @PostMapping("/{productId}/reviews")
-    public ResponseEntity<ApiResponse<Product>> postReviewToProduct(@PathVariable String productId, @Valid @RequestBody ReviewDto reviewDto, @RequestHeader("Authorization") String token) {
-        Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
+    public ResponseEntity<ApiResponse<Product>> postReviewToProduct(
+            @PathVariable String productId,
+            @Valid @RequestBody ReviewDto reviewDto,
+            HttpServletRequest request
+    ) {
+        Long userId = (Long) request.getAttribute("userId");
         ApiResponse<Product> response =
                 new ApiResponse<>(true, "Review posted successfully", null, reviewService.addReviewToProduct(productId, reviewDto.rating, reviewDto.review , userId));
         return ResponseEntity.ok(response);

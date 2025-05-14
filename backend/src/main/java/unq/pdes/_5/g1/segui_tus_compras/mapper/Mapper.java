@@ -17,10 +17,6 @@ public class Mapper {
     }
 
     public UserDTO toDTO(User user) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.firstName = user.getFirstName();
-        userDTO.lastName = user.getLastName();
-        userDTO.email = user.getEmail();
-        return userDTO;
+        return new UserDTO(user.getFirstName(),user.getLastName(),user.getEmail());
     }
 }

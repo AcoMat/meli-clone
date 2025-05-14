@@ -15,6 +15,11 @@ import unq.pdes._5.g1.segui_tus_compras.exception.MissingAuthorizationHeaderExce
 public class AuthenticationAspect {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public AuthenticationAspect(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     @Around("@within(unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth) || " +
             "@annotation(unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth)")
@@ -27,7 +32,7 @@ public class AuthenticationAspect {
         }
 
         try {
-            Long userId = JwtTokenProvider.validateTokenAndGetUserId(token);
+            Long userId = jwtTokenProvider.validateTokenAndGetUserId(token);
             request.setAttribute("userId", userId);
         } catch (Exception e) {
             throw new InvalidTokenException();
