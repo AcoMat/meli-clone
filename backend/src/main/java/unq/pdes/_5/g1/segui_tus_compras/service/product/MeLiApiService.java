@@ -30,7 +30,7 @@ public class MeLiApiService {
                     .retrieve()
                     .body(ExternalProductDto.class);
         } catch (Exception e) {
-            throw new ExternalApiException("Error fetching product with ID: " + productId + " - " + e.getMessage());
+            throw new ExternalApiException("Error fetching product with ID: " + productId);
         }
     }
 
@@ -42,7 +42,7 @@ public class MeLiApiService {
                     .retrieve()
                     .body(ApiSearchDto.class);
         } catch (Exception e) {
-            throw new ExternalApiException("Error searching for products with keywords: " + keywords + " - " + e.getMessage());
+            throw new ExternalApiException("Error searching for products with keywords: " + keywords);
         }
     }
 }
