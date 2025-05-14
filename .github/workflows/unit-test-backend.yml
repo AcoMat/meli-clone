@@ -3,7 +3,8 @@ name: Backend Unit Tests
 on:
   push:
     branches:
-      - '**'    # se ejecuta en cualquier commit a cualquier rama
+      - main
+      - dev
 
 jobs:
   unit-tests-backend:
