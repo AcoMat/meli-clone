@@ -4,23 +4,26 @@ services:
       context: .  # Directory to build Docker image from.
       dockerfile: Dockerfile  # Dockerfile to use for building the image.
     ports:
-      - 18080:8080  # Maps port 8080 in the container to port 18080 on the host.
+      - "18080:8080"  # Maps port 8080 in the container to port 18080 on the host.
     depends_on:
       mysqldb:
         condition: service_healthy  # Waits for 'mysqldb' to be healthy before starting.
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/segui-tus-compras  # Database URL.
-      - SPRING_DATASOURCE_USERNAME=root # Database username.
-      - SPRING_DATASOURCE_PASSWORD=@milanesa  # Database password.
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - MERCADOLIBRE_API_MOST_RECENT_TOKEN=${MERCADOLIBRE_API_MOST_RECENT_TOKEN}
+      - MERCADOLIBRE_API_CLIENT_ID=${MERCADOLIBRE_API_CLIENT_ID}
+      - MERCADOLIBRE_API_CLIENT_SECRET=${MERCADOLIBRE_API_CLIENT_SECRET}
     networks:
-      - springboot-mysql-network  # Connects to the specified network.
+      - springboot-mysql-network
     volumes:
-      - ./src/main/resources/application.properties:/app/application.properties  # Mounts properties file.
+      - ./src/main/resources/application.properties:/app/application.properties
 
   mysqldb:
     image: mysql:8.0.39  # MySQL image version.
     ports:
-      - 13306:3306  # Maps port 3306 in the container to port 13306 on the host.
+      - "13306:3306"  # Maps port 3306 in the container to port 13306 on the host.
     command: --init-file /data/application/init.sql
     volumes:
       - mysql-data:/var/lib/mysql  # Persistent storage for MySQL data.

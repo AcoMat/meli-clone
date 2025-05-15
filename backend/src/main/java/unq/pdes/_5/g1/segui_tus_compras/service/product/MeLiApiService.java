@@ -39,6 +39,7 @@ public class MeLiApiService {
                     .retrieve()
                     .body(ExternalProductDto.class);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new ExternalApiException("Error fetching product with ID: " + productId);
         }
     }
