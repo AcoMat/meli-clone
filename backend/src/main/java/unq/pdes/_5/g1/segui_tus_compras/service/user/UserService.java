@@ -1,16 +1,15 @@
 package unq.pdes._5.g1.segui_tus_compras.service.user;
 
 import org.springframework.stereotype.Service;
-import unq.pdes._5.g1.segui_tus_compras.exception.ErrorDuringPurchaseException;
 import unq.pdes._5.g1.segui_tus_compras.exception.UserNotFoundException;
-import unq.pdes._5.g1.segui_tus_compras.model.Purchase;
+import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.model.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+import unq.pdes._5.g1.segui_tus_compras.model.purchase.PurchaseItem;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserService {
@@ -45,22 +44,16 @@ public class UserService {
         return user.getFavorites();
     }
 
-    public void postNewPurchase(Long userId, List<String> productsIds) {
+    public void addPurchase(Long userId, List<PurchaseItem> items) {
         User user = getUserById(userId);
-        List<Product> products = productsIds.stream()
-                .map(_productService::getProductById)
-                .toList();
-        if(products.isEmpty() || products.stream().anyMatch(Objects::isNull)) {
-            throw new ErrorDuringPurchaseException("Some products are not valid");
-        }
-        user.addPurchase(new Purchase(user, products));
+        user.addPurchase(new Purchase(user, items));
         _usersRepository.save(user);
     }
 
     public Boolean userBoughtProduct(Long userId, String productId) {
         User user = getUserById(userId);
         return user.getPurchases().stream()
-                .flatMap(purchase -> purchase.getProducts().stream())
-                .anyMatch(product -> product.getId().equals(productId));
+                .anyMatch(purchase -> purchase.getItems().stream()
+                        .anyMatch(item -> item.getProductId().equals(productId)));
     }
 }

@@ -3,7 +3,7 @@ package unq.pdes._5.g1.segui_tus_compras.model.product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
 
 import java.util.ArrayList;
 import java.util.List;

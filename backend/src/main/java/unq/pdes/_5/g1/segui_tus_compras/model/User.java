@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
+import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 
 import java.util.ArrayList;
 import java.util.List;

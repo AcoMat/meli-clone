@@ -1,9 +1,9 @@
-package unq.pdes._5.g1.segui_tus_compras.model;
+package unq.pdes._5.g1.segui_tus_compras.model.purchase;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
-import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+import unq.pdes._5.g1.segui_tus_compras.model.User;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -20,23 +20,17 @@ public class Purchase {
     private User user;
     private ZonedDateTime date;
     private Double total;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "purchase_products",
-            joinColumns = @JoinColumn(name = "purchase_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;
+    private List<PurchaseItem> items;
 
     public Purchase() {
     }
 
-    public Purchase(User user, List<Product> products) {
+    public Purchase(User user, List<PurchaseItem> items) {
         this.user = user;
-        this.products = products;
         this.date = ZonedDateTime.now();
-        this.total = products.stream()
-                .map(Product::getPriceWithDiscountApplied)
+        this.items = items;
+        this.total = items.stream()
+                .map(PurchaseItem::getSubTotal)
                 .reduce(0.0, Double::sum);
     }
 }

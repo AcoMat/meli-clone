@@ -46,7 +46,6 @@ public class AuthServiceTest {
             "John", 
             "Doe", 
             "john@example.com", 
-            "password123", 
             "password123"
         );
 
@@ -87,7 +86,6 @@ public class AuthServiceTest {
             "Existing", 
             "User", 
             "existing@example.com", 
-            "password123", 
             "password123"
         );
 

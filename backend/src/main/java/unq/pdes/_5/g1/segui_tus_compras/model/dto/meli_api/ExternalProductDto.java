@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.model.dto.api;
+package unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
