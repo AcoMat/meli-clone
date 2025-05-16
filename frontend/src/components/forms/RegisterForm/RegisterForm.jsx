@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import './RegisterForm.css'
 import checklist from '../../../assets/ui/check-list.svg'
 import loadingsvg from '../../../assets/ui/loading.svg'
-import SecundaryBtn from '../../basic/SecundaryBtn/SecundaryBtn.jsx';
 import { useNavigate } from 'react-router-dom';
 import EmailStep from './EmailStep.jsx';
 import NameStep from './NameStep.jsx';
@@ -13,14 +12,13 @@ import UpsForm from '../UpsForm.jsx';
 
 function RegisterForm() {
     const navigate = useNavigate();
-    const { user, register, error } = useUserContext();
+    const { user, register } = useUserContext();
 
     const [formData, setFormData] = useState({
         name: '',
+        lastName: '',
         email: '',
-        eula: false,
         password: '',
-        confirmPassword: '',
         image: ''
     });
 
@@ -34,24 +32,21 @@ function RegisterForm() {
         error: 'error'
     }
 
-    const registerUser = async () => {
-        setCurrentStage(registerStages.creating);
-        delete formData.confirmPassword;
-        delete formData.eula;
-        await register(formData);
-    }
+    const [error, setError] = useState(null);
 
-    useEffect(() => {
-        if (!error && user) {
+    const registerUser = async () => {
+        try{
+            await register(formData.name, formData.lastName, formData.email, formData.password);
             setCurrentStage(registerStages.created);
             setTimeout(() => {
-                navigate("/")
-                window.location.reload();
-            }, 2000);
-        } else if (error){
+                navigate('/');
+            }, 1500);
+        } catch (error) {
+            setError(error.message);
             setCurrentStage(registerStages.error);
         }
-    }, [user, error])
+    }
+
 
     const [currentStage, setCurrentStage] = useState(registerStages.email);
     const nextStage = async () => {
@@ -67,9 +62,11 @@ function RegisterForm() {
                 break;
             case registerStages.imageurl:
                 registerUser();
+                setCurrentStage(registerStages.creating);
                 break;
             default:
                 setCurrentStage(registerStages.email);
+                setError(null);
         }
     }
 

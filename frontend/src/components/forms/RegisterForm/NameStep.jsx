@@ -3,6 +3,7 @@ import BlueButton from "../../basic/BlueButton/BlueButton";
 
 export default function NameStep({ setFormData, nextStage }) {
     const nameRef = useRef(null);
+    const lastNameRef = useRef(null);
     const [error, setError] = useState(null);
 
     const validateForm = () => {
@@ -11,7 +12,8 @@ export default function NameStep({ setFormData, nextStage }) {
         } else {
             setFormData((prevData) => ({
                 ...prevData,
-                name: nameRef.current.value
+                name: nameRef.current.value,
+                lastName: lastNameRef.current.value
             }));
             nextStage();
         }
@@ -33,7 +35,7 @@ export default function NameStep({ setFormData, nextStage }) {
                         <label>
                             Apellido
                         </label>
-                        <input />
+                        <input name='lastName' ref={lastNameRef} onChange={() => setError(null)} className={`${error ? 'error' : ''}`}/>
                     </div>
                 </div>
                 {error && <label className='error'>{error}</label>}
