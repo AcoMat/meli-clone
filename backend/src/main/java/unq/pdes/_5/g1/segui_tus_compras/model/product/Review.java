@@ -16,19 +16,16 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @JsonIgnore
-    private Product product;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    private User user;
-
     @Min(1)
     @Max(5)
     private Integer rating;
     private String comment;
+    @ManyToOne
+    @JsonIgnore
+    private Product product;
+    @ManyToOne
+    @JsonIgnore
+    private User user;
 
     public Review(Product product, User by, Integer rating, String comment) {
         this.product = product;

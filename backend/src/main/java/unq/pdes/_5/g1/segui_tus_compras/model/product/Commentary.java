@@ -19,21 +19,14 @@ public class Commentary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    @JsonIgnore
-    private Product product;
-
     @Column(columnDefinition = "TEXT")
     private String comment;
-
     private LocalDateTime createdAt;
+    @ManyToOne
+    private User user;
+    @ManyToOne
+    private Product product;
+
 
     public Commentary(User user, Product product, String comment) {
         this.user = user;

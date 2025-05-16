@@ -1,31 +1,33 @@
 package unq.pdes._5.g1.segui_tus_compras.model.purchase;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class PurchaseItem {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Getter
-    private String productId;
-    @Getter
+    
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+    
     private Integer amount;
     private Double subTotal;
 
-    public PurchaseItem(String productId, Integer amount, Double subTotal) {
-        this.productId = productId;
+    public PurchaseItem(Product product, Integer amount, Double subTotal) {
+        this.product = product;
         this.amount = amount;
         this.subTotal = subTotal;
     }
 
     public Double getSubTotal() {
-        if (subTotal == null) {;
+        if (subTotal == null) {
             return 0.0;
         }
         return subTotal;

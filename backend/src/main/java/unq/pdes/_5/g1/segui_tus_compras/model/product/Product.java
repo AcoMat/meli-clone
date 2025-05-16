@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
+import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +19,28 @@ public class Product {
     Double price;
     @Column(columnDefinition = "TEXT")
     String description;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "product_id")
-    private List<ProductAttribute> attributes;
     @ElementCollection
     @Column
     List<String> pictures;
     Integer priceDiscountPercentage;
     Boolean isFreeShipping;
+    
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductAttribute> attributes;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Commentary> commentaries;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
+    
+    @ManyToMany(mappedBy = "favorites")
+    private List<User> favoritedBy;
 
     public Product() {
+        this.commentaries = new ArrayList<>();
+        this.reviews = new ArrayList<>();
+        this.favoritedBy = new ArrayList<>();
     }
 
     public Product(ExternalProductDto apiProduct) {

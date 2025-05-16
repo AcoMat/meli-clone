@@ -19,14 +19,16 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Purchase> purchases;
-    @OneToMany(mappedBy = "user")
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
     @ManyToMany
     @JoinTable(
-        name = "user_favorites",
+        name = "user_favorite_products",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "product_id")
     )
@@ -55,7 +57,4 @@ public class User {
     public void addPurchase(Purchase purchase) {
         this.purchases.add(purchase);
     }
-
-
-
 }
