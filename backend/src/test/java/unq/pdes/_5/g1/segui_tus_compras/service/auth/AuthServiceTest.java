@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
 import unq.pdes._5.g1.segui_tus_compras.mapper.Mapper;
-import unq.pdes._5.g1.segui_tus_compras.model.User;
+import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.AuthResponseDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.LoginCredentials;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.RegisterData;

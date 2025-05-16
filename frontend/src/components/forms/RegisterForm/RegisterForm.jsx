@@ -8,7 +8,7 @@ import EmailStep from './EmailStep.jsx';
 import NameStep from './NameStep.jsx';
 import PasswordStep from './PasswordStep.jsx';
 import ImageStep from './ImageStep.jsx';
-import { useUserContext } from '../../../context/AuthContext.jsx';
+import { useUserContext } from '../../../context/UserContext.jsx';
 import UpsForm from '../UpsForm.jsx';
 
 function RegisterForm() {

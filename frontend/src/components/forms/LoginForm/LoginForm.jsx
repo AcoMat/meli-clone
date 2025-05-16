@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import LargeBlueButton from '../../basic/LargeBlueButton/LargeBlueButton';
 import SecundaryBtn from '../../basic/SecundaryBtn/SecundaryBtn';
 import { useEffect, useState } from 'react';
-import { useUserContext } from '../../../context/AuthContext';
 import { emailRegex } from '../../../util/emailUtils';
 import UpsForm from '../UpsForm';
+import { useUserContext } from '../../../context/UserContext';
 
 function LoginForm() {
   let navigate = useNavigate();
@@ -17,21 +17,20 @@ function LoginForm() {
   const loginStages = { email: 0, password: 1, error: 2 }
   const [loginStage, setLoginStage] = useState(loginStages.email);
 
-  const { login, user, error, loading, update } = useUserContext();
+  const { login, user } = useUserContext();
 
   const loginUser = async () => {
     await login(email, password);
+    if(!user) {
+      setLoginStage(loginStages.error);
+    }
   }
 
   useEffect(() => {
-    if (user && !error) {
+    if (user) {
       navigate("/");
-    } else if (error && !user) {
-      setLoginStage(loginStages.error);
-      setEmail("");
-      setPassword("");
     }
-  }, [user, error])
+  }, [user])
 
   const nextStage = () => {
     switch (loginStage) {
@@ -51,7 +50,6 @@ function LoginForm() {
         }
         break;
       case loginStages.error:
-        update();
         setLoginStage(loginStages.email);
         break;
       default:
@@ -65,7 +63,7 @@ function LoginForm() {
       {
         loginStage == loginStages.error ?
           <div className='mt-5'>
-            <UpsForm error={error} nextStage={nextStage} />
+            <UpsForm nextStage={nextStage} />
           </div>
           :
           <div className='d-flex flex-column justify-content-center flex-md-row bg-body rounded my-3 p-4 m-md-5 p-md-5'>
@@ -123,9 +121,9 @@ function LoginForm() {
                   loginStage === loginStages.password ?
                     <div className='d-flex gap-3 mt-4'>
                       <div className='w-50'>
-                        <LargeBlueButton text='Iniciar sesión' loading={loading} onClick={nextStage} />
+                        <LargeBlueButton text='Iniciar sesión' onClick={nextStage} />
                       </div>
-                      <div className='w-100'>
+                      <div className='w-50'>
                         <SecundaryBtn text="¿Olvidaste tu contraseña?" onClick={() => navigate("/error")} />
                       </div>
                     </div>

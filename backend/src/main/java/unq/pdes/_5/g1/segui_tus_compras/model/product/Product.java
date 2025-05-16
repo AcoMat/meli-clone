@@ -68,6 +68,9 @@ public class Product {
     }
 
     public Double getPriceWithDiscountApplied() {
+        if(price == null) {
+            return null;
+        }
         if (priceDiscountPercentage != null && priceDiscountPercentage > 0) {
             return price - (price * priceDiscountPercentage / 100);
         }

@@ -2,9 +2,8 @@ import { useState } from 'react';
 import nextArrow from '../../../assets/arrows/next-arrow.svg'
 import downArrow from '../../../assets/arrows/down-line.svg'
 import LargeBlueButton from '../../basic/LargeBlueButton/LargeBlueButton';
-import { useUserContext } from '../../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-
+import { useUserContext } from '../../../context/UserContext';
+import profileImagePlaceholder from '../../../assets/ui/profile-placeholder.png';
 
 function UserProfile({user}) {
     const { logout } = useUserContext();
@@ -26,9 +25,9 @@ function UserProfile({user}) {
             <div className='content-wrapper'>
                 <div className='w-75 px-md-5 mx-auto my-5 d-flex flex-column gap-4'>
                     <div className='bg-body d-flex p-4 rounded shadow-sm'>
-                        <img className="rounded-circle object-fit-cover" src={user?.image} alt="User" width={80} height={80} />
+                        <img className="rounded-circle object-fit-cover" src={user?.image || profileImagePlaceholder} alt="User" width={80} height={80} />
                         <div className='d-flex flex-column mx-4 pt-2'>
-                            <span className='fs-5 fw-medium'>{user?.name}</span>
+                            <span className='fs-5 fw-medium'>{user?.firstName + ' ' + user?.lastName}</span>
                             <p>{user?.email}</p>
                         </div>
                     </div>
@@ -48,7 +47,7 @@ function UserProfile({user}) {
                             </button>
                             <div className="collapse" id="personal-info">
                                 <div className="px-4 pt-0">
-                                    <li>Nombre: <span className='fw-light'>{user?.name}</span></li>
+                                    <li>Nombre: <span className='fw-light'>{user?.firstName + ' ' + user?.lastName}</span></li>
                                     <li>Condición fiscal: <span className='fw-light'>Consumidor final</span></li>
                                 </div>
                             </div>

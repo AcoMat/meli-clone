@@ -3,7 +3,11 @@ package unq.pdes._5.g1.segui_tus_compras.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+<<<<<<< Updated upstream:backend/src/main/java/unq/pdes/_5/g1/segui_tus_compras/model/Purchase.java
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+=======
+import unq.pdes._5.g1.segui_tus_compras.model.user.User;
+>>>>>>> Stashed changes:backend/src/main/java/unq/pdes/_5/g1/segui_tus_compras/model/purchase/Purchase.java
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -20,6 +24,7 @@ public class Purchase {
     private User user;
     private ZonedDateTime date;
     private Double total;
+<<<<<<< Updated upstream:backend/src/main/java/unq/pdes/_5/g1/segui_tus_compras/model/Purchase.java
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "purchase_products",
@@ -27,6 +32,10 @@ public class Purchase {
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private List<Product> products;
+=======
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PurchaseItem> items;
+>>>>>>> Stashed changes:backend/src/main/java/unq/pdes/_5/g1/segui_tus_compras/model/purchase/Purchase.java
 
     public Purchase() {
     }

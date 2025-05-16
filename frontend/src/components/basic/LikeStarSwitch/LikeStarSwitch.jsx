@@ -3,7 +3,7 @@ import starFilledIcon from '../../../assets/ui/star-fill.svg'
 import './LikeStarSwitch.css'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useUserContext } from '../../../context/AuthContext';
+import { useUserContext } from '../../../context/UserContext';
 
 function LikeStarSwitch({ productId }) {
     const navigate = useNavigate();
