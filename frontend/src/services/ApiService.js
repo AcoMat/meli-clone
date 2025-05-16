@@ -23,8 +23,7 @@ export async function register(firstName, lastName, email, password) {
     return response;
   }
   catch (error) {
-    console.error('Error during registration:', error);
-    return null;
+    throw new Error('Error during registration: ' + error.response.data);
   }
 }
 
@@ -106,7 +105,7 @@ export async function postNewPurchase(token, purchase) {
 
 export async function toggleFavorite(token, productId) {
   try {
-    const response = await axiosService.put(`/users/me/favorites`, {productId}, {
+    const response = await axiosService.put(`/users/me/favorites`, { productId }, {
       headers: {
         Authorization: `${token}`,
       },
@@ -114,14 +113,13 @@ export async function toggleFavorite(token, productId) {
     return response.data;
   }
   catch (error) {
-    console.error('Error posting new favorite:', error);
-    return null;
+    throw new Error('Error toggling favorite:', error.response.data);
   }
 }
 
 export async function postComment(token, productId, comment) {
   try {
-    const response = await axiosService.post(`/products/${productId}/comments`, {comment}, {
+    const response = await axiosService.post(`/products/${productId}/comments`, { comment }, {
       headers: {
         Authorization: `${token}`,
       },
@@ -136,7 +134,7 @@ export async function postComment(token, productId, comment) {
 
 export async function postReview(token, productId, rating, review) {
   try {
-    const response = await axiosService.post(`/products/${productId}/reviews`, {rating, review}, {
+    const response = await axiosService.post(`/products/${productId}/reviews`, { rating, review }, {
       headers: {
         Authorization: `${token}`,
       },
@@ -144,8 +142,23 @@ export async function postReview(token, productId, rating, review) {
     return response.data;
   }
   catch (error) {
-    console.error('Error posting new review:', error);
-    return null;
+    console.error('Error posting new review:', error.response.data);
+    throw new Error('Error posting new review:', error.response.data);
+  }
+}
+
+export async function userBoughtProduct(token, productId) {
+  try {
+    const response = await axiosService.post(`/users/me/purchases/${productId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    console.error(error.response.data);
+    return false;
   }
 }
 

@@ -3,6 +3,10 @@ body {
     width: 100%;
 }
 
+.blue-meli {
+    color: #3483fa;
+}
+
 .content-wrapper {
     margin: 0 auto;
     padding: 0;

@@ -19,6 +19,7 @@ import ErrorPage from './pages/ErrorPage';
 import Layout from './pages/Layout';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
+import Review from './pages/product/Review';
 
 
 const router = createBrowserRouter([
@@ -35,20 +36,20 @@ const router = createBrowserRouter([
         element: <Product />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <Login />
       },
       {
-        path: "/register",
+        path: "register",
         element: <Register />
       },
       {
-        path: "/user",
+        path: "user",
         element: <User />
 
       },
       {
-        path: "/cart",
+        path: "cart",
         element: <Cart />
       },
       {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "purchases",
         element: <Purchases />
+      },
+      {
+        path: "product/:idProduct/review",
+        element: <Review />
       },
       {
         path: "error",
