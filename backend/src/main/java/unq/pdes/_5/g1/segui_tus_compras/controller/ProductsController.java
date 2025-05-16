@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.ReviewDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.SearchDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.CommentDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.PagingDto;
@@ -13,7 +14,6 @@ import unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth;
 import unq.pdes._5.g1.segui_tus_compras.service.product.CommentService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ReviewService;
-import unq.pdes._5.g1.segui_tus_compras.controller.model.ApiResponse;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -33,72 +33,50 @@ public class ProductsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Product>> getProductById(@PathVariable String id) {
-        Product product = productService.getProductById(id);
-        ApiResponse<Product> response = new ApiResponse<>(true, "Product retrieved successfully", product, null);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Product> getProductById(@PathVariable String id) {
+        return ResponseEntity.ok(productService.getProductById(id));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<List<Product>>> searchProductByName(
+    public ResponseEntity<SearchDTO> searchProductByName(
             @RequestParam String q,
             @RequestParam(required = false, defaultValue = "0") Integer offset,
             @RequestParam(required = false, defaultValue = "10") Integer limit
     ) {
         List<Product> productsSearch = productService.searchProducts(q, offset, limit);
-        if(productsSearch == null || productsSearch.isEmpty()) {
-            ApiResponse<List<Product>> response = new ApiResponse<>(false, "No products found", null, null);
-            return ResponseEntity.status(404).body(response);
-        }
-        ApiResponse<List<Product>> response = new ApiResponse<>(
-                true,
-                "Products retrieved successfully",
-                new PagingDto(productsSearch.size(), limit, offset),
-                productsSearch);
-        return ResponseEntity.ok(response);
+        PagingDto paging = new PagingDto(offset, limit, productsSearch.size());
+        return ResponseEntity.ok(new SearchDTO(paging, q, productsSearch));
     }
 
     @GetMapping("/{productId}/comments")
-    public ResponseEntity<ApiResponse<List<Commentary>>> getCommentsFromProduct(@PathVariable String productId) {
-        ApiResponse<List<Commentary>> response =
-                new ApiResponse<>(true, "Commentaries retrieved successfully", null, commentService.getCommentariesFromProduct(productId));
-        return ResponseEntity.ok(response);
+    public ResponseEntity<List<Commentary>> getCommentsFromProduct(@PathVariable String productId) {
+        return ResponseEntity.ok(commentService.getCommentariesFromProduct(productId));
     }
 
     @NeedsAuth
     @PostMapping("/{productId}/comments")
-    public ResponseEntity<ApiResponse<Product>> addCommentToProduct(
+    public ResponseEntity<Product> addCommentToProduct(
             @PathVariable String productId,
             @Valid @RequestBody CommentDto commentDto,
             HttpServletRequest request
     ) {
         Long userId = (Long) request.getAttribute("userId");
-        ApiResponse<Product> response =
-                new ApiResponse<>(true,
-                        "Comment added successfully",
-                        null,
-                        commentService.addCommentToProduct(productId, commentDto.comment, userId)
-                );
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(commentService.addCommentToProduct(productId, commentDto.comment, userId));
     }
 
     @GetMapping("/{productId}/reviews")
-    public ResponseEntity<ApiResponse<List<Review>>> getReviewsFromProduct(@PathVariable String productId) {
-        ApiResponse<List<Review>> response =
-                new ApiResponse<>(true, "Reviews retrieved successfully", null, reviewService.getReviewsFromProduct(productId));
-        return ResponseEntity.ok(response);
+    public ResponseEntity<List<Review>> getReviewsFromProduct(@PathVariable String productId) {
+        return ResponseEntity.ok(reviewService.getReviewsFromProduct(productId));
     }
 
     @NeedsAuth
     @PostMapping("/{productId}/reviews")
-    public ResponseEntity<ApiResponse<Product>> postReviewToProduct(
+    public ResponseEntity<Product> postReviewToProduct(
             @PathVariable String productId,
             @Valid @RequestBody ReviewDto reviewDto,
             HttpServletRequest request
     ) {
         Long userId = (Long) request.getAttribute("userId");
-        ApiResponse<Product> response =
-                new ApiResponse<>(true, "Review posted successfully", null, reviewService.addReviewToProduct(productId, reviewDto.rating, reviewDto.review , userId));
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(reviewService.addReviewToProduct(productId, reviewDto.rating, reviewDto.review , userId));
     }
 }

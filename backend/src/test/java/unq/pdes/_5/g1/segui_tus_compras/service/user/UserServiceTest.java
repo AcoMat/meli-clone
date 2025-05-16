@@ -2,15 +2,9 @@ package unq.pdes._5.g1.segui_tus_compras.service.user;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import unq.pdes._5.g1.segui_tus_compras.exception.ErrorDuringPurchaseException;
 import unq.pdes._5.g1.segui_tus_compras.exception.UserNotFoundException;
-<<<<<<< Updated upstream
-import unq.pdes._5.g1.segui_tus_compras.model.Purchase;
-import unq.pdes._5.g1.segui_tus_compras.model.User;
-=======
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
->>>>>>> Stashed changes
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
@@ -107,31 +101,5 @@ class UserServiceTest {
         verify(usersRepository, times(1)).findById(1L);
     }
 
-    @Test
-    void postNewPurchase_ValidUserAndProducts_AddsPurchase() {
-        User user = new User("John", "Doe", "john.doe@example.com", "password");
-        Product product = mock(Product.class);
-
-        when(usersRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(productService.getProductById("product1")).thenReturn(product);
-
-        userService.postNewPurchase(1L, List.of("product1"));
-
-        assertEquals(1, user.getPurchases().size());
-        verify(usersRepository, times(1)).findById(1L);
-        verify(productService, times(1)).getProductById("product1");
-        verify(usersRepository, times(1)).save(user);
-    }
-
-    @Test
-    void postNewPurchase_InvalidProduct_ThrowsException() {
-        User user = new User("John", "Doe", "john.doe@example.com", "password");
-
-        when(usersRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(productService.getProductById("product1")).thenReturn(null);
-
-        assertThrows(ErrorDuringPurchaseException.class, () -> userService.postNewPurchase(1L, List.of("product1")));
-        verify(usersRepository, times(1)).findById(1L);
-        verify(productService, times(1)).getProductById("product1");
-    }
+    //TODO: purchase tests
 }

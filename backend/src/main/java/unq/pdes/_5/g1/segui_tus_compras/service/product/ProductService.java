@@ -2,10 +2,11 @@ package unq.pdes._5.g1.segui_tus_compras.service.product;
 
 import org.springframework.stereotype.Service;
 import unq.pdes._5.g1.segui_tus_compras.exception.ProductNotFoundException;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ApiSearchDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.api.ExternalProductDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
+import unq.pdes._5.g1.segui_tus_compras.service.external.MeLiApiService;
 
 import java.util.List;
 import java.util.Objects;

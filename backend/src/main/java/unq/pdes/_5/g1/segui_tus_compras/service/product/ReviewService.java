@@ -5,6 +5,7 @@ import unq.pdes._5.g1.segui_tus_compras.exception.NotBoughtYetException;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
+import unq.pdes._5.g1.segui_tus_compras.service.purchase.PurchaseService;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 
 import java.util.List;
@@ -14,10 +15,12 @@ public class ReviewService {
 
     private final ProductService _productService;
     private final UserService _userService;
+    private final PurchaseService _purchaseService;
 
-    public ReviewService(ProductService productService, UserService userService) {
+    public ReviewService(ProductService productService, UserService userService, PurchaseService purchaseService) {
         this._productService = productService;
         this._userService = userService;
+        this._purchaseService = purchaseService;
     }
 
     public List<Review> getReviewsFromProduct(String productId) {
