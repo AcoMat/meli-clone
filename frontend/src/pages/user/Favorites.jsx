@@ -1,15 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import HorizontalProductCard from "../components/cards/HorizontalProductCard/HorizontalProductCard";
-import { useUserContext } from "../context/AuthContext";
+import HorizontalProductCard from "../../components/cards/HorizontalProductCard/HorizontalProductCard";
 
 function Favorites() {
-    const { user } = useUserContext();
-    let navigate = useNavigate();
-
-    const handleProductClick = (productId) => {
-        navigate(`/product/${productId}`);
-    }
-
     return (
         <div className="content-wrapper">
             {

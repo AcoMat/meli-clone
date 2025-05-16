@@ -1,0 +1,150 @@
+{
+    "success": true,
+    "message": "Product retrieved successfully",
+    "data": {
+        "id": "MLA9927395",
+        "name": "Termo Termolar R-evolution Rolha-Dupla1 1L acero inoxidable",
+        "price": null,
+        "description": "",
+        "attributes": [
+            {
+                "id": "BRAND",
+                "name": "Marca",
+                "value": "Termolar"
+            },
+            {
+                "id": "COLOR",
+                "name": "Color",
+                "value": "Acero inoxidable"
+            },
+            {
+                "id": "DETAILED_MODEL",
+                "name": "Modelo detallado",
+                "value": "Garrafa"
+            },
+            {
+                "id": "EXTERIOR_MATERIALS",
+                "name": "Materiales del exterior",
+                "value": "Acero inoxidable"
+            },
+            {
+                "id": "HEIGHT",
+                "name": "Altura",
+                "value": "29.4 cm"
+            },
+            {
+                "id": "INTERIOR_MATERIAL",
+                "name": "Material del interior",
+                "value": "Acero inoxidable"
+            },
+            {
+                "id": "IS_BPA_FREE",
+                "name": "Es libre de BPA",
+                "value": "Sí"
+            },
+            {
+                "id": "LID_OPENING_SYSTEM",
+                "name": "Sistema de apertura de tapa",
+                "value": "Rosca"
+            },
+            {
+                "id": "LINE",
+                "name": "Línea",
+                "value": "R-evolution"
+            },
+            {
+                "id": "MAIN_COLOR",
+                "name": "Color principal",
+                "value": "Gris"
+            },
+            {
+                "id": "MODEL",
+                "name": "Modelo",
+                "value": "Rolha-Dupla1"
+            },
+            {
+                "id": "THERMO_CAPACITY",
+                "name": "Capacidad del termo",
+                "value": "1 L"
+            },
+            {
+                "id": "THERMO_COLD_DRINK_TEMPERATURE_CONSERVATION_TIME",
+                "name": "Tiempo de conservación de la bebida fría",
+                "value": "1.5 días"
+            },
+            {
+                "id": "THERMO_HOT_DRINK_TEMPERATURE_CONSERVATION_TIME",
+                "name": "Tiempo de conservación de la bebida caliente",
+                "value": "20 h"
+            },
+            {
+                "id": "THERMO_WEIGHT",
+                "name": "Peso del termo",
+                "value": "620 g"
+            },
+            {
+                "id": "WIDTH",
+                "name": "Ancho",
+                "value": "8.8 cm"
+            },
+            {
+                "id": "WITH_ANTI_DRIP_SYSTEM",
+                "name": "Con sistema antigoteo",
+                "value": "Sí"
+            },
+            {
+                "id": "WITH_DETACHABLE_HANDLE",
+                "name": "Con correa desmontable",
+                "value": "No"
+            },
+            {
+                "id": "WITH_DOUBLE_WALL_INSULATION",
+                "name": "Con pared doble de aislamiento",
+                "value": "Sí"
+            },
+            {
+                "id": "WITH_HANDLE",
+                "name": "Con manija",
+                "value": "Sí"
+            },
+            {
+                "id": "WITH_INTERNAL_VACUUM",
+                "name": "Con vacío interno",
+                "value": "Sí"
+            },
+            {
+                "id": "WITH_LID",
+                "name": "Con tapa",
+                "value": "Sí"
+            },
+            {
+                "id": "WITH_LID_SUITABLE_FOR_USE_AS_A_MUG",
+                "name": "Con tapa apta para usarse como taza",
+                "value": "Sí"
+            },
+            {
+                "id": "WITH_MULTIDIRECTIONAL_PEAK",
+                "name": "Con pico multidireccional",
+                "value": "Sí"
+            },
+            {
+                "id": "WITH_NON_SLIP_SURFACE",
+                "name": "Con superficie antideslizante",
+                "value": "Sí"
+            }
+        ],
+        "pictures": [
+            "https://http2.mlstatic.com/D_NQ_NP_937686-MLU74220104775_012024-F.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_797040-MLU74219028753_012024-F.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_862718-MLU70045173834_062023-F.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_816665-MLU74247859153_012024-F.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_821463-MLU72637632019_112023-F.jpg",
+            "https://http2.mlstatic.com/D_NQ_NP_664150-MLU73332487466_122023-F.jpg"
+        ],
+        "priceDiscountPercentage": null,
+        "isFreeShipping": null,
+        "commentaries": [],
+        "reviews": [],
+        "priceWithDiscountApplied": null
+    }
+}

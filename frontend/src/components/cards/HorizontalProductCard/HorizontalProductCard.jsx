@@ -1,4 +1,4 @@
-import { useUserContext } from "../../../context/AuthContext";
+import { useUserContext } from "../../../context/UserContext";
 import { useCartContext } from "../../../context/CartContext"
 
 export default function HorizontalProductCard({ product, onClick}) {

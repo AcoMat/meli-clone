@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import LoadingSwitch from "../components/basic/LoadingSwitch/LoadingSwitch";
-import useSearch from "../hooks/useSearch";
-import SearchResults from "../components/search/SearchResults/SearchResults";
-import NoResults from "../components/basic/NoResults";
+import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
+import useSearch from "../../hooks/useSearch";
+import SearchResults from "../../components/search/SearchResults/SearchResults";
+import NoResults from "../../components/basic/NoResults";
 
 function Search() {
     let [searchParams] = useSearchParams();
-    const { setSearchText, setPage, productsPage, loading, error } = useSearch();
+    //const { setSearchText, setPage, productsPage, loading, error } = useSearch();
 
     useEffect(() => {
         setSearchText(searchParams.get('query'));

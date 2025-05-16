@@ -4,8 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import unq.pdes._5.g1.segui_tus_compras.exception.ErrorDuringPurchaseException;
 import unq.pdes._5.g1.segui_tus_compras.exception.UserNotFoundException;
+<<<<<<< Updated upstream
 import unq.pdes._5.g1.segui_tus_compras.model.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.model.User;
+=======
+import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
+import unq.pdes._5.g1.segui_tus_compras.model.user.User;
+>>>>>>> Stashed changes
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;

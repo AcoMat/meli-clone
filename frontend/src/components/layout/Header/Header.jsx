@@ -1,9 +1,9 @@
 import logo from '../../../assets/branding/logo.svg'
 import searchIcon from '../../../assets/ui/search-icon.svg'
 import cart from '../../../assets/cart/cart.svg'
-import downLine from '../../../assets/arrows/down-line.svg'
 import './Header.css'
-import { useUserContext } from '../../../context/AuthContext'
+import { useUserContext } from '../../../context/UserContext'
+import profilePlaceholder from '../../../assets/ui/profile-placeholder.png'
 
 function Header({ submitfcn }) {
   const { user } = useUserContext();
@@ -32,10 +32,10 @@ function Header({ submitfcn }) {
                   <>
                     <li className='ms-4 d-flex align-items-end'>
                       <a href='/user' className='align-self-end'>
-                        <img src={user.image} height={20} width={20} className='rounded-circle me-2 object-fit-cover' />
+                        <img src={user.image || profilePlaceholder} height={20} width={20} className='rounded-circle me-2 object-fit-cover' />
                       </a>
                       <a href='/user'>
-                        {user.name}
+                        {user.firstName}
                       </a>
                     </li>
                     <li className='ms-4'><a href='/purchases'>Mis compras</a></li>

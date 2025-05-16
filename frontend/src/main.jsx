@@ -6,23 +6,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap'
 
 import "./index.css";
+import Home from './pages/Home';
+import Product from './pages/product/Product';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import User from './pages/user/User';
+import Cart from './pages/user/Cart';
+import Search from './pages/product/Search';
+import Favorites from './pages/user/Favorites';
+import Purchases from './pages/user/Purchases';
+import ErrorPage from './pages/ErrorPage';
+import Layout from './pages/Layout';
+import { UserProvider } from './context/UserContext';
+import { CartProvider } from './context/CartContext';
 
-import Layout from "./pages/Layout.jsx";
-import Home from "./pages/Home.jsx"
-import ErrorPage from "./pages/ErrorPage.jsx";
-import Login from "./pages/Login.jsx"
-import Register from './pages/Register.jsx';
-import Product from './pages/Product.jsx';
-import Categories from './pages/Categories.jsx';
-import Category from './pages/Category.jsx';
-import User from './pages/User.jsx';
-import Cart from './pages/Cart.jsx';
-import Search from './pages/Search.jsx';
-import Favorites from './pages/Favorites.jsx';
-import { UserProvider } from './context/AuthContext.jsx';
-import { CartProvider } from './context/CartContext.jsx';
-import Purchases from './pages/Purchases.jsx';
-import Checkout from './pages/Checkout.jsx';
 
 const router = createBrowserRouter([
   {
@@ -46,14 +43,6 @@ const router = createBrowserRouter([
         element: <Register />
       },
       {
-        path: "/categories",
-        element: <Categories />
-      },
-      {
-        path: "/categories/:id",
-        element: <Category />
-      },
-      {
         path: "/user",
         element: <User />
 
@@ -65,10 +54,6 @@ const router = createBrowserRouter([
       {
         path: "search",
         element: <Search />
-      },
-      {
-        path: "checkout",
-        element: <Checkout />
       },
       {
         path: "favorites",

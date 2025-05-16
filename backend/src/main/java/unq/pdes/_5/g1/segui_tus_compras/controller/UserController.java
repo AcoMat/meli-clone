@@ -8,6 +8,7 @@ import unq.pdes._5.g1.segui_tus_compras.model.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.user.FavoriteDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.user.PurchaseDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 import unq.pdes._5.g1.segui_tus_compras.controller.model.ApiResponse;
@@ -49,8 +50,20 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Purchase created successfully", null, null));
     }
 
+<<<<<<< Updated upstream
     @GetMapping("/purchases")
     public ResponseEntity<?> getPurchases(HttpServletRequest request) {
+=======
+    @PostMapping("/me/purchases")
+    public ResponseEntity<String> postNewPurchase(HttpServletRequest request, @Valid @RequestBody PurchaseDto dto) {
+        Long userId = (Long) request.getAttribute("userId");
+        _purchaseService.generatePurchase(userId, dto.items);
+        return ResponseEntity.ok("Purchase created successfully");
+    }
+
+    @GetMapping("/me/purchases")
+    public ResponseEntity<List<Purchase>> getPurchases(HttpServletRequest request) {
+>>>>>>> Stashed changes
         Long userId = (Long) request.getAttribute("userId");
         List<Purchase> purchases = _userService.getPurchases(userId);
         return ResponseEntity.ok(new ApiResponse<>(true, "Purchases retrieved successfully", null, purchases));
