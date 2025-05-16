@@ -32,7 +32,7 @@ function Header({ submitfcn }) {
                   <>
                     <li className='ms-4 d-flex align-items-end'>
                       <a href='/user' className='align-self-end'>
-                        <img src={user.image || profilePlaceholder} height={20} width={20} className='rounded-circle me-2 object-fit-cover' />
+                        <img src={user.image || profilePlaceholder} height={20} width={20} className='rounded-circle me-2 object-fit-cover' style={{ marginBottom: "-3px" }} />
                       </a>
                       <a href='/user'>
                         {user.firstName}

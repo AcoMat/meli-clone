@@ -28,21 +28,24 @@ export const UserProvider = ({ children }) => {
         });
     }, []);
 
-    const register = async (firstname, lastname, email, password) => {
-        const res = await registerService(firstname, lastname, email, password);
-        if (res) {
-            setToken(res.headers);
-            setUser(res.data);
-        } else {
-            console.error('Registration failed');
-        }
+    /*
+    * Register a new user
+    * @param {string} firstName - The first name of the user
+    * @param {string} lastName - The last name of the user
+    * @param {string} email - The email of the user
+    * @param {string} password - The password of the user
+    * @throws {Error} If the registration fails
+    */
+    const register = async (firstName, lastName, email, password) => {
+        const res = await registerService(firstName, lastName, email, password);
+        setToken(res.headers['authorization']);
+        setUser(res.data);
     }
 
     const login = async (email, password) => {
         const res = await loginService(email, password);
-        if (res) {
-            console.log(res.data);
-            console.log(res.headers);
+        if (res && res.status === 200) {
+            console.log('Login successful');
             setToken(res.headers['authorization']);
             setUser(res.data);
         } else {
