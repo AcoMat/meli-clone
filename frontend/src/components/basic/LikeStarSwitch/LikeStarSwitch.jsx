@@ -4,31 +4,35 @@ import './LikeStarSwitch.css'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
+import useFavorites from '../../../hooks/useFavorites';
+import { toggleFavorite } from '../../../services/ApiService';
+import { getToken } from '../../../services/tokenService';
 
 function LikeStarSwitch({ productId }) {
+    const { user } = useUserContext();    
     const navigate = useNavigate();
-    const { user, like } = useUserContext();
+    const { favorites } = useFavorites();
     const [liked, setLiked] = useState(false);
-    const [star, setstar] = useState(starIcon);
 
     useEffect(() => {
-        user?.likedproducts?.find(likedProduct => likedProduct.id === productId) ? setLiked(true) : setLiked(false)
-    }, [user])
+        favorites?.find(likedProduct => likedProduct.id === productId) ? setLiked(true) : setLiked(false)
+    }, [favorites])
 
     const handleLike = (e) => {
         if (user) {
             setLiked(!liked)
-            like(productId)
+            getToken().then(token => {
+                toggleFavorite(token, productId)
+            })
         } else {
             navigate('/login')
         }
     }
 
     return (
-        <div className='like-button bg-body border rounded-circle position-absolute top-0 end-0 lh-1 text-center p-2 m-2'>
+        <div className='like-button bg-body border rounded-circle position-absolute top-0 end-0 lh-1 text-center p-2 m-2' onClick={handleLike}>
             <img
-                src={liked ? starFilledIcon : star}
-                onClick={handleLike}
+                src={liked ? starFilledIcon : starIcon}
                 className=''
                 width={20}
                 height={20}
