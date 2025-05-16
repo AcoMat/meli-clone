@@ -14,9 +14,7 @@ function Register() {
     }, []);
 
     return (
-        <>
-            <RegisterForm/>
-        </>
+        <RegisterForm/>
     )
 }
 
