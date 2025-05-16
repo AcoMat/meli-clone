@@ -1,13 +1,12 @@
 import CartProduct from '../CartProduct/CartProduct.jsx'
 import emptyCart from '../../../assets/cart/emptycart.svg'
 
-function CartItems({ products }) {
+function CartItems({ cartItems }) {
 
     return (
-
         <div className='d-flex flex-column gap-4 '>
             {
-                products?.length < 1 || !products ?
+                !cartItems || cartItems?.length < 1 ?
                     <div className='d-flex justify-content-between align-items-center bg-body bg-opacity-50 px-4 py-5'>
                         <div className='d-flex gap-4'>
                             <img src={emptyCart} />
@@ -21,7 +20,7 @@ function CartItems({ products }) {
                         </div>
                     </div>
                     :
-                    products?.sort((a, b) => a.product.id.localeCompare(b.product.id)).map((cartItem) => (
+                    cartItems?.sort((a, b) => a.product.id.localeCompare(b.product.id)).map((cartItem) => (
                         <CartProduct
                             key={cartItem.product.id}
                             cartItem={cartItem}
