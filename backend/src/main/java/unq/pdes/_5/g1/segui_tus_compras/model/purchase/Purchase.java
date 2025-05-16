@@ -3,7 +3,7 @@ package unq.pdes._5.g1.segui_tus_compras.model.purchase;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
-import unq.pdes._5.g1.segui_tus_compras.model.User;
+import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -20,6 +20,7 @@ public class Purchase {
     private User user;
     private ZonedDateTime date;
     private Double total;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PurchaseItem> items;
 
     public Purchase() {

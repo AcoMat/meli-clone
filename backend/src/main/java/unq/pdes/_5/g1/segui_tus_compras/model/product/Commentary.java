@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import unq.pdes._5.g1.segui_tus_compras.model.User;
+import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 
 import java.time.LocalDateTime;
 

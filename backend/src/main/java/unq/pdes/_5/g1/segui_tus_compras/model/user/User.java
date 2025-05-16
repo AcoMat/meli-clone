@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.model;
+package unq.pdes._5.g1.segui_tus_compras.model.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;

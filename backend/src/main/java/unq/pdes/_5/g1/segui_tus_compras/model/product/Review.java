@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import unq.pdes._5.g1.segui_tus_compras.model.User;
+import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 
 @Entity
 @NoArgsConstructor

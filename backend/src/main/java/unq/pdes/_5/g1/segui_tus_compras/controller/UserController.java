@@ -9,6 +9,7 @@ import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.UserDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.user.FavoriteDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.purchase.PurchaseDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
+import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth;
 import unq.pdes._5.g1.segui_tus_compras.service.purchase.PurchaseService;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
@@ -56,7 +57,7 @@ public class UserController {
     }
 
     @GetMapping("/me/purchases")
-    public ResponseEntity<?> getPurchases(HttpServletRequest request) {
+    public ResponseEntity<List<Purchase>> getPurchases(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         return ResponseEntity.ok(_userService.getPurchases(userId));
     }

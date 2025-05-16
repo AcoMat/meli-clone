@@ -1,7 +1,7 @@
 package unq.pdes._5.g1.segui_tus_compras.mapper;
 
 import org.springframework.stereotype.Component;
-import unq.pdes._5.g1.segui_tus_compras.model.User;
+import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.UserDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.RegisterData;
 

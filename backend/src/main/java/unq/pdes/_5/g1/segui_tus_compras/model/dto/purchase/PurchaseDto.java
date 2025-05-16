@@ -1,10 +1,9 @@
 package unq.pdes._5.g1.segui_tus_compras.model.dto.purchase;
 
-import org.hibernate.validator.constraints.Length;
-
+import jakarta.validation.constraints.Size;
 import java.util.List;
 
 public class PurchaseDto {
-    @Length(min = 1, max = 50)
+    @Size(min = 1, max = 100)
     public List<PurchaseItemDto> items;
 }

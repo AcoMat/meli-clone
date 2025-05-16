@@ -18,6 +18,10 @@ export const clearToken = async () => {
 export const getToken = async () => {
     try{
         const token = localStorage.getItem('authorization');
+        if (token === null || token === undefined || token === '') {
+            clearToken();
+            return null;
+        }
         return token;
     } catch(err){
         console.log(err)

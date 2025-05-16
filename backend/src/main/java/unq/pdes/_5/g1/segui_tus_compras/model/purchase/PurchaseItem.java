@@ -7,13 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
 @NoArgsConstructor
 public class PurchaseItem {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private String id;
+    private Long id;
+    @Getter
     private String productId;
+    @Getter
     private Integer amount;
     private Double subTotal;
 
@@ -21,5 +22,12 @@ public class PurchaseItem {
         this.productId = productId;
         this.amount = amount;
         this.subTotal = subTotal;
+    }
+
+    public Double getSubTotal() {
+        if (subTotal == null) {;
+            return 0.0;
+        }
+        return subTotal;
     }
 }
