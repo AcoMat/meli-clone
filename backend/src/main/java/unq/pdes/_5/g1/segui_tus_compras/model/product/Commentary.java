@@ -17,14 +17,15 @@ import java.time.LocalDateTime;
 public class Commentary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
     @Column(columnDefinition = "TEXT")
     private String comment;
     private LocalDateTime createdAt;
     @ManyToOne
+    @JsonIgnore
     private User user;
     @ManyToOne
+    @JsonIgnore
     private Product product;
 
 
