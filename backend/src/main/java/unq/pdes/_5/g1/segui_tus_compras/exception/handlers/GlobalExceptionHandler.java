@@ -12,8 +12,6 @@ import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
 import unq.pdes._5.g1.segui_tus_compras.exception.InvalidTokenException;
 import unq.pdes._5.g1.segui_tus_compras.exception.MissingAuthorizationHeaderException;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -24,13 +22,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage())
-        );
-
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        String errors = ex.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getDefaultMessage() + ",")
+                .reduce((msg1, msg2) -> msg1 + "\n" + msg2)
+                .orElse("Validation failed");
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
@@ -56,6 +52,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingAuthorizationHeaderException.class)
     public ResponseEntity<String> handleMissingAuthorizationHeaderException(MissingAuthorizationHeaderException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 

@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class ReviewDto {
-
-    @NotBlank(message = "Review cannot be blank")
     @Size(max = 500, message = "Review cannot exceed 500 characters")
     public String review;
 

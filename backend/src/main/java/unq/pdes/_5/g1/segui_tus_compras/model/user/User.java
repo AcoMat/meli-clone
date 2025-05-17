@@ -44,13 +44,16 @@ public class User {
         this.password = password;
         this.purchases = new ArrayList<>();
         this.favorites = new ArrayList<>();
+        this.reviews = new ArrayList<>();
     }
 
-    public void toggleFavorite(Product product) {
+    public boolean toggleFavorite(Product product) {
         if (this.favorites.contains(product)) {
             this.favorites.remove(product);
+            return false;
         } else {
             this.favorites.add(product);
+            return true;
         }
     }
 

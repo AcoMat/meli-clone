@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private ZonedDateTime date;
+    private LocalDateTime date;
     private Double total;
 
     @ManyToOne
@@ -30,7 +31,7 @@ public class Purchase {
 
     public Purchase(User user, List<PurchaseItem> items) {
         this.user = user;
-        this.date = ZonedDateTime.now();
+        this.date = LocalDateTime.now();
         this.items = items;
         this.total = items.stream()
                 .map(PurchaseItem::getSubTotal)

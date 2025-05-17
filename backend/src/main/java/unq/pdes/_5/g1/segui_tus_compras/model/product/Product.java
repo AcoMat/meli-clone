@@ -1,5 +1,6 @@
 package unq.pdes._5.g1.segui_tus_compras.model.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -24,8 +25,9 @@ public class Product {
     List<String> pictures;
     Integer priceDiscountPercentage;
     Boolean isFreeShipping;
-    
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "product_id")
     private List<ProductAttribute> attributes;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -33,7 +35,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
-    
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "favorites")
     private List<User> favoritedBy;
 

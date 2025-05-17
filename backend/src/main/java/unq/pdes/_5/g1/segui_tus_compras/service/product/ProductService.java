@@ -3,8 +3,10 @@ package unq.pdes._5.g1.segui_tus_compras.service.product;
 import org.springframework.stereotype.Service;
 import unq.pdes._5.g1.segui_tus_compras.exception.ProductNotFoundException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ApiSearchDto;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.external.MeLiApiService;
 
@@ -52,4 +54,16 @@ public class ProductService {
                 .map(Product::new)
                 .toList();
     }
+
+    public List<Review> getProductReviews(String productId) {
+        Product product = getProductById(productId);
+        return product.getReviews();
+    }
+
+    public List<Commentary> getProductCommentaries(String productId) {
+        Product product = getProductById(productId);
+        return product.getCommentaries();
+    }
+
+
 }

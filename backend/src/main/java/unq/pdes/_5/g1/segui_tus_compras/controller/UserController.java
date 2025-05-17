@@ -12,6 +12,7 @@ import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth;
 import unq.pdes._5.g1.segui_tus_compras.service.purchase.PurchaseService;
+import unq.pdes._5.g1.segui_tus_compras.service.user.FavoriteService;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 
 import java.util.List;
@@ -23,12 +24,14 @@ public class UserController {
 
     private final UserService _userService;
     private final PurchaseService _purchaseService;
+    private final FavoriteService _favoriteService;
     private final Mapper _mapper;
 
-    public UserController(UserService userService, Mapper mapper, PurchaseService purchaseService) {
+    public UserController(UserService userService, Mapper mapper, PurchaseService purchaseService, FavoriteService favoriteService) {
         this._userService = userService;
         this._mapper = mapper;
         this._purchaseService = purchaseService;
+        this._favoriteService = favoriteService;
     }
 
     @GetMapping("/me")
@@ -40,13 +43,14 @@ public class UserController {
     @GetMapping("/me/favorites")
     public ResponseEntity<List<Product>> getFavorites(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        return ResponseEntity.ok(_userService.getFavorites(userId));
+        return ResponseEntity.ok(_userService.getUserFavorites(userId));
     }
 
     @PutMapping("/me/favorites")
-    public ResponseEntity<List<Product>> toggleFavorite(HttpServletRequest request, @Valid @RequestBody FavoriteDto dto) {
+    public ResponseEntity<String> toggleFavorite(HttpServletRequest request, @Valid @RequestBody FavoriteDto dto) {
         Long userId = (Long) request.getAttribute("userId");
-        return ResponseEntity.ok(_userService.toggleFavorite(userId, dto.productId));
+        boolean added = _favoriteService.toggleFavorite(userId, dto.productId);
+        return ResponseEntity.ok("Product " + dto.productId + (added ? " added to" : " removed from") + " favorites");
     }
 
     @PostMapping("/me/purchases")
@@ -59,7 +63,13 @@ public class UserController {
     @GetMapping("/me/purchases")
     public ResponseEntity<List<Purchase>> getPurchases(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        return ResponseEntity.ok(_userService.getPurchases(userId));
+        return ResponseEntity.ok(_userService.getUserPurchases(userId));
+    }
+
+    @GetMapping("/me/purchases/{productId}")
+    public ResponseEntity<Boolean> getPurchases(HttpServletRequest request, @PathVariable String productId) {
+        Long userId = (Long) request.getAttribute("userId");
+        return ResponseEntity.ok(_purchaseService.userBoughtProduct(userId, productId));
     }
 
 }

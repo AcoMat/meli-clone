@@ -8,7 +8,6 @@ import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 import unq.pdes._5.g1.segui_tus_compras.service.purchase.PurchaseService;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 
-import java.util.List;
 
 @Service
 public class ReviewService {
@@ -23,20 +22,15 @@ public class ReviewService {
         this._purchaseService = purchaseService;
     }
 
-    public List<Review> getReviewsFromProduct(String productId) {
-        Product product = _productService.getProductById(productId);
-        return product.getReviews();
-    }
-
-    public Product addReviewToProduct(String productId, Integer rating, String review, Long userId) {
+    public  void addReviewToProduct(String productId, Integer rating, String review, Long userId) {
         Product product = _productService.getProductById(productId);
         User user = _userService.getUserById(userId);
-        if(!_userService.userBoughtProduct(userId, productId)) {
+        if(!_purchaseService.userBoughtProduct(userId, productId)) {
             throw new NotBoughtYetException();
         }
         Review newReview = new Review(product, user, rating, review);
         product.addReview(newReview);
-        return _productService.updateProduct(product);
+        _productService.updateProduct(product);
     }
 
 }

@@ -8,18 +8,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
 @Getter
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
     @Min(1)
     @Max(5)
     private Integer rating;
     private String comment;
+    private LocalDateTime createdAt;
     @ManyToOne
     @JsonIgnore
     private Product product;
@@ -32,6 +34,7 @@ public class Review {
         this.user = by;
         this.comment = comment;
         this.rating = rating;
+        this.createdAt = LocalDateTime.now();
     }
 
     public String by() {
