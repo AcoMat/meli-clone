@@ -50,33 +50,35 @@ public class ProductsController {
 
     @GetMapping("/{productId}/comments")
     public ResponseEntity<List<Commentary>> getCommentsFromProduct(@PathVariable String productId) {
-        return ResponseEntity.ok(commentService.getCommentariesFromProduct(productId));
+        return ResponseEntity.ok(productService.getProductCommentaries(productId));
     }
 
     @NeedsAuth
     @PostMapping("/{productId}/comments")
-    public ResponseEntity<Product> addCommentToProduct(
+    public ResponseEntity<String> addCommentToProduct(
             @PathVariable String productId,
             @Valid @RequestBody CommentDto commentDto,
             HttpServletRequest request
     ) {
         Long userId = (Long) request.getAttribute("userId");
-        return ResponseEntity.ok(commentService.addCommentToProduct(productId, commentDto.comment, userId));
+        commentService.addCommentToProduct(productId, commentDto.comment, userId);
+        return ResponseEntity.ok("Comment added successfully");
     }
 
     @GetMapping("/{productId}/reviews")
     public ResponseEntity<List<Review>> getReviewsFromProduct(@PathVariable String productId) {
-        return ResponseEntity.ok(reviewService.getReviewsFromProduct(productId));
+        return ResponseEntity.ok(productService.getProductReviews(productId));
     }
 
     @NeedsAuth
     @PostMapping("/{productId}/reviews")
-    public ResponseEntity<Product> postReviewToProduct(
+    public ResponseEntity<String> postReviewToProduct(
             @PathVariable String productId,
             @Valid @RequestBody ReviewDto reviewDto,
             HttpServletRequest request
     ) {
         Long userId = (Long) request.getAttribute("userId");
-        return ResponseEntity.ok(reviewService.addReviewToProduct(productId, reviewDto.rating, reviewDto.review , userId));
+        reviewService.addReviewToProduct(productId, reviewDto.rating, reviewDto.review , userId);
+        return ResponseEntity.ok("Review added successfully");
     }
 }
