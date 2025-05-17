@@ -12,7 +12,6 @@ export default function EmailStep({ setFormData, nextStage }) {
         }
     );
 
-
     const validateForm = () => {
         if (emailRef.current.value.trim() === '' || !emailRegex.test(emailRef.current.value)) {
             setError((prevData) => ({
@@ -32,7 +31,6 @@ export default function EmailStep({ setFormData, nextStage }) {
             nextStage();
         }
     }
-
 
     return (
         <div className='email-step bg-body mx-auto rounded p-3 my-3 p-md-5'>

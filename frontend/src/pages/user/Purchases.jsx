@@ -14,7 +14,7 @@ function Purchases() {
                 <div className="d-flex flex-column">
                     {
                         purchases && purchases?.length > 0 ?
-                            purchases.map((purchase) => {
+                            purchases.slice().reverse().map((purchase) => {
                                 return (
                                     <PurchaseHistory key={purchase.date.toString()} purchase={purchase} />
                                 )

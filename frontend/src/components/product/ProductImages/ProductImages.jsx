@@ -1,5 +1,4 @@
 import './ProductImages.css';
-import loadingsvg from '../../../assets/ui/loading.svg';
 import { useEffect, useState } from 'react';
 
 function ProductImages({ images }) {

@@ -4,10 +4,22 @@ import LargeBlueButton from '../../basic/LargeBlueButton/LargeBlueButton.jsx';
 function CartSumary({ cartItems }) {
     let navigate = useNavigate();
 
-    const totalProducts = cartItems?.reduce((total, item) => total + item.amount, 0);
-    const totalShippings = cartItems?.length
-    const totalProductsPrice = cartItems?.reduce((total, item) => total + (item.amount * item.product.price), 0);
-    const totalShippingsPrice = cartItems?.reduce((total, item) => total + item.product.shipping.price, 0);
+    const totalProducts = cartItems?.reduce(
+        (total, item) => total + (item.amount ?? 0),
+        0
+    );
+    const totalShippings = cartItems?.reduce(
+        (total, item) => total + (item.product?.isFreeShipping ? 0 : 1),
+        0
+    );
+    const totalProductsPrice = cartItems?.reduce(
+        (total, item) => total + ((item.amount ?? 0) * (item.product?.price ?? 0)),
+        0
+    );
+    const totalShippingsPrice = cartItems?.reduce(
+        (total, item) => total + (item.product?.shipping?.price ?? 0),
+        0
+    );
 
     return (
         cartItems?.length < 1 || !cartItems ?
@@ -24,7 +36,7 @@ function CartSumary({ cartItems }) {
                     <p>$ {totalProductsPrice.toFixed(2)}</p>
                 </div>
                 <div className='d-flex justify-content-between'>
-                    <p>Envios ({totalShippings})</p>
+                    <p>Envios a pagar ({totalShippings})</p>
                     <p>$ {totalShippingsPrice.toFixed(2)}</p>
                 </div>
                 <div className='d-flex justify-content-between'>
@@ -32,7 +44,7 @@ function CartSumary({ cartItems }) {
                     <p className="fs-5 fw-semibold"> $ {(totalProductsPrice + totalShippingsPrice).toFixed(2)}</p>
                 </div>
                 {
-                    
+
                 }
                 <LargeBlueButton text="Continuar compra" onClick={() => navigate("/checkout")} />
             </div>
