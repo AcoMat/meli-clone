@@ -56,10 +56,15 @@ export default function Product() {
                             />
                         </InfoSectionV2>
                         <InfoSectionV2 title="Opiniones del producto">
-                            <div className='d-flex gap-3'>
-                                <ProductRating reviews={product.reviews} />
-                                <ProductReviews reviews={product.reviews} />
-                            </div>
+                            {
+                                product.reviews && product.reviews.length > 0 ?
+                                    <div className='d-flex gap-3'>
+                                        <ProductRating reviews={product.reviews} />
+                                        <ProductReviews reviews={product.reviews} />
+                                    </div>
+                                    :
+                                    <p className='text-muted text-center py-4'>No hay opiniones disponibles para este producto.</p>
+                            }
                         </InfoSectionV2>
                     </div>
                     :
