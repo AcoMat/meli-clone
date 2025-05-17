@@ -1,5 +1,6 @@
 package unq.pdes._5.g1.segui_tus_compras.model.purchase;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,25 +12,22 @@ import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 public class PurchaseItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    
     private Integer amount;
     private Double subTotal;
 
-    public PurchaseItem(Product product, Integer amount, Double subTotal) {
+    public PurchaseItem(Product product, Integer amount) {
         this.product = product;
         this.amount = amount;
-        this.subTotal = subTotal;
-    }
-
-    public Double getSubTotal() {
-        if (subTotal == null) {
-            return 0.0;
+        if(product.getPrice() != null) {
+            this.subTotal = product.getPriceWithDiscountApplied() * amount;
+        } else {
+            this.subTotal = 0.0;
         }
-        return subTotal;
     }
 }

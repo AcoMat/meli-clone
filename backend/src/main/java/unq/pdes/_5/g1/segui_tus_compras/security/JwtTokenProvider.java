@@ -12,7 +12,7 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private final String SECRET = "mi_clave_secreta_segura";
-    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 2; // 1 hora
+    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 6;
     private final Algorithm algorithm = Algorithm.HMAC256(SECRET);
 
     public String generateToken(Long id) {
