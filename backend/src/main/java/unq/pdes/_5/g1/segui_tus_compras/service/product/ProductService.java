@@ -1,5 +1,6 @@
 package unq.pdes._5.g1.segui_tus_compras.service.product;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import unq.pdes._5.g1.segui_tus_compras.exception.ProductNotFoundException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ApiSearchDto;
@@ -25,22 +26,25 @@ public class ProductService {
     }
 
     public Product getProductById(String id) {
-        if(productsRepository.existsById(id)) {
-            System.out.println("Product found in database");
-            return productsRepository.findById(id).orElse(null);
-        }
-        ExternalProductDto apiProduct = meLiService.getProductById(id);
-        if (apiProduct == null) {
-            throw new ProductNotFoundException();
-        }
-        return productsRepository.save(new Product(apiProduct));
+        return productsRepository.findById(id).orElseGet(() -> {
+            ExternalProductDto apiProduct = meLiService.getProductById(id);
+            if (apiProduct == null) {
+                throw new ProductNotFoundException();
+            }
+            try {
+                return productsRepository.save(new Product(apiProduct));
+            } catch (DataIntegrityViolationException e) {
+                // Another thread inserted it, so fetch it again
+                return productsRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+            }
+        });
     }
 
-    public Product updateProduct(Product product) {
+    public void updateProduct(Product product) {
         if (!productsRepository.existsById(product.getId())) {
             throw new ProductNotFoundException();
         }
-        return productsRepository.save(product);
+        productsRepository.save(product);
     }
 
     public List<Product> searchProducts(String keywords, int offset, int limit) {

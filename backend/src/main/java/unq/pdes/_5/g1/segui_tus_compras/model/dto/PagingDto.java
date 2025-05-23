@@ -4,14 +4,14 @@ import lombok.Getter;
 
 @Getter
 public class PagingDto {
-    private int total;
-    private int limit;
     private int offset;
+    private int limit;
+    private int total;
 
-    public PagingDto(int total, int limit, int offset) {
-        this.total = total;
-        this.limit = limit;
+    public PagingDto(int offset, int limit, int total) {
         this.offset = offset;
+        this.limit = limit;
+        this.total = total;
     }
 
     public PagingDto() {}

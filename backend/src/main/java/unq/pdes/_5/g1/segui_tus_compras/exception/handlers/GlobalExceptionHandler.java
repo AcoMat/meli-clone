@@ -2,6 +2,7 @@ package unq.pdes._5.g1.segui_tus_compras.exception.handlers;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
 import unq.pdes._5.g1.segui_tus_compras.exception.InvalidTokenException;
 import unq.pdes._5.g1.segui_tus_compras.exception.MissingAuthorizationHeaderException;
+import java.util.stream.Collectors;
 
 
 @RestControllerAdvice
@@ -24,9 +26,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         String errors = ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getDefaultMessage() + ",")
-                .reduce((msg1, msg2) -> msg1 + "\n" + msg2)
-                .orElse("Validation failed");
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(", "));
+        if (errors.isEmpty()) {
+            errors = "Validation failed";
+        }
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
