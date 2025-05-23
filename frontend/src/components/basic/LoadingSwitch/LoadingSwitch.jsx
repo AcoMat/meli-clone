@@ -1,15 +1,15 @@
 import loadingSVG from '../../../assets/ui/loading.svg';
 
-function LoadingSwitch({ children , loading, error}) {
+function LoadingSwitch({ children, loading, error }) {
     return (
         <>
             {loading ?
-                <div className='d-flex justify-content-center align-items-center' style={{ height: "80vh" }}>
-                    <img src={loadingSVG} />
+                <div className="spinner-border text-secondary mx-auto d-block" style={{marginTop: "200px"}} role="status">
+                    <span className="visually-hidden">Loading...</span>
                 </div>
                 :
-                    children
-                }
+                children
+            }
         </>
     );
 }

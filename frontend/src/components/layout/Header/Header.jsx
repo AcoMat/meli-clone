@@ -4,21 +4,31 @@ import cart from '../../../assets/cart/cart.svg'
 import './Header.css'
 import { useUserContext } from '../../../context/UserContext'
 import profilePlaceholder from '../../../assets/ui/profile-placeholder.png'
+import { useNavigate } from 'react-router-dom'
 
-function Header({ submitfcn }) {
+function Header() {
   const { user } = useUserContext();
+  let navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const query = e.target.query.value;
+    if (query) {
+      navigate(`/search?query=${query}`);
+    }
+  }
 
   return (
     <header className='header'>
       <div className="content-wrapper lh-1">
-        <div className="row mb-2 w-100">
-          <div className="col-md-2">
+        <div className="d-flex justify-content-center align-items-center mb-2 mx-auto" style={{ width: '100%' }}>
+          <div style={{ minWidth: 134, marginRight: 24 }} className="d-flex justify-content-center">
             <a href='/'>
               <img src={logo} width={134} height={34} />
             </a>
           </div>
-          <div className="col-md-8">
-            <form className='header-search' onSubmit={submitfcn}>
+          <div style={{ maxWidth: 600, flex: 1 }} className="d-flex justify-content-center">
+            <form className='header-search w-100' onSubmit={handleSubmit}>
               <input name='query' className='mt-0 shadow-sm' placeholder='Buscar productos, marcas y más…' />
               <button className='position-absolute translate-middle' type='submit'><img src={searchIcon} width={25} height={25} /></button>
             </form>

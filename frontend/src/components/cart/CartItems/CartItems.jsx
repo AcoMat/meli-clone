@@ -20,9 +20,13 @@ function CartItems({ cartItems }) {
                         </div>
                     </div>
                     :
-                    cartItems?.sort((a, b) => a.product.id.localeCompare(b.product.id)).map((cartItem) => (
+                    cartItems?.sort((a, b) => {
+                        const idA = a?.productId || '';
+                        const idB = b?.productId || '';
+                        return idA.localeCompare(idB);
+                    }).map((cartItem) => (
                         <CartProduct
-                            key={cartItem.product.id}
+                            key={cartItem.productId || `cart-item-${Math.random()}`}
                             cartItem={cartItem}
                         />
                     ))
@@ -30,6 +34,5 @@ function CartItems({ cartItems }) {
         </div>
     )
 };
-
 
 export default CartItems;

@@ -20,6 +20,7 @@ import Layout from './pages/Layout';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
 import Review from './pages/product/Review';
+import Checkout from './pages/purchase/Checkout';
 
 
 const router = createBrowserRouter([
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: "error",
         element: <ErrorPage />
+      },
+      {
+        path: "checkout",
+        element: <Checkout />
       }
       ]
   }

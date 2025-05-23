@@ -8,16 +8,16 @@ export default function SearchResults({ title, productsPage, setPage }) {
 
     return (
         <div className="d-flex w-100">
-            <div className="d-flex flex-column w-25 my-4 ms-2">
+            <div className="d-flex flex-column w-25 my-4 ps-3">
                 <div>
                     <h5 className="text-capitalize">{title?.replace("-", " ")}</h5>
-                    <span>{productsPage ? productsPage.amountOfElements : 0} resultados</span>
+                    <span>{productsPage ? productsPage.pagging?.total : 0} resultados</span>
                 </div>
             </div>
             <div className="w-75 d-flex flex-column align-items-center">
                 <div className="row gx-4 gy-4 w-100">
-                    {productsPage?.products && productsPage?.products.length > 0 ?
-                        productsPage?.products.map((product) => (
+                    {productsPage?.results && productsPage?.results.length > 0 ?
+                        productsPage?.results.map((product) => (
                             <div className="col-md-4 col-sm-6" key={product.id}>
                                 <ProductCard
                                     product={product}
@@ -33,7 +33,7 @@ export default function SearchResults({ title, productsPage, setPage }) {
                         </div>
                     }
                 </div>
-                <Pagination setPage={setPage} page={productsPage?.currentPage} totalPages={productsPage?.amountOfPages} />
+                {/* <Pagination setPage={setPage} page={productsPage?.currentPage} /> */}
             </div>
         </div>
     )

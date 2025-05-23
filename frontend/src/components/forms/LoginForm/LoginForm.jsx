@@ -9,6 +9,7 @@ import { useUserContext } from '../../../context/UserContext';
 
 function LoginForm() {
   let navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState("");
   const [formError, setFormError] = useState(null);
@@ -20,9 +21,11 @@ function LoginForm() {
   const { login, user } = useUserContext();
 
   const loginUser = async () => {
+    setLoading(true);
     await login(email, password);
     if(!user) {
       setLoginStage(loginStages.error);
+      setLoading(false);
     }
   }
 
@@ -46,7 +49,6 @@ function LoginForm() {
           setFormError("Ingrese su contraseña")
         } else {
           loginUser();
-          setLoginStage(null)
         }
         break;
       case loginStages.error:
@@ -121,7 +123,7 @@ function LoginForm() {
                   loginStage === loginStages.password ?
                     <div className='d-flex gap-3 mt-4'>
                       <div className='w-50'>
-                        <LargeBlueButton text='Iniciar sesión' onClick={nextStage} />
+                        <LargeBlueButton text='Iniciar sesión' onClick={nextStage} loading={loading}/>
                       </div>
                       <div className='w-50'>
                         <SecundaryBtn text="¿Olvidaste tu contraseña?" onClick={() => navigate("/error")} />

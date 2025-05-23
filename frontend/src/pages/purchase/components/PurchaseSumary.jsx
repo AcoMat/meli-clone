@@ -1,10 +1,22 @@
 import './PurchaseSumary.css';
 
 function PurchaseSumary({ cartItems }) {
-    const totalProducts = cartItems?.reduce((total, item) => total + item.amount, 0);
-    const totalShippings = cartItems?.length;
-    const totalProductsPrice = cartItems?.reduce((total, item) => total + (item.amount * item.product.price), 0);
-    const totalShippingsPrice = cartItems?.reduce((total, item) => total + item.product.shipping.price, 0);
+    const totalProducts = cartItems?.reduce(
+        (total, item) => total + (item.amount ?? 0),
+        0
+    );
+    const totalShippings = cartItems?.reduce(
+        (total, item) => total + (item.product?.isFreeShipping ? 0 : 1),
+        0
+    );
+    const totalProductsPrice = cartItems?.reduce(
+        (total, item) => total + ((item.amount ?? 0) * (item.product?.price ?? 0)),
+        0
+    );
+    const totalShippingsPrice = cartItems?.reduce(
+        (total, item) => total + (item.product?.shipping?.price ?? 0),
+        0
+    );
 
     return (
         <div className='purchase-summary d-flex flex-column rounded sticky-top' style={{ padding: "4rem" }}>
@@ -26,4 +38,3 @@ function PurchaseSumary({ cartItems }) {
 }
 
 export default PurchaseSumary;
-

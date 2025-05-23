@@ -2,6 +2,7 @@ import UserProfile from "../../components/user/UserProfile/UserProfile";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
+import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
 
 function User() {
     const { user, loading } = useUserContext();
@@ -13,12 +14,10 @@ function User() {
         }
     },[user, loading])
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
     return (
-        <UserProfile user={user} />
+        <LoadingSwitch loading={loading}>
+            <UserProfile user={user} />
+        </LoadingSwitch>
     );
 }
 

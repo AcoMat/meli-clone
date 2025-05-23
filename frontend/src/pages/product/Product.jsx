@@ -34,8 +34,8 @@ export default function Product() {
         <LoadingSwitch loading={loading}>
             {
                 product ?
-                    <div className='content-wrapper d-flex flex-column my-3 bg-body rounded shadow-sm px-4 pt-3'>
-                        <div className='d-flex w-100 gap-3' style={{ height: "400px" }}>
+                    <div className='content-wrapper d-flex flex-column my-3 bg-body rounded shadow-sm px-4 py-3'>
+                        <div id='firsPart' className='d-flex flex-column flex-md-row gap-3 flex-grow-1 align-items-stretch mb-5' style={{ minHeight: 0 }}>
                             <ProductImages images={product?.pictures} />
                             <ProductBuy product={product} />
                         </div>

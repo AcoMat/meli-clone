@@ -15,10 +15,9 @@ function ProductBuy({ product }) {
 
     const { addToCart } = useCartContext();
 
-    const handleAdd = (now) => {
+    const handleAdd = () => {
         if (!user) { navigate("/login"); return }
-        addToCart(product, amount)
-        if (now) { navigate("/cart") }
+        addToCart(product, amount);
         showToast();
     }
 
@@ -30,8 +29,8 @@ function ProductBuy({ product }) {
 
     return (
         <>
-            <div className="col-4 bg-body">
-                <div className="position-relative" >
+            <div className="col bg-body" style={{ minHeight: 0, maxWidth: "400px" }}>
+                <div className="position-relative" style={{ minWidth: 0 }}>
                     <LikeStarSwitch productId={product?.id} />
                     <h6 className="w-75 text-break">{product?.name}</h6>
                     <span style={{ color: "#666666", fontSize: "13px" }} onClick={() => { }}>
@@ -45,12 +44,14 @@ function ProductBuy({ product }) {
                                 <span className="text-success"> $ {(product?.price * (1 - product?.priceDiscountPercentage / 100)).toFixed(2)}</span>
                             </h5>
                             :
-                            <h5 className='mb-0 mt-2'>$ {product?.price?.toFixed(2)}</h5>
+                            <h5 className='mb-0 mt-2'>$ {product?.price?.toFixed(2) || "???"}</h5>
                     }
-                    <p style={{ color: "#00A650" }}>En 12 cuotas de ${(product?.price / 12).toFixed(2)}</p>
+                    <p style={{ color: "#00A650" }}>En 12 cuotas de ${product?.price ? ((product?.price / 12).toFixed(2)) : "???"}</p>
                     <p style={{ marginBottom: "12px" }}>Envio{product?.isFreeShipping ? " gratis" : ` $ ${product?.shipping?.price?.toFixed(2) || "???"}`}</p>
                     <h6>Stock disponible</h6>
-                    <QuantitySelector amount={amount} setAmount={setAmount} />
+                    <div style={{ minWidth: 0, overflow: 'hidden', width: '100%' }}>
+                        <QuantitySelector amount={amount} setAmount={setAmount} />
+                    </div>
                 </div>
                 <div className="w-100 mt-2 gap-2 d-flex flex-column">
                     <LargeBlueButton onClick={() => handleAdd(true)} text={"Comprar ahora"} />

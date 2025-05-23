@@ -88,9 +88,9 @@ export async function getUserFavorites(token) {
   }
 }
 
-export async function postNewPurchase(token, purchase) {
+export async function postNewPurchase(token, items) {
   try {
-    const response = await axiosService.post(`/users/me/purchases`, purchase, {
+    const response = await axiosService.post(`/users/me/purchases`, {items}, {
       headers: {
         Authorization: `${token}`,
       },
@@ -99,7 +99,7 @@ export async function postNewPurchase(token, purchase) {
   }
   catch (error) {
     console.error('Error posting new purchase:', error);
-    return null;
+    throw new Error(error.response.data);
   }
 }
 
@@ -113,6 +113,7 @@ export async function toggleFavorite(token, productId) {
     return response.data;
   }
   catch (error) {
+    console.error(error);
     throw new Error('Error toggling favorite:', error.response.data);
   }
 }
@@ -142,7 +143,6 @@ export async function postReview(token, productId, rating, review) {
     return response.data;
   }
   catch (error) {
-    console.error('Error posting new review:', error.response.data);
     throw new Error('Error posting new review:', error.response.data);
   }
 }
@@ -171,21 +171,20 @@ export async function getProductById(productId) {
     return response.data;
   }
   catch (error) {
-    console.error('Error fetching product by ID:', error);
+    console.error(error);
     return null;
   }
 }
 
-export async function searchProducts(query) {
+export async function searchProducts(q, offset = 0, limit = 10) {
   try {
     const response = await axiosService.get(`/products/search`, {
-      params: { query },
+      params: { q, offset, limit },
     });
     return response.data;
-  }
-  catch (error) {
-    console.error('Error searching products:', error);
-    return null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error fetching products:', error.response.data);
   }
 }
 

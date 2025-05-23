@@ -9,7 +9,7 @@ export default function Layout() {
       {location.pathname == "/login" || location.pathname == "/register" ?
         <SimpleHeader />
         :
-        <Header submitfcn={(e) => handleSearch(e, e.target.value)} />
+        <Header/>
       }
       <Outlet />
     </>

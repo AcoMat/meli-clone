@@ -91,7 +91,7 @@ function UserProfile({user}) {
                             </div>
                         </div>
                     </div>
-                    <LargeBlueButton text='Cerrar sesión' onClick={() => {logout()}} />
+                    <LargeBlueButton text='Cerrar sesión' onClick={() => {logout()}}/>
                 </div>
             </div>
     );

@@ -3,7 +3,7 @@ import './AmountSelector.css';
 function AmountSelector({amount, setAmount}) {
 
     return (
-        <div className="btn-group">
+        <div>
             <button type="button" className="btn dropdown-toggle border-0" data-bs-toggle="dropdown" aria-expanded="false">
                 Cantidad: <strong>{amount} {amount > 1 ? 'unidades' : 'unidad'}</strong>
             </button>

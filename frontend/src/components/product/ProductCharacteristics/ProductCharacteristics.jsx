@@ -16,18 +16,18 @@ export default function ProductCharacteristics({ characteristics }) {
         <>
             <p className="pb-2 fw-semibold">Características generales</p>
             {shouldSplit ? (
-                <div style={{ display: "flex", gap: "2rem" }}>
+                <div style={{ display: "flex", gap: "2rem", flexWrap: "nowrap", overflowX: "auto", maxWidth: "100%", alignItems: "flex-start" }}>
                     {[firstHalf, secondHalf].map((half, idx) => (
                         <table
                             key={idx}
                             className="table table-borderless table-striped w-50 rounded overflow-hidden"
-                            style={{ fontSize: "0.7rem" }}
+                            style={{ fontSize: "0.7rem", minWidth: "220px", maxWidth: "100%", tableLayout: "fixed", wordBreak: "break-word" }}
                         >
                             <tbody>
                                 {half.map(({ id, name, value }) => (
                                     <tr key={id}>
-                                        <td className="fw-medium p-3 text-capitalize">{name}</td>
-                                        <td className="p-3">{value}</td>
+                                        <td className="fw-medium p-3 text-capitalize" style={{ wordBreak: "break-word" }}>{name}</td>
+                                        <td className="p-3" style={{ wordBreak: "break-word" }}>{value}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -35,12 +35,12 @@ export default function ProductCharacteristics({ characteristics }) {
                     ))}
                 </div>
             ) : (
-                <table className="table table-borderless table-striped w-50 rounded overflow-hidden" style={{ fontSize: "0.7rem" }}>
+                <table className="table table-borderless table-striped w-50 rounded overflow-hidden" style={{ fontSize: "0.7rem", minWidth: "220px", maxWidth: "100%", tableLayout: "fixed", wordBreak: "break-word" }}>
                     <tbody>
                         {characteristics.map(({ id, name, value }) => (
                             <tr key={id}>
-                                <td className="fw-medium p-3 text-capitalize">{name}</td>
-                                <td className="p-3">{value}</td>
+                                <td className="fw-medium p-3 text-capitalize" style={{ wordBreak: "break-word" }}>{name}</td>
+                                <td className="p-3" style={{ wordBreak: "break-word" }}>{value}</td>
                             </tr>
                         ))}
                     </tbody>

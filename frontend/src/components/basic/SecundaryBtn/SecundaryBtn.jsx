@@ -8,10 +8,10 @@ function SecundaryBtn({ text, onClick, loading }) {
     >
         {
             loading ?
-                <div className="spinner-border text-primary spinner-border-sm" role="status">
-                    <span className="visually-hidden">Loading...</span>
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-                : 
+                :
                 text
         }
     </button>;
