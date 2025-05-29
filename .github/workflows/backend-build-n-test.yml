@@ -46,7 +46,7 @@ jobs:
       - name: Sonar analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AcoMat_unq-pdes-2025-g1-segui-tus-compras
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=unq-pdes-2025-g1-segui-tus-compras-backend
 
 
         
