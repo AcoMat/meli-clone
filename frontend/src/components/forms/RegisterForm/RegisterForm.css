@@ -1,0 +1,19 @@
+@media (min-width: 768px) {
+  .register-form {
+    margin-top: 5%;
+  }
+
+  .email-step {
+    width: 60%;
+  }
+
+  .pass-step {
+    width: 35%;
+  }
+}
+
+
+
+.ml-blue-filter {
+    filter: grayscale(100%) brightness(0) invert(48%) sepia(100%) saturate(500%) hue-rotate(200deg);
+}

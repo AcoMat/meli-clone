@@ -1,0 +1,52 @@
+name: Backend Unit Tests
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  unit-tests-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    env:
+      MELI_API_TOKEN: ${{ secrets.MELI_API_TOKEN }}
+      MELI_CLIENT_ID: ${{ secrets.MELI_CLIENT_ID }}
+      MELI_CLIENT_SECRET: ${{ secrets.MELI_CLIENT_SECRET }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Cache Maven local repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Build & Run Tests
+        run: mvn clean test --no-transfer-progress
+
+      - name: Sonar analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=acomat_unq-pdes-2025-g1-segui-tus-compras-backend
+
+
+        
