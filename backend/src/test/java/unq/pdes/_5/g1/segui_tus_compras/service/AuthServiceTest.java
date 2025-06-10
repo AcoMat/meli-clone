@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.AlreadyExistingUserException;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.WrongCredentialsException;
 import unq.pdes._5.g1.segui_tus_compras.mapper.Mapper;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.AuthResponseDTO;
@@ -141,7 +142,7 @@ public class AuthServiceTest {
         when(usersRepository.findByEmail("john@example.com")).thenReturn(user);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> authService.login(credentials));
+        assertThrows(WrongCredentialsException.class, () -> authService.login(credentials));
         verify(usersRepository).findByEmail("john@example.com");
         verify(jwtTokenProvider, never()).generateToken(any());
     }
@@ -154,7 +155,7 @@ public class AuthServiceTest {
         when(usersRepository.findByEmail("nonexistent@example.com")).thenReturn(null);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> authService.login(credentials));
+        assertThrows(WrongCredentialsException.class, () -> authService.login(credentials));
         verify(usersRepository).findByEmail("nonexistent@example.com");
         verify(jwtTokenProvider, never()).generateToken(any());
     }
