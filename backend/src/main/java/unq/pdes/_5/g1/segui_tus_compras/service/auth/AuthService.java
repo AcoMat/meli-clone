@@ -3,7 +3,8 @@ package unq.pdes._5.g1.segui_tus_compras.service.auth;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.AlreadyExistingUserException;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.WrongCredentialsException;
 import unq.pdes._5.g1.segui_tus_compras.mapper.Mapper;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.AuthResponseDTO;
@@ -29,7 +30,7 @@ public class AuthService {
     public AuthResponseDTO register(RegisterData registerData) {
 
         if (usersRepository.existsByEmail(registerData.getEmail())) {
-            throw new AlreadyExistingUser("An user with this email already exists");
+            throw new AlreadyExistingUserException("An user with this email already exists");
         }
 
         User new_user = usersRepository.save(
@@ -47,7 +48,7 @@ public class AuthService {
     public AuthResponseDTO login(LoginCredentials credentials){
         User user = usersRepository.findByEmail(credentials.email);
         if (user == null || !passwordEncoder.matches(credentials.password, user.getPassword())) {
-            throw new IllegalArgumentException("Email or password is incorrect");
+            throw new WrongCredentialsException("Email or password is incorrect");
         }
 
         return new AuthResponseDTO(mapper.toDTO(user), jwtTokenProvider.generateToken(user.getId()));

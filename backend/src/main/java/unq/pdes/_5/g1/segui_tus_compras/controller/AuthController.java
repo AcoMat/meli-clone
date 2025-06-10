@@ -22,12 +22,12 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterData data) {
         AuthResponseDTO new_user = authService.register(data);
-        return ResponseEntity.ok().header("Authorization", "Bearer " + new_user.token).body(new_user.user);
+        return ResponseEntity.ok().header("Authorization", "Bearer " + new_user.token()).body(new_user.user());
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@Valid @RequestBody LoginCredentials credentials) {
         AuthResponseDTO logged_user = authService.login(credentials);
-        return ResponseEntity.ok().header("Authorization", "Bearer " + logged_user.token).body(logged_user.user);
+        return ResponseEntity.ok().header("Authorization", "Bearer " + logged_user.token()).body(logged_user.user());
     }
 }

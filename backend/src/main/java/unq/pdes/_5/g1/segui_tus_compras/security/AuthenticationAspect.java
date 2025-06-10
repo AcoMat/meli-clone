@@ -7,8 +7,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import unq.pdes._5.g1.segui_tus_compras.exception.InvalidTokenException;
-import unq.pdes._5.g1.segui_tus_compras.exception.MissingAuthorizationHeaderException;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.InvalidTokenException;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.MissingAuthorizationHeaderException;
 
 @Aspect
 @Component

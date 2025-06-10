@@ -9,9 +9,11 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
-import unq.pdes._5.g1.segui_tus_compras.exception.InvalidTokenException;
-import unq.pdes._5.g1.segui_tus_compras.exception.MissingAuthorizationHeaderException;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.AlreadyExistingUserException;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.InvalidTokenException;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.MissingAuthorizationHeaderException;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.WrongCredentialsException;
+
 import java.util.stream.Collectors;
 
 
@@ -39,8 +41,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("Request body is not readable", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({AlreadyExistingUser.class})
-    public ResponseEntity<String> alreadyExistingUser(AlreadyExistingUser ex) {
+    @ExceptionHandler({AlreadyExistingUserException.class})
+    public ResponseEntity<String> alreadyExistingUser(AlreadyExistingUserException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -62,6 +64,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(WrongCredentialsException.class)
+    public ResponseEntity<String> handleWrongCredentialsException(WrongCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)

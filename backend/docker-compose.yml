@@ -9,9 +9,9 @@ services:
       mysqldb:
         condition: service_healthy  # Waits for 'mysqldb' to be healthy before starting.
     environment:
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
-      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/segui_tus_compras?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=@milanesa
       - MERCADOLIBRE_API_MOST_RECENT_TOKEN=${MERCADOLIBRE_API_MOST_RECENT_TOKEN}
       - MERCADOLIBRE_API_CLIENT_ID=${MERCADOLIBRE_API_CLIENT_ID}
       - MERCADOLIBRE_API_CLIENT_SECRET=${MERCADOLIBRE_API_CLIENT_SECRET}
@@ -31,7 +31,7 @@ services:
     networks:
       - springboot-mysql-network  # Connects to the specified network.
     environment:
-      MYSQL_ROOT_PASSWORD: "@milanesa"  # Sets a random root password.
+      MYSQL_ROOT_PASSWORD: "@milanesa"
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p@milanesa" ]
       retries: 10  # Number of retries before considering the service unhealthy.

@@ -1,7 +1,7 @@
 package unq.pdes._5.g1.segui_tus_compras.service.product;
 
 import org.springframework.stereotype.Service;
-import unq.pdes._5.g1.segui_tus_compras.exception.NotBoughtYetException;
+import unq.pdes._5.g1.segui_tus_compras.exception.purchase.NotBoughtYetException;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;

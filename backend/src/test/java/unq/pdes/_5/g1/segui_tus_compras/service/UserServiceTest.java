@@ -1,13 +1,14 @@
-package unq.pdes._5.g1.segui_tus_compras.service.user;
+package unq.pdes._5.g1.segui_tus_compras.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import unq.pdes._5.g1.segui_tus_compras.exception.UserNotFoundException;
+import unq.pdes._5.g1.segui_tus_compras.exception.user.UserNotFoundException;
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
+import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +110,7 @@ class UserServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(product, result.get(0));
+        assertEquals(product, result.getFirst());
         verify(usersRepository).findById(USER_ID);
     }
 
@@ -161,7 +162,7 @@ class UserServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(purchase, result.get(0));
+        assertEquals(purchase, result.getFirst());
         verify(usersRepository).findById(USER_ID);
     }
 
@@ -213,7 +214,7 @@ class UserServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(review, result.get(0));
+        assertEquals(review, result.getFirst());
         verify(usersRepository).findById(USER_ID);
     }
 

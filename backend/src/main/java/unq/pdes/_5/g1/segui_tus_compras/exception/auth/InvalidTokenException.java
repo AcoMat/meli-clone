@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.exception;
+package unq.pdes._5.g1.segui_tus_compras.exception.auth;
 
 public class InvalidTokenException extends RuntimeException {
     public InvalidTokenException() {

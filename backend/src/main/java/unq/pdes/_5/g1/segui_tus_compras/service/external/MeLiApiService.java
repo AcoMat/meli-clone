@@ -3,7 +3,7 @@ package unq.pdes._5.g1.segui_tus_compras.service.external;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import unq.pdes._5.g1.segui_tus_compras.exception.ExternalApiException;
+import unq.pdes._5.g1.segui_tus_compras.exception.external.ExternalApiException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
 import org.springframework.util.StringUtils;

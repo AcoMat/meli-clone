@@ -94,6 +94,7 @@ public class Product {
     }
 
     public void addReview(Review newReview) {
+        this.reviews.removeIf(review -> review.getUser().equals(newReview.getUser()));
         this.reviews.add(newReview);
     }
 }
