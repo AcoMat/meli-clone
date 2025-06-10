@@ -44,13 +44,8 @@ export const UserProvider = ({ children }) => {
 
     const login = async (email, password) => {
         const res = await loginService(email, password);
-        if (res && res.status === 200) {
-            console.log('Login successful');
-            setToken(res.headers['authorization']);
-            setUser(res.data);
-        } else {
-            console.error('Login failed');
-        }
+        setToken(res.headers['authorization']);
+        setUser(res.data);
     };
 
     const logout = () => {

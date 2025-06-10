@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom"
 import ProductCard from "../../cards/ProductCard/ProductCard"
-import Pagination from "../../layout/Pagination/Pagination"
 import notFound from '../../../assets/ui/404.svg';
 
-export default function SearchResults({ title, productsPage, setPage }) {
+export default function SearchResults({ title, productsPage }) {
     let navigate = useNavigate();
 
     return (
@@ -33,7 +32,6 @@ export default function SearchResults({ title, productsPage, setPage }) {
                         </div>
                     }
                 </div>
-                {/* <Pagination setPage={setPage} page={productsPage?.currentPage} /> */}
             </div>
         </div>
     )

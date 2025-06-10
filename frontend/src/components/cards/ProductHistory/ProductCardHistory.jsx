@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import BlueButton from "../../basic/BlueButton/BlueButton"
 
 export default function ProductCardHistory({ product }) {
     let navigate = useNavigate()
@@ -15,6 +16,7 @@ export default function ProductCardHistory({ product }) {
                         :
                         product.price && <h5>$ {product.price?.toFixed(2)}</h5>
                     }
+                    <a href={`/product/${product.id}/review`}>Calificar</a>
                 </div>
             </div>
         </div>

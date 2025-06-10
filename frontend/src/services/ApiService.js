@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:18080/';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/';
 
 const axiosService = axios.create({
   baseURL: API_URL,
@@ -36,8 +36,7 @@ export async function login(email, password) {
     return response;
   }
   catch (error) {
-    console.error('Error during login:', error);
-    return null;
+    throw new Error('Error during login: ' + error.response.data);
   }
 }
 
@@ -149,7 +148,7 @@ export async function postReview(token, productId, rating, review) {
 
 export async function userBoughtProduct(token, productId) {
   try {
-    const response = await axiosService.post(`/users/me/purchases/${productId}`, {
+    const response = await axiosService.get(`/users/me/purchases/${productId}`, {
       headers: {
         Authorization: `${token}`,
       },

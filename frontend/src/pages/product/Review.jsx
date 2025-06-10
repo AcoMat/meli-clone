@@ -37,7 +37,7 @@ export default function Review() {
             }
             userBoughtProduct(token, idProduct).then((response) => {
                 if (!response) {
-                    navigate("/");
+                    navigate("/products/" + idProduct);
                 }
             });
         })
