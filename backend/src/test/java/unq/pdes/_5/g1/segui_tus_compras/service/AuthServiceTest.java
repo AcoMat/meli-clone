@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.service.auth;
+package unq.pdes._5.g1.segui_tus_compras.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.AlreadyExistingUserException;
 import unq.pdes._5.g1.segui_tus_compras.mapper.Mapper;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.AuthResponseDTO;
@@ -15,6 +15,7 @@ import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.RegisterData;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.UserDTO;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
 import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
+import unq.pdes._5.g1.segui_tus_compras.service.auth.AuthService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -72,8 +73,8 @@ public class AuthServiceTest {
 
         // Assert
         assertNotNull(response);
-        assertEquals(userDTO, response.user);
-        assertEquals(token, response.token);
+        assertEquals(userDTO, response.user());
+        assertEquals(token, response.token());
         verify(usersRepository).existsByEmail("john@example.com");
         verify(usersRepository).save(any(User.class));
         verify(jwtTokenProvider).generateToken(1L);
@@ -92,7 +93,7 @@ public class AuthServiceTest {
         when(usersRepository.existsByEmail("existing@example.com")).thenReturn(true);
 
         // Act & Assert
-        assertThrows(AlreadyExistingUser.class, () -> authService.register(registerData));
+        assertThrows(AlreadyExistingUserException.class, () -> authService.register(registerData));
         verify(usersRepository).existsByEmail("existing@example.com");
         verify(usersRepository, never()).save(any(User.class));
     }
@@ -124,8 +125,8 @@ public class AuthServiceTest {
 
         // Assert
         assertNotNull(response);
-        assertEquals(userDTO, response.user);
-        assertEquals(token, response.token);
+        assertEquals(userDTO, response.user());
+        assertEquals(token, response.token());
         verify(usersRepository).findByEmail("john@example.com");
         verify(jwtTokenProvider).generateToken(1L);
     }
