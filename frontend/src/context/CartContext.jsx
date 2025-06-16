@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { postNewPurchase } from "../services/ApiService";
-import { getToken } from "../services/tokenService";
+import { getToken } from "../services/TokenService";
 
 export const CartContext = createContext()
 

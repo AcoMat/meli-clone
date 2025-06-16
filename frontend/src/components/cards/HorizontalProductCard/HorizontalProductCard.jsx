@@ -1,7 +1,7 @@
 import { useCartContext } from "../../../context/CartContext"
 import { useNavigate } from "react-router-dom";
 import { toggleFavorite } from "../../../services/ApiService";
-import { getToken } from "../../../services/tokenService";
+import { getToken } from "../../../services/TokenService";
 
 export default function HorizontalProductCard({ product }) {
     let navigate = useNavigate();

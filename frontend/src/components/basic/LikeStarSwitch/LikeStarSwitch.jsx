@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
 import useFavorites from '../../../hooks/useFavorites';
 import { toggleFavorite } from '../../../services/ApiService';
-import { getToken } from '../../../services/tokenService';
+import { getToken } from '../../../services/TokenService';
 
 function LikeStarSwitch({ productId }) {
     const { user } = useUserContext();    

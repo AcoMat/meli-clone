@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getUserFavorites } from "../services/ApiService";
-import { getToken } from "../services/tokenService";
+import { getToken } from "../services/TokenService";
 
 export default function useFavorites() {
     const [favorites, setFavorites] = useState(null);

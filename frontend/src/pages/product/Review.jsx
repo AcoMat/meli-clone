@@ -6,7 +6,7 @@ import LargeBlueButton from "../../components/basic/LargeBlueButton/LargeBlueBut
 import { useEffect, useRef, useState } from "react";
 import StarReview from "../../components/product/ProductReviews/StarReview";
 import { postReview, userBoughtProduct } from "../../services/ApiService";
-import { getToken } from "../../services/tokenService";
+import { getToken } from "../../services/TokenService";
 
 export default function Review() {
     let navigate = useNavigate();

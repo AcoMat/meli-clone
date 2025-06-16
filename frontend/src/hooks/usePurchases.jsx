@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getUserPurchases } from "../services/ApiService";
-import { getToken } from "../services/tokenService";
+import { getToken } from "../services/TokenService";
 
 export default function usePurchases() {
     const [purchases, setPurchases] = useState(null);

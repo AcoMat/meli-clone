@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { clearToken, getToken, setToken } from '../services/tokenService';
+import { clearToken, getToken, setToken } from '../services/TokenService';
 import { getUserProfile, login as loginService, register as registerService } from '../services/ApiService';
 
 export const UserContext = createContext()
