@@ -1,0 +1,59 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:18080
+    ports:
+      - "15173:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "18080:8080"
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/segui_tus_compras?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=@milanesa
+      - MERCADOLIBRE_API_MOST_RECENT_TOKEN=${MERCADOLIBRE_API_MOST_RECENT_TOKEN}
+      - MERCADOLIBRE_API_CLIENT_ID=${MERCADOLIBRE_API_CLIENT_ID}
+      - MERCADOLIBRE_API_CLIENT_SECRET=${MERCADOLIBRE_API_CLIENT_SECRET}
+    networks:
+      - app-network
+    volumes:
+      - ./backend/src/main/resources/application.properties:/app/application.properties
+
+  mysqldb:
+    image: mysql:8.0.39
+    ports:
+      - "13306:3306"
+    command: --init-file /data/application/init.sql
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./backend/init.sql:/data/application/init.sql
+    networks:
+      - app-network
+    environment:
+      MYSQL_ROOT_PASSWORD: "@milanesa"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p@milanesa" ]
+      retries: 10
+      interval: 3s
+      timeout: 30s
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:
+    name: app-network
