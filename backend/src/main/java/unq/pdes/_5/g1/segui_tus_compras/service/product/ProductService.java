@@ -50,13 +50,17 @@ public class ProductService {
     public List<Product> searchProducts(String keywords, int offset, int limit) {
         ApiSearchDto apiProducts = meLiService.search(keywords, offset, limit);
         if (apiProducts.results.isEmpty()) {
-            return null;
+            return List.of();
         }
-        return apiProducts.results.stream()
-                .map(result -> meLiService.getProductById(result.id))
-                .filter(Objects::nonNull)
-                .map(Product::new)
-                .toList();
+        return apiProducts.results.stream().map(
+            result -> {
+                try {
+                    return getProductById(result.id);
+                } catch (ProductNotFoundException e) {
+                    return null;
+                }
+            }
+        ).toList();
     }
 
     public List<Review> getProductReviews(String productId) {
@@ -68,6 +72,4 @@ public class ProductService {
         Product product = getProductById(productId);
         return product.getCommentaries();
     }
-
-
 }
