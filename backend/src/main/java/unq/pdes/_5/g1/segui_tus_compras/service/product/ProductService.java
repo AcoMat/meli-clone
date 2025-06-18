@@ -12,7 +12,6 @@ import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.external.MeLiApiService;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ProductService {
@@ -28,21 +27,18 @@ public class ProductService {
     public Product getProductById(String id) {
         return productsRepository.findById(id).orElseGet(() -> {
             ExternalProductDto apiProduct = meLiService.getProductById(id);
-            if (apiProduct == null) {
-                throw new ProductNotFoundException();
-            }
             try {
                 return productsRepository.save(new Product(apiProduct));
             } catch (DataIntegrityViolationException e) {
                 // Another thread inserted it, so fetch it again
-                return productsRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+                return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
             }
         });
     }
 
     public void updateProduct(Product product) {
         if (!productsRepository.existsById(product.getId())) {
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException(product.getId());
         }
         productsRepository.save(product);
     }
