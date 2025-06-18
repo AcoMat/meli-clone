@@ -15,10 +15,11 @@ function ProductBuy({ product }) {
 
     const { addToCart } = useCartContext();
 
-    const handleAdd = () => {
+    const handleAdd = (redirect = false) => {
         if (!user) { navigate("/login"); return }
         addToCart(product, amount);
         showToast();
+        if (redirect) navigate("/cart");
     }
 
     const showToast = () => {
