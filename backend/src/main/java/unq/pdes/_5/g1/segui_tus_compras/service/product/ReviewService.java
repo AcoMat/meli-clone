@@ -8,6 +8,8 @@ import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 import unq.pdes._5.g1.segui_tus_compras.service.purchase.PurchaseService;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 
+import java.util.List;
+
 
 @Service
 public class ReviewService {
@@ -20,6 +22,10 @@ public class ReviewService {
         this._productService = productService;
         this._userService = userService;
         this._purchaseService = purchaseService;
+    }
+
+    public List<Review> getProductReviews(String productId) {
+        return _productService.getProductById(productId).getReviews();
     }
 
     public  void addReviewToProduct(String productId, Integer rating, String review, Long userId) {

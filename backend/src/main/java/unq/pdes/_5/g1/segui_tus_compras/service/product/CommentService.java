@@ -6,6 +6,8 @@ import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 
+import java.util.List;
+
 @Service
 public class CommentService {
     private final ProductService _productService;
@@ -14,6 +16,10 @@ public class CommentService {
     public CommentService(ProductService productService, UserService userService) {
         this._productService = productService;
         this._userService = userService;
+    }
+
+    public List<Commentary> getProductCommentaries(String productId) {
+        return _productService.getProductById(productId).getCommentaries();
     }
 
     public void addCommentToProduct(String productId, String comment, Long userId) {
