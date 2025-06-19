@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+
+mercadolibre:
+  api:
+    client-id: ${MERCADOLIBRE_API_CLIENT_ID}
+    client-secret: ${MERCADOLIBRE_API_CLIENT_SECRET}
+    most-recent-token: ${MERCADOLIBRE_API_MOST_RECENT_TOKEN}
