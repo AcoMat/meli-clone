@@ -50,7 +50,7 @@ public class ProductsController {
 
     @GetMapping("/{productId}/comments")
     public ResponseEntity<List<Commentary>> getCommentsFromProduct(@PathVariable String productId) {
-        return ResponseEntity.ok(productService.getProductCommentaries(productId));
+        return ResponseEntity.ok(commentService.getProductCommentaries(productId));
     }
 
     @NeedsAuth
@@ -67,7 +67,7 @@ public class ProductsController {
 
     @GetMapping("/{productId}/reviews")
     public ResponseEntity<List<Review>> getReviewsFromProduct(@PathVariable String productId) {
-        return ResponseEntity.ok(productService.getProductReviews(productId));
+        return ResponseEntity.ok(reviewService.getProductReviews(productId));
     }
 
     @NeedsAuth

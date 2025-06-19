@@ -14,6 +14,7 @@ import unq.pdes._5.g1.segui_tus_compras.exception.auth.InvalidTokenException;
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.MissingAuthorizationHeaderException;
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.WrongCredentialsException;
 import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
+import unq.pdes._5.g1.segui_tus_compras.exception.purchase.NotBoughtYetException;
 
 import java.util.stream.Collectors;
 
@@ -75,6 +76,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WrongCredentialsException.class)
     public ResponseEntity<String> handleWrongCredentialsException(WrongCredentialsException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(NotBoughtYetException.class)
+    public ResponseEntity<String> handleNotBoughtYetException(NotBoughtYetException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)

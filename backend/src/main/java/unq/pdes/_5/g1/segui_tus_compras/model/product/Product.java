@@ -77,6 +77,7 @@ public class Product {
         }
 
         this.commentaries = new ArrayList<>();
+        this.reviews = new ArrayList<>();
     }
 
     public Double getPriceWithDiscountApplied() {

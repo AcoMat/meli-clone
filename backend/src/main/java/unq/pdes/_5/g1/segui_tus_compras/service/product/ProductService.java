@@ -59,13 +59,4 @@ public class ProductService {
         ).toList();
     }
 
-    public List<Review> getProductReviews(String productId) {
-        Product product = getProductById(productId);
-        return product.getReviews();
-    }
-
-    public List<Commentary> getProductCommentaries(String productId) {
-        Product product = getProductById(productId);
-        return product.getCommentaries();
-    }
 }
