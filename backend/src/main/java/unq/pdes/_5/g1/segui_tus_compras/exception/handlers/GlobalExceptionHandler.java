@@ -13,6 +13,7 @@ import unq.pdes._5.g1.segui_tus_compras.exception.auth.AlreadyExistingUserExcept
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.InvalidTokenException;
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.MissingAuthorizationHeaderException;
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.WrongCredentialsException;
+import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
 
 import java.util.stream.Collectors;
 
@@ -44,6 +45,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({AlreadyExistingUserException.class})
     public ResponseEntity<String> alreadyExistingUser(AlreadyExistingUserException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ProductNotFoundException.class})
+    public ResponseEntity<String> productNotFound(ProductNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(JWTVerificationException.class)
