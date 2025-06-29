@@ -11,7 +11,7 @@ export default function useSearch(query) {
 
   useEffect(() => {
     setLoading(true);
-    searchProducts(query, searchPage * resultsPerPage, resultsPerPage)
+    searchProducts(query, ((searchPage - 1) * resultsPerPage), resultsPerPage)
       .then((response) => {
         setSearchResults(response);
         setLoading(false);

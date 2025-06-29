@@ -1,9 +1,9 @@
 import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
 import PurchaseHistory from "../../components/user/Purchases/PurchaseHistory";
-import usePurchases from "../../hooks/usePurchases";
+import useGetPurchases from "../../hooks/useGetPurchases";
 
 function Purchases() {
-    const { purchases, loading } = usePurchases();
+    const { purchases, loading } = useGetPurchases();
 
     return (
         <div className="content-wrapper">

@@ -10,7 +10,7 @@ export default function SearchResults({ title, productsPage }) {
             <div className="d-flex flex-column w-25 my-4 ps-3">
                 <div>
                     <h5 className="text-capitalize">{title?.replace("-", " ")}</h5>
-                    <span>{productsPage ? productsPage.pagging?.total : 0} resultados</span>
+                    <span className="text-secondary">{productsPage ? productsPage.pagging?.total : 0} Resultados</span>
                 </div>
             </div>
             <div className="w-75 d-flex flex-column align-items-center">

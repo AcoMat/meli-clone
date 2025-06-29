@@ -1,5 +1,3 @@
-import loadingSVG from '../../../assets/ui/loading.svg';
-
 function LoadingSwitch({ children, loading, error }) {
     return (
         <>

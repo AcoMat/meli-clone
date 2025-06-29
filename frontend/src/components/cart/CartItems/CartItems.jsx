@@ -25,10 +25,11 @@ function CartItems({ cartItems }) {
                         const idB = b?.productId || '';
                         return idA.localeCompare(idB);
                     }).map((cartItem) => (
-                        <CartProduct
-                            key={cartItem.productId || `cart-item-${Math.random()}`}
-                            cartItem={cartItem}
-                        />
+                        <div key={cartItem.product.id}>
+                            <CartProduct
+                                cartItem={cartItem}
+                            />
+                        </div>
                     ))
             }
         </div>

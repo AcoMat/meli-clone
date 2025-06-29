@@ -1,10 +1,10 @@
-import UserProfile from "../../components/user/UserProfile/UserProfile";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
 import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
+import ProfileData from "../../components/user/ProfileData/ProfileData";
 
-function User() {
+function Profile() {
     const { user, loading } = useUserContext();
     let navigate = useNavigate();
 
@@ -16,9 +16,9 @@ function User() {
 
     return (
         <LoadingSwitch loading={loading}>
-            <UserProfile user={user} />
+            <ProfileData user={user} />
         </LoadingSwitch>
     );
 }
 
-export default User;
+export default Profile;
