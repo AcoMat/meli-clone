@@ -6,8 +6,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import unq.pdes._5.g1.segui_tus_compras.exception.external.ExternalApiException;
 import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ApiSearchDto;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 import org.springframework.util.StringUtils;
 
 @Service

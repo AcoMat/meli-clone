@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 
 import java.util.ArrayList;
@@ -30,9 +30,11 @@ public class Product {
     @JoinColumn(name = "product_id")
     private List<ProductAttribute> attributes;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Commentary> commentaries;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 

@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.model.dto.auth;
+package unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

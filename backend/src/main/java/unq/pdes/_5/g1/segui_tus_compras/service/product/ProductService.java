@@ -1,11 +1,13 @@
 package unq.pdes._5.g1.segui_tus_compras.service.product;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ApiSearchDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.out.product.ProductFavoriteCountDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.external.MeLiApiService;
 
@@ -55,6 +57,10 @@ public class ProductService {
                 }
             }
         ).toList();
+    }
+
+    public List<ProductFavoriteCountDto> getTopFavoriteProducts() {
+        return productsRepository.findTopFavoriteProducts(PageRequest.of(0, 5));
     }
 
 }

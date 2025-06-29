@@ -11,8 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ApiSearchDto;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
@@ -60,9 +60,7 @@ class ProductsControllerTest {
         when(meLiApiService.getProductById(mockedProduct.getId())).thenReturn(mockedProduct);
 
         // Mock that repository saves the product and returns it
-        when(productsRepository.save(any(Product.class))).thenAnswer(invocation -> {
-            return invocation.<Product>getArgument(0);
-        });
+        when(productsRepository.save(any(Product.class))).thenAnswer(invocation -> invocation.<Product>getArgument(0));
 
         // Perform request and validate response
         mockMvc.perform(MockMvcRequestBuilders.get("/products/" + mockedProduct.getId())

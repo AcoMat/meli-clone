@@ -4,10 +4,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import unq.pdes._5.g1.segui_tus_compras.mapper.Mapper;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.UserDTO;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.user.FavoriteDto;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.purchase.PurchaseDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.user.FavoriteDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.purchase.PurchaseDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.out.user.BasicUserDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth;
@@ -19,57 +18,54 @@ import java.util.List;
 
 @RestController
 @NeedsAuth
-@RequestMapping("/users")
 public class UserController {
 
-    private final UserService _userService;
-    private final PurchaseService _purchaseService;
-    private final FavoriteService _favoriteService;
-    private final Mapper _mapper;
+    private final UserService userService;
+    private final PurchaseService purchaseService;
+    private final FavoriteService favoriteService;
 
-    public UserController(UserService userService, Mapper mapper, PurchaseService purchaseService, FavoriteService favoriteService) {
-        this._userService = userService;
-        this._mapper = mapper;
-        this._purchaseService = purchaseService;
-        this._favoriteService = favoriteService;
+    public UserController(UserService userService, PurchaseService purchaseService, FavoriteService favoriteService) {
+        this.userService = userService;
+        this.purchaseService = purchaseService;
+        this.favoriteService = favoriteService;
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<UserDTO> getUserInfo(HttpServletRequest request) {
+    @GetMapping("/profile")
+    public ResponseEntity<BasicUserDto> getUserInfo(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        return ResponseEntity.ok(_mapper.toDTO(_userService.getUserById(userId)));
+        return ResponseEntity.ok(new BasicUserDto(userService.getUserById(userId)));
     }
 
-    @GetMapping("/me/favorites")
+    @GetMapping("/favorites")
     public ResponseEntity<List<Product>> getFavorites(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        return ResponseEntity.ok(_userService.getUserFavorites(userId));
+        return ResponseEntity.ok(userService.getUserFavorites(userId));
     }
 
-    @PutMapping("/me/favorites")
+    @PutMapping("/favorites")
     public ResponseEntity<String> toggleFavorite(HttpServletRequest request, @Valid @RequestBody FavoriteDto dto) {
         Long userId = (Long) request.getAttribute("userId");
-        boolean added = _favoriteService.toggleFavorite(userId, dto.productId);
+        boolean added = favoriteService.toggleFavorite(userId, dto.productId);
         return ResponseEntity.ok("Product " + dto.productId + (added ? " added to" : " removed from") + " favorites");
     }
 
-    @PostMapping("/me/purchases")
+    @PostMapping("/purchases")
     public ResponseEntity<String> postNewPurchase(HttpServletRequest request, @Valid @RequestBody PurchaseDto dto) {
         Long userId = (Long) request.getAttribute("userId");
-        _purchaseService.generatePurchase(userId, dto.items);
+        purchaseService.generatePurchase(userId, dto.items);
         return ResponseEntity.ok("Purchase created successfully");
     }
 
-    @GetMapping("/me/purchases")
+    @GetMapping("/purchases")
     public ResponseEntity<List<Purchase>> getPurchases(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        return ResponseEntity.ok(_userService.getUserPurchases(userId));
+        return ResponseEntity.ok(userService.getUserPurchases(userId));
     }
 
-    @GetMapping("/me/purchases/{productId}")
+    @GetMapping("/purchases/{productId}")
     public ResponseEntity<Boolean> getPurchases(HttpServletRequest request, @PathVariable String productId) {
         Long userId = (Long) request.getAttribute("userId");
-        return ResponseEntity.ok(_purchaseService.userBoughtProduct(userId, productId));
+        return ResponseEntity.ok(purchaseService.userBoughtProduct(userId, productId));
     }
 
 }

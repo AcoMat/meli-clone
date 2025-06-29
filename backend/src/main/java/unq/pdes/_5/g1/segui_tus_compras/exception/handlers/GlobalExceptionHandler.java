@@ -9,10 +9,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import unq.pdes._5.g1.segui_tus_compras.exception.auth.AlreadyExistingUserException;
-import unq.pdes._5.g1.segui_tus_compras.exception.auth.InvalidTokenException;
-import unq.pdes._5.g1.segui_tus_compras.exception.auth.MissingAuthorizationHeaderException;
-import unq.pdes._5.g1.segui_tus_compras.exception.auth.WrongCredentialsException;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.*;
 import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
 import unq.pdes._5.g1.segui_tus_compras.exception.purchase.NotBoughtYetException;
 
@@ -81,6 +78,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotBoughtYetException.class)
     public ResponseEntity<String> handleNotBoughtYetException(NotBoughtYetException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<String> handleUnauthorizedAccessException(UnauthorizedAccessException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)

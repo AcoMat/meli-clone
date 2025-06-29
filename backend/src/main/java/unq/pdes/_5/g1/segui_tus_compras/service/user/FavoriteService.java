@@ -22,4 +22,5 @@ public class FavoriteService {
         _userService.updateUser(user);
         return added;
     }
+
 }

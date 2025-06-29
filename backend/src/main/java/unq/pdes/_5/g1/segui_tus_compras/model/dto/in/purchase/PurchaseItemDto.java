@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.model.dto.purchase;
+package unq.pdes._5.g1.segui_tus_compras.model.dto.in.purchase;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

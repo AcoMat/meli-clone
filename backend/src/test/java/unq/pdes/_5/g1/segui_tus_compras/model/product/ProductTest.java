@@ -1,7 +1,7 @@
 package unq.pdes._5.g1.segui_tus_compras.model.product;
 
 import org.junit.jupiter.api.Test;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 
 import java.util.List;
