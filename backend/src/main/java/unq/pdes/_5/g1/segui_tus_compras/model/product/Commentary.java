@@ -22,15 +22,15 @@ public class Commentary {
     private String comment;
     private LocalDateTime createdAt;
     @ManyToOne
+    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
-    @ManyToOne
-    @JsonIgnore
-    private Product product;
 
 
-    public Commentary(User user, Product product, String comment) {
-        this.user = user;
+    public Commentary(User by, Product product, String comment) {
+        this.user = by;
         this.product = product;
         this.comment = comment;
         this.createdAt = LocalDateTime.now();

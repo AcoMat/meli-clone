@@ -1,4 +1,4 @@
-package unq.pdes._5.g1.segui_tus_compras.model.dto;
+package unq.pdes._5.g1.segui_tus_compras.model.dto.in.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

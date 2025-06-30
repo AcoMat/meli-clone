@@ -1,30 +1,27 @@
 package unq.pdes._5.g1.segui_tus_compras.service.auth;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.AlreadyExistingUserException;
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.WrongCredentialsException;
-import unq.pdes._5.g1.segui_tus_compras.mapper.Mapper;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.out.user.BasicUserDto;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.AuthResponseDTO;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.LoginCredentials;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.RegisterData;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.AuthResponseDTO;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.LoginCredentials;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.RegisterData;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
 import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
 
 @Service
 public class AuthService {
     private final UsersRepository usersRepository;
-    private final Mapper mapper;
     private final JwtTokenProvider jwtTokenProvider;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    public AuthService(UsersRepository usersRepository, Mapper mapper, JwtTokenProvider jwtTokenProvider) {
+    public AuthService(UsersRepository usersRepository, JwtTokenProvider jwtTokenProvider, BCryptPasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
-        this.mapper = mapper;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public AuthResponseDTO register(RegisterData registerData) {
@@ -42,7 +39,7 @@ public class AuthService {
                 )
         );
 
-        return new AuthResponseDTO(mapper.toDTO(new_user), jwtTokenProvider.generateToken(new_user.getId()));
+        return new AuthResponseDTO(new BasicUserDto(new_user), jwtTokenProvider.generateToken(new_user.getId()));
     }
 
     public AuthResponseDTO login(LoginCredentials credentials){
@@ -50,7 +47,13 @@ public class AuthService {
         if (user == null || !passwordEncoder.matches(credentials.password, user.getPassword())) {
             throw new WrongCredentialsException("Email or password is incorrect");
         }
+        String token;
+        if(user.isAdmin()){
+            token = jwtTokenProvider.generateAdminToken(user.getId());
+        } else {
+            token = jwtTokenProvider.generateToken(user.getId());
+        }
+        return new AuthResponseDTO(new BasicUserDto(user), token);
 
-        return new AuthResponseDTO(mapper.toDTO(user), jwtTokenProvider.generateToken(user.getId()));
     }
 }

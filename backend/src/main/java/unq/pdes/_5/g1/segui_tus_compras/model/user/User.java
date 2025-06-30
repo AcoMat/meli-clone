@@ -2,6 +2,7 @@ package unq.pdes._5.g1.segui_tus_compras.model.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Table(name = "app_users")
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,12 +21,16 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
+    private boolean isAdmin = false;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Purchase> purchases;
+    private List<Purchase> purchases = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Commentary> commentaries = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -32,7 +38,7 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private List<Product> favorites;
+    private List<Product> favorites = new ArrayList<>();
 
     public User() {
     }
@@ -42,9 +48,14 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.purchases = new ArrayList<>();
-        this.favorites = new ArrayList<>();
-        this.reviews = new ArrayList<>();
+    }
+
+    public User(String firstName, String lastName, String email, String password, boolean isAdmin) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.isAdmin = isAdmin;
     }
 
     public boolean toggleFavorite(Product product) {
