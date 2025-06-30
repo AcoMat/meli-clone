@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { getUserFavorites } from "../services/ApiService";
+import { getUserPurchases } from "../services/ApiService";
 import { getToken } from "../services/TokenService";
 
-export default function useFavorites() {
-    const [favorites, setFavorites] = useState(null);
+export default function useGetPurchases() {
+    const [purchases, setPurchases] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -13,9 +13,9 @@ export default function useFavorites() {
                 setLoading(false);
                 return;
             }
-            getUserFavorites(token)
+            getUserPurchases(token)
                 .then(data => {
-                    setFavorites(data);
+                    setPurchases(data);
                     setLoading(false);
                 })
                 .catch(err => {
@@ -24,5 +24,5 @@ export default function useFavorites() {
         });
     }, []);
 
-    return { favorites, loading };
+    return { purchases, loading };
 }

@@ -1,12 +1,12 @@
 
 import { memo, useState } from 'react';
 import { useCartContext } from '../../../context/CartContext';
-import useProduct from '../../../hooks/useProduct';
 import LoadingSwitch from '../../basic/LoadingSwitch/LoadingSwitch';
+import useGetProduct from '../../../hooks/useGetProduct';
 
 const CartProduct = memo(({ cartItem }) => {
     const { updateAmount, removeFromCart } = useCartContext();
-    const { product, loading } = useProduct(cartItem.product.id);
+    const { product, loading } = useGetProduct(cartItem.product.id);
     const [amount, setAmount] = useState(cartItem.amount);
 
     const increaseAmount = () => {

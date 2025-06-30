@@ -5,7 +5,7 @@ import LargeBlueButton from '../../basic/LargeBlueButton/LargeBlueButton';
 import { useUserContext } from '../../../context/UserContext';
 import profileImagePlaceholder from '../../../assets/ui/profile-placeholder.png';
 
-function UserProfile({user}) {
+function ProfileData({user}) {
     const { logout } = useUserContext();
 
     const [expandedSections, setExpandedSections] = useState({
@@ -97,4 +97,4 @@ function UserProfile({user}) {
     );
 }
 
-export default UserProfile;
+export default ProfileData;

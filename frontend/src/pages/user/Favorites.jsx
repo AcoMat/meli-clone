@@ -1,9 +1,10 @@
 import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
 import HorizontalProductCard from "../../components/cards/HorizontalProductCard/HorizontalProductCard";
-import useFavorites from "../../hooks/useFavorites";
+import useGetFavorites from "../../hooks/useGetFavorites";
+
 
 function Favorites() {
-    const { favorites, loading } = useFavorites();
+    const { favorites, loading } = useGetFavorites();
 
     return (
         <div className="content-wrapper">

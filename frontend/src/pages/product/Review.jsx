@@ -1,17 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
-import useProduct from "../../hooks/useProduct";
 import ErrorPage from "../ErrorPage";
 import LargeBlueButton from "../../components/basic/LargeBlueButton/LargeBlueButton";
 import { useEffect, useRef, useState } from "react";
 import StarReview from "../../components/product/ProductReviews/StarReview";
 import { postReview, userBoughtProduct } from "../../services/ApiService";
 import { getToken } from "../../services/TokenService";
+import useGetProduct from "../../hooks/useGetProduct";
 
 export default function Review() {
     let navigate = useNavigate();
     const { idProduct } = useParams();
-    const { product, loading } = useProduct(idProduct);
+    const { product, loading } = useGetProduct(idProduct);
     const textArea = useRef(null);
 
     const [rating, setRating] = useState(0);
@@ -37,7 +37,7 @@ export default function Review() {
             }
             userBoughtProduct(token, idProduct).then((response) => {
                 if (!response) {
-                    navigate("/products/" + idProduct);
+                    navigate("/product/" + idProduct);
                 }
             });
         })

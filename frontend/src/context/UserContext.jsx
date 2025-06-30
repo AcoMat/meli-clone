@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { clearToken, getToken, setToken } from '../services/TokenService';
-import { getUserProfile, login as loginService, register as registerService } from '../services/ApiService';
+import { getUserProfile, hasAdminAccess, login as loginService, register as registerService } from '../services/ApiService';
 
 export const UserContext = createContext()
 
@@ -9,43 +9,39 @@ export const UserProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setLoading(true);
-        getToken().then((token) => {
+        const loadUser = async () => {
+            setLoading(true);
+            const token = await getToken();
             if (token && token !== '') {
-                getUserProfile(token)
-                    .then((userData) => {
-                        if (userData) {
-                            setUser(userData);
-                        } else {
-                            clearToken();
-                        }
-                        setLoading(false);
-                    })
+                const userData = await getUserProfile(token);
+                if (userData) {
+                    const isAdmin = await hasAdminAccess(token);
+                    setUser({ ...userData, isAdmin });
+                } else {
+                    clearToken();
+                    setUser(null);
+                }
             } else {
                 clearToken();
-                setLoading(false);
+                setUser(null);
             }
-        });
+            setLoading(false);
+        };
+        loadUser();
     }, []);
 
-    /*
-    * Register a new user
-    * @param {string} firstName - The first name of the user
-    * @param {string} lastName - The last name of the user
-    * @param {string} email - The email of the user
-    * @param {string} password - The password of the user
-    * @throws {Error} If the registration fails
-    */
     const register = async (firstName, lastName, email, password) => {
         const res = await registerService(firstName, lastName, email, password);
         setToken(res.headers['authorization']);
-        setUser(res.data);
+        const isAdmin = await hasAdminAccess(res.headers['authorization']);
+        setUser({ ...res.data, isAdmin });
     }
 
     const login = async (email, password) => {
         const res = await loginService(email, password);
         setToken(res.headers['authorization']);
-        setUser(res.data);
+        const isAdmin = await hasAdminAccess(res.headers['authorization']);
+        setUser({ ...res.data, isAdmin });
     };
 
     const logout = () => {

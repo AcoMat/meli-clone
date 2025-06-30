@@ -11,8 +11,9 @@ function Search() {
     const { searchResults, loading, searchPage, setSearchPage, setSearchText } = useSearch(searchParams.get('query'));
 
     useEffect(() => {
+        setSearchPage(1);
         setSearchText(searchParams.get('query'));
-    }, [searchParams, searchPage]);
+    }, [searchParams]);
 
     return (
         <LoadingSwitch loading={loading}>
