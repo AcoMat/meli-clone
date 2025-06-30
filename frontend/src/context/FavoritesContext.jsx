@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { getToken } from "../services/TokenService";
 import { getUserFavorites, putFavoriteProduct } from "../services/ApiService";
 
@@ -37,10 +37,18 @@ export function FavoritesProvider({ children }) {
         setLoading(false);
     }
 
+    // Memoize the context value to prevent unnecessary re-renders
+    const contextValue = useMemo(() => ({
+        favorites,
+        loading,
+        toggleFavoriteProduct
+    }), [favorites, loading]);
+
     return (
-        <FavoritesContext.Provider value={{ favorites, loading, toggleFavoriteProduct }}>
+        <FavoritesContext.Provider value={contextValue}>
             {children}
         </FavoritesContext.Provider>
     );
 }
+
 export const useFavoritesContext = () => useContext(FavoritesContext);

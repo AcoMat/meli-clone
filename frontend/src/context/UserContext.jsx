@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { clearToken, getToken, setToken } from '../services/TokenService';
 import { getUserProfile, hasAdminAccess, login as loginService, register as registerService } from '../services/ApiService';
+import LoadingSwitch from '../components/basic/LoadingSwitch/LoadingSwitch';
 
 export const UserContext = createContext()
 
@@ -30,28 +31,36 @@ export const UserProvider = ({ children }) => {
         loadUser();
     }, []);
 
-    const register = async (firstName, lastName, email, password) => {
+    const register = useCallback(async (firstName, lastName, email, password) => {
         const res = await registerService(firstName, lastName, email, password);
         setToken(res.headers['authorization']);
         const isAdmin = await hasAdminAccess(res.headers['authorization']);
         setUser({ ...res.data, isAdmin });
-    }
+    }, []);
 
-    const login = async (email, password) => {
+    const login = useCallback(async (email, password) => {
         const res = await loginService(email, password);
         setToken(res.headers['authorization']);
         const isAdmin = await hasAdminAccess(res.headers['authorization']);
         setUser({ ...res.data, isAdmin });
-    };
+    }, []);
 
-    const logout = () => {
+    const logout = useCallback(() => {
         clearToken();
         setUser(null);
-    };
+    }, []);
 
+    // Memoize the context value to prevent unnecessary re-renders
+    const contextValue = useMemo(() => ({
+        register,
+        login,
+        logout,
+        user,
+        loading
+    }), [register, login, logout, user, loading]);
 
     return (
-        <UserContext.Provider value={{ register, login, logout, user, loading }}>
+        <UserContext.Provider value={contextValue}>
             {children}
         </UserContext.Provider>
     );

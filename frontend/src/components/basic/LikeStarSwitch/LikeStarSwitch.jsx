@@ -4,13 +4,12 @@ import './LikeStarSwitch.css'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
-import { putFavoriteProduct } from '../../../services/ApiService';
-import { getToken } from '../../../services/TokenService';
+import { useFavoritesContext } from '../../../context/FavoritesContext';
 
 function LikeStarSwitch({ productId }) {
     const navigate = useNavigate();
     const { user } = useUserContext();    
-    const { favorites } = useUserContext();
+    const { favorites, toggleFavoriteProduct } = useFavoritesContext();
     const [liked, setLiked] = useState(false);
 
     useEffect(() => {
@@ -19,10 +18,7 @@ function LikeStarSwitch({ productId }) {
 
     const handleLike = (e) => {
         if (user) {
-            setLiked(!liked)
-            getToken().then(token => {
-                putFavoriteProduct(token, productId)
-            })
+            toggleFavoriteProduct(productId);
         } else {
             navigate('/login')
         }
