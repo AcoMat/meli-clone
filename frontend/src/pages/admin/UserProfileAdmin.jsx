@@ -2,7 +2,7 @@ import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
 import profileImagePlaceholder from "../../assets/ui/profile-placeholder.png";
 import { useParams } from 'react-router-dom';
 import PurchaseHistory from "../../components/user/Purchases/PurchaseHistory";
-import HorizontalProductCard from "../../components/cards/HorizontalProductCard/HorizontalProductCard";
+import FavoriteProductItemCard from "../../components/cards/FavoriteProductItemCard/FavoriteProductItemCard";
 import InfoSectionV2 from "../../components/layout/InfoSection/InfoSectionV2";
 import StarRating from "../../components/product/ProductReviews/StarRating";
 import { useAdminGetUserData } from "../../hooks/admin/useAdminGetUserData";
@@ -45,7 +45,7 @@ function UserProfileAdmin() {
                             {userData.favorites && userData.favorites.length > 0 ?
                                 userData.favorites.map((product) => {
                                     return (
-                                        <HorizontalProductCard key={product.id} product={product} />
+                                        <FavoriteProductItemCard key={product.id} product={product} />
                                     )
                                 })
                                 :

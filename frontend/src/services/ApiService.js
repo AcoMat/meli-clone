@@ -113,7 +113,7 @@ export async function postNewPurchase(token, items) {
   }
 }
 
-export async function toggleFavorite(token, productId) {
+export async function putFavoriteProduct(token, productId) {
   try {
     const response = await axiosService.put(`/favorites`, { productId }, {
       headers: {

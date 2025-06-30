@@ -22,6 +22,7 @@ import Review from './pages/product/Review';
 import Checkout from './pages/purchase/Checkout';
 import Profile from './pages/user/Profile';
 import UserProfileAdmin from './pages/admin/UserProfileAdmin';
+import { FavoritesProvider } from './context/FavoritesContext';
 
 
 const router = createBrowserRouter([
@@ -81,7 +82,7 @@ const router = createBrowserRouter([
         path: "/admin/users/:idUser",
         element: <UserProfileAdmin />
       }
-      ]
+    ]
   }
 
 ]);
@@ -91,7 +92,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <UserProvider>
       <CartProvider>
-        <RouterProvider router={router} />
+        <FavoritesProvider>
+          <RouterProvider router={router} />
+        </FavoritesProvider>
       </CartProvider>
     </UserProvider>
   </StrictMode>,

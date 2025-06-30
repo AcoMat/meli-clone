@@ -5,16 +5,18 @@ import './Header.css'
 import { useUserContext } from '../../../context/UserContext'
 import profilePlaceholder from '../../../assets/ui/profile-placeholder.png'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 function Header() {
+  const actualQuery = new URLSearchParams(window.location.search).get('query');
+  const [searchQuery, setSearchQuery] = useState(actualQuery || '');
   const { user } = useUserContext();
   let navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const query = e.target.query.value;
-    if (query) {
-      navigate(`/search?query=${query}`);
+    if (searchQuery) {
+      navigate(`/search?query=${searchQuery}`);
     }
   }
 
@@ -29,7 +31,7 @@ function Header() {
           </div>
           <div style={{ maxWidth: 600, flex: 1 }} className="d-flex justify-content-center">
             <form className='header-search w-100' onSubmit={handleSubmit}>
-              <input name='query' className='mt-0 shadow-sm' placeholder='Buscar productos, marcas y más…' />
+              <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} type='text' name='query' className='mt-0 shadow-sm' placeholder='Buscar productos, marcas y más…' />
               <button className='position-absolute translate-middle' type='submit'><img src={searchIcon} width={25} height={25} /></button>
             </form>
           </div>

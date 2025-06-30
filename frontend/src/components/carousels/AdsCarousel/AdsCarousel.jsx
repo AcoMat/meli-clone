@@ -3,7 +3,7 @@ import "./AdsCarousel.css";
 export default function AdsCarousel() {
 
     return (
-        <div id="adscarousel" className="carousel slide" data-bs-ride="carousel" data-bs-interval="5000" style={{ marginBottom: "-150px"}}>
+        <div id="adscarousel" className="carousel slide" data-bs-ride="carousel" data-bs-interval="5000" style={{ marginBottom: "-100px", width: "100%" }}>
             <div className="carousel-indicators ad-carousel-btn ad-carousel-indicators">
                 <button type="button" data-bs-target="#adscarousel" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#adscarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>

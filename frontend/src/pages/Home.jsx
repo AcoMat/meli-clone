@@ -7,18 +7,20 @@ function Home() {
     const { user } = useUserContext();
 
     return (
-        <div className="d-flex flex-column content-wrapper gap-5">
-            {
-                user && user.isAdmin ? (
-                    <AdminDashboard />
-                ) : (
-                    <>
-                        <AdsCarousel id={"1"} />
-                        <HomeCarousel id={"1"} />
-                    </>
-                )
-            }
-        </div >
+        <>
+            <AdsCarousel id={"1"} />
+            <div className="d-flex flex-column content-wrapper gap-5">
+                {
+                    user && user.isAdmin ? (
+                        <AdminDashboard />
+                    ) : (
+                        <>
+                            <HomeCarousel id={"1"} />
+                        </>
+                    )
+                }
+            </div >
+        </>
     );
 }
 
