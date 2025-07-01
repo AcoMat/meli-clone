@@ -21,6 +21,7 @@ jobs:
       MELI_API_TOKEN: ${{ secrets.MELI_API_TOKEN }}
       MELI_CLIENT_ID: ${{ secrets.MELI_CLIENT_ID }}
       MELI_CLIENT_SECRET: ${{ secrets.MELI_CLIENT_SECRET }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     steps:
       - name: Checkout code
