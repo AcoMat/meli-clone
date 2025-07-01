@@ -21,13 +21,13 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<BasicUserDto> register(@Valid @RequestBody RegisterData data) {
-        AuthResponseDTO new_user = authService.register(data);
-        return ResponseEntity.ok().header("Authorization", "Bearer " + new_user.token()).body(new_user.user());
+        AuthResponseDTO newUser = authService.register(data);
+        return ResponseEntity.ok().header("Authorization", "Bearer " + newUser.token()).body(newUser.user());
     }
 
     @PostMapping("/login")
     public ResponseEntity<BasicUserDto> login(@Valid @RequestBody LoginCredentials credentials) {
-        AuthResponseDTO logged_user = authService.login(credentials);
-        return ResponseEntity.ok().header("Authorization", "Bearer " + logged_user.token()).body(logged_user.user());
+        AuthResponseDTO loggedUser = authService.login(credentials);
+        return ResponseEntity.ok().header("Authorization", "Bearer " + loggedUser.token()).body(loggedUser.user());
     }
 }

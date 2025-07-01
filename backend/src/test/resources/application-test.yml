@@ -14,10 +14,10 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
 
 jwt:
-  secret: 764Z16NMhXCNJbFOecHQvlOBuWUqce2y
+  secret: ${JWT_SECRET}
 
 mercadolibre:
   api:
-    client.id: 8903169809997149
-    client.secret: 764Z16NMhXCNJbFOecHQvlOBuWUqce2y
-    most.recent.token: APP_USR-8903169809997149-062014-13a541f9c31422821cb37c9c8c68238b-737574037
+    client.id: ${MERCADOLIBRE_CLIENT_ID}
+    client.secret: ${MERCADOLIBRE_CLIENT_SECRET}
+    most.recent.token: ${MERCADOLIBRE_ACCESS_TOKEN}

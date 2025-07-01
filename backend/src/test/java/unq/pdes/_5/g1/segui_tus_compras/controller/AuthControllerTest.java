@@ -12,7 +12,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
-import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,7 +43,6 @@ class AuthControllerTest {
 
     @AfterEach
     void tearDown() {
-        // Clean up the database after each test
         usersRepository.deleteAll();
     }
 
