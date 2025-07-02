@@ -11,6 +11,7 @@ export default function useSearch(query) {
 
   useEffect(() => {
     setLoading(true);
+    setSearchResults(null);
     searchProducts(query, ((searchPage - 1) * resultsPerPage), resultsPerPage)
       .then((response) => {
         setSearchResults(response);
@@ -18,6 +19,7 @@ export default function useSearch(query) {
       })
       .catch((error) => {
         console.error("Error fetching search results:", error);
+        setSearchResults(null);
         setLoading(false);
       });
   }, [query, searchPage, searchText]);

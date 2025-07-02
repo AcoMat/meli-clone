@@ -21,17 +21,16 @@ function Search() {
                 searchResults?.amountOfElements == 0 ?
                     <NoResults title={searchParams.get('query')} />
                     :
-                    <>
+                    <LoadingSwitch loading={loading}>
                         <SearchResults
                             title={searchParams.get('query')}
                             productsPage={searchResults}
-                            loading={loading}
                         />
                         <Pagination
                             page={searchPage}
                             setPage={setSearchPage}
                         />
-                    </>
+                    </LoadingSwitch>
             }
         </div>
     );

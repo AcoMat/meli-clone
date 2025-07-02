@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom"
 import ProductCard from "../../cards/ProductCard/ProductCard"
 import notFound from '../../../assets/ui/404.svg';
-import LoadingSwitch from "../../basic/LoadingSwitch/LoadingSwitch";
 
-export default function SearchResults({ title, productsPage, loading }) {
+export default function SearchResults({ title, productsPage }) {
     let navigate = useNavigate();
 
     return (
@@ -14,7 +13,6 @@ export default function SearchResults({ title, productsPage, loading }) {
                     <span className="text-secondary">{productsPage ? productsPage.pagging?.total : 0} Resultados</span>
                 </div>
             </div>
-            <LoadingSwitch loading={loading}>
                 <div className="w-75 d-flex flex-column align-items-center">
                     <div className="row gx-4 gy-4 w-100">
                         {productsPage?.results && productsPage?.results.length > 0 ?
@@ -35,7 +33,6 @@ export default function SearchResults({ title, productsPage, loading }) {
                         }
                     </div>
                 </div>
-            </LoadingSwitch>
         </div >
     )
 }
