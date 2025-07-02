@@ -1,3 +1,4 @@
+import { formatARS } from '../../../util/priceUtil';
 import './PurchaseSumary.css';
 
 function PurchaseSumary({ cartItems }) {
@@ -23,15 +24,15 @@ function PurchaseSumary({ cartItems }) {
             <h3 className='fs-5 pb-4 border-bottom'>Resumen de compra</h3>
             <div className='d-flex justify-content-between'>
                 <p>Productos ({totalProducts})</p>
-                <p>$ {totalProductsPrice?.toFixed(2)}</p>
+                <p>{formatARS(totalProductsPrice)}</p>
             </div>
             <div className='d-flex justify-content-between'>
                 <p>Envios ({totalShippings})</p>
-                <p>$ {totalShippingsPrice?.toFixed(2)}</p>
+                <p>{formatARS(totalShippingsPrice)}</p>
             </div>
             <div className='d-flex justify-content-between border-top'>
                 <p className="fs-5 fw-semibold">Total</p>
-                <p className="fs-5 fw-semibold"> $ {(totalProductsPrice + totalShippingsPrice).toFixed(2)}</p>
+                <p className="fs-5 fw-semibold">{formatARS(totalProductsPrice + totalShippingsPrice)}</p>
             </div>
         </div>
     );
