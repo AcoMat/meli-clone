@@ -16,25 +16,24 @@ function Search() {
     }, [searchParams]);
 
     return (
-        <LoadingSwitch loading={loading}>
-            <div className="content-wrapper my-5">
-                {
-                    searchResults?.amountOfElements == 0 ?
-                        <NoResults title={searchParams.get('query')} />
-                        :
-                        <>
-                            <SearchResults
-                                title={searchParams.get('query')}
-                                productsPage={searchResults}
-                            />
-                            <Pagination
-                                page={searchPage}
-                                setPage={setSearchPage}
-                            />
-                        </>
-                }
-            </div>
-        </LoadingSwitch>
+        <div className="content-wrapper my-5">
+            {
+                searchResults?.amountOfElements == 0 ?
+                    <NoResults title={searchParams.get('query')} />
+                    :
+                    <>
+                        <SearchResults
+                            title={searchParams.get('query')}
+                            productsPage={searchResults}
+                            loading={loading}
+                        />
+                        <Pagination
+                            page={searchPage}
+                            setPage={setSearchPage}
+                        />
+                    </>
+            }
+        </div>
     );
 }
 

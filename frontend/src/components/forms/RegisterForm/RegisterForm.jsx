@@ -12,7 +12,7 @@ import UpsForm from '../UpsForm.jsx';
 
 function RegisterForm() {
     const navigate = useNavigate();
-    const { user, register } = useUserContext();
+    const { register } = useUserContext();
 
     const [formData, setFormData] = useState({
         name: '',
@@ -58,11 +58,8 @@ function RegisterForm() {
                 setCurrentStage(registerStages.password);
                 break;
             case registerStages.password:
-                setCurrentStage(registerStages.imageurl);
-                break;
-            case registerStages.imageurl:
-                registerUser();
                 setCurrentStage(registerStages.creating);
+                registerUser();
                 break;
             default:
                 setCurrentStage(registerStages.email);
