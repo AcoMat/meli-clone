@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
 import ErrorPage from "../ErrorPage";
 import LargeBlueButton from "../../components/basic/LargeBlueButton/LargeBlueButton";
@@ -64,7 +64,7 @@ export default function Review() {
                             <textarea rows="3" ref={textArea} placeholder="Escribí tu opinión aquí..." className="w-100"></textarea>
                         </div>
                         <div className="d-flex justify-content-between">
-                            <a href={`/product/${idProduct}`} className="text-primary text-decoration-none ps-1">Cancelar</a>
+                            <Link to={`/product/${idProduct}`} className="text-primary text-decoration-none ps-1">Cancelar</Link>
                             <div className="w-25">
                                 <LargeBlueButton onClick={addReview} text={"Enviar"} />
                             </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import avatarPlaceholder from '../../../assets/ui/profile-placeholder.png';
 import { useAdminGetUsers } from '../../../hooks/admin/useAdminGetUsers';
+import { Link } from 'react-router-dom';
 
 function AdminUsersSearch() {
   const [search, setSearch] = useState('');
@@ -42,7 +43,7 @@ function AdminUsersSearch() {
                   <li className='list-group-item p-3 bg-light mb-3 shadow-sm' key={user.id}>
                     <span>{user.id}</span>
                     <img className='img-fluid rounded-circle mx-2' src={avatarPlaceholder} alt={`${user.firstName} ${user.lastName}`} style={{ width: '40px', height: '40px' }} />
-                    <a href={`/admin/users/${user.id}`}>{user.firstName} {user.lastName}</a>
+                    <Link to={`/admin/users/${user.id}`}>{user.firstName} {user.lastName}</Link>
                   </li>
                 ))
             }

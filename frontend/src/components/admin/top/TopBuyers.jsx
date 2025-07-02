@@ -1,6 +1,7 @@
 import useAdminGetTopBuyers from "../../../hooks/admin/useAdminGetTopBuyers";
 import LoadingSwitch from "../../basic/LoadingSwitch/LoadingSwitch";
 import avatarPlaceholder from '../../../assets/ui/profile-placeholder.png';
+import { Link } from "react-router-dom";
 
 export default function TopBuyers() {
     const title = "Top Compradores";
@@ -25,10 +26,10 @@ export default function TopBuyers() {
                                     <tr key={top.productId || index} className="align-middle">
                                         <th className="text-center" scope="row">{index + 1}</th>
                                         <td>
-                                            <a href={`/admin/${user.userId}`}>
+                                            <Link to={`/admin/users/${user.userId}`}>
                                                 <img className='img-fluid rounded-circle mx-2' src={avatarPlaceholder} alt={`${user.fullName}`} style={{ width: '40px', height: '40px' }} />
                                                 {user.fullName}
-                                            </a>
+                                            </Link>
                                         </td>
                                         <td className="text-center">{user.purchaseCount}</td>
                                     </tr>
