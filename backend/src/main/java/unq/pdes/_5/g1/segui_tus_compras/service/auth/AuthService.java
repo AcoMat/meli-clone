@@ -14,6 +14,7 @@ import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
 
 @Service
 public class AuthService {
+
     private final UsersRepository usersRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final BCryptPasswordEncoder passwordEncoder;

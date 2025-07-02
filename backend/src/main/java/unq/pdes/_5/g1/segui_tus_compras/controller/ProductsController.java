@@ -38,7 +38,7 @@ public class ProductsController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<SearchDTO> searchProductByName(
+    public ResponseEntity<SearchDTO> searchProductsByName(
             @RequestParam String q,
             @RequestParam(required = false, defaultValue = "0") Integer offset,
             @RequestParam(required = false, defaultValue = "10") Integer limit
