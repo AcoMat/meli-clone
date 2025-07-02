@@ -6,12 +6,15 @@ spring:
     password:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+  sql:
+    init:
+      mode: never
 
 jwt:
   secret: ${JWT_SECRET}
@@ -20,4 +23,14 @@ mercadolibre:
   api:
     client.id: ${MERCADOLIBRE_CLIENT_ID}
     client.secret: ${MERCADOLIBRE_CLIENT_SECRET}
-    most.recent.token: ${MERCADOLIBRE_ACCESS_TOKEN}
+    most.recent.token: ${MERCADOLIBRE_API_MOST_RECENT_TOKEN}
+
+# Logging configuration for tests - override the debug level from main config
+logging:
+  level:
+    root: WARN
+    unq.pdes._5.g1.segui_tus_compras: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

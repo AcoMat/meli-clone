@@ -18,9 +18,9 @@ jobs:
         working-directory: ./backend
 
     env:
-      MELI_API_TOKEN: ${{ secrets.MELI_API_TOKEN }}
-      MELI_CLIENT_ID: ${{ secrets.MELI_CLIENT_ID }}
-      MELI_CLIENT_SECRET: ${{ secrets.MELI_CLIENT_SECRET }}
+      MERCADOLIBRE_API_MOST_RECENT_TOKEN: ${{ secrets.MERCADOLIBRE_API_MOST_RECENT_TOKEN }}
+      MERCADOLIBRE_API_CLIENT_ID: ${{ secrets.MERCADOLIBRE_API_CLIENT_ID }}
+      MERCADOLIBRE_API_CLIENT_SECRET: ${{ secrets.MERCADOLIBRE_API_CLIENT_SECRET }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     steps:

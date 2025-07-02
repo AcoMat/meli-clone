@@ -20,13 +20,13 @@ public class Product {
     Double price;
     @Column(columnDefinition = "TEXT")
     String description;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @Column
     List<String> pictures;
     Integer priceDiscountPercentage;
     Boolean isFreeShipping;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private List<ProductAttribute> attributes;
 

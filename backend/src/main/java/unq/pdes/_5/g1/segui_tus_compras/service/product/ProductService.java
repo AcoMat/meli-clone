@@ -1,13 +1,11 @@
 package unq.pdes._5.g1.segui_tus_compras.service.product;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.out.product.ProductFavoriteCountDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.external.MeLiApiService;
 
@@ -18,22 +16,16 @@ public class ProductService {
 
     private final ProductsRepository productsRepository;
     private final MeLiApiService meLiService;
+    private final ProductInternalService productInternalService;
 
-    public ProductService(ProductsRepository productsRepository, MeLiApiService externalApiService) {
+    public ProductService(ProductsRepository productsRepository, MeLiApiService externalApiService, ProductInternalService productInternalService) {
         this.productsRepository = productsRepository;
         this.meLiService = externalApiService;
+        this.productInternalService = productInternalService;
     }
 
     public Product getProductById(String id) {
-        return productsRepository.findById(id).orElseGet(() -> {
-            ExternalProductDto apiProduct = meLiService.getProductById(id);
-            try {
-                return productsRepository.save(new Product(apiProduct));
-            } catch (DataIntegrityViolationException e) {
-                // Another thread inserted it, so fetch it again
-                return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-            }
-        });
+        return productInternalService.getProductById(id);
     }
 
     public void updateProduct(Product product) {
@@ -49,13 +41,7 @@ public class ProductService {
             return List.of();
         }
         return apiProducts.results.stream().map(
-            result -> {
-                try {
-                    return getProductById(result.id);
-                } catch (ProductNotFoundException e) {
-                    return null;
-                }
-            }
+            result -> productInternalService.getProductById(result.id)
         ).toList();
     }
 

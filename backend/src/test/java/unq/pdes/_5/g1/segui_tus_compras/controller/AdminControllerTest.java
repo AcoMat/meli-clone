@@ -66,12 +66,6 @@ class AdminControllerTest {
         usersRepository.deleteAll();
     }
 
-    //("/users");
-    //("/users/{userId}");
-    //("/top/purchased");
-    //("/top/favorites");
-    //("/top/buyers");
-
     @Test
     void shouldReturnOk_When_IsAdmin() throws Exception {
         mockMvc.perform(get("/admin")
