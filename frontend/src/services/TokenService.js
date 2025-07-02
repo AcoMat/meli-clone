@@ -10,6 +10,7 @@ export const clearToken = async () => {
     try{
         localStorage.removeItem('authorization', '');
         localStorage.removeItem('username', '');
+        localStorage.removeItem('shoppingCart', '');
     }catch(err){
         console.log(err)
     }
