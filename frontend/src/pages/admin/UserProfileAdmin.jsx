@@ -1,6 +1,6 @@
 import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
 import profileImagePlaceholder from "../../assets/ui/profile-placeholder.png";
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PurchaseHistory from "../../components/user/Purchases/PurchaseHistory";
 import FavoriteProductItemCard from "../../components/cards/FavoriteProductItemCard/FavoriteProductItemCard";
 import InfoSectionV2 from "../../components/layout/InfoSection/InfoSectionV2";
@@ -59,9 +59,9 @@ function UserProfileAdmin() {
                         {userData.commentaries && userData.commentaries?.length > 0 ?
                             userData.commentaries.map((commentary) => (
                                 <div className="d-flex align-items-center my-3" key={commentary?.id}>
-                                    <a href={`/product/${commentary.product.id}`}>
+                                    <Link to={`/product/${commentary.product.id}`}>
                                     <img className="rounded-circle object-fit-cover" src={commentary.product.pictures[0]} width={50} height={50} />
-                                    </a>
+                                    </Link>
                                     <div className={`mx-4`} key={commentary?.id}>
                                         <p className={`mb-0 my-3`} index={commentary?.id}>{commentary?.comment}</p>
                                     </div>
@@ -81,9 +81,9 @@ function UserProfileAdmin() {
                                             userData.reviews &&
                                             userData.reviews.map((review) => (
                                                 <div key={review.id} className="d-flex gap-3">
-                                                    <a href={`/product/${review.product.id}`} >
+                                                    <Link to={`/product/${review.product.id}`} >
                                                     <img className="rounded-circle object-fit-cover" src={review.product.pictures[0]} width={50} height={50} />
-                                                    </a>
+                                                    </Link>
                                                     <div className="d-flex flex-column">
                                                         <div className="mb-3" style={{ fontSize: "0.8rem" }}>
                                                             <StarRating rating={review.rating} />

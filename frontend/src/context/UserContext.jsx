@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { clearToken, getToken, setToken } from '../services/TokenService';
 import { getUserProfile, hasAdminAccess, login as loginService, register as registerService } from '../services/ApiService';
-import LoadingSwitch from '../components/basic/LoadingSwitch/LoadingSwitch';
 
 export const UserContext = createContext()
 
@@ -9,25 +8,27 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const loadUser = async () => {
-            setLoading(true);
-            const token = await getToken();
-            if (token && token !== '') {
-                const userData = await getUserProfile(token);
-                if (userData) {
-                    const isAdmin = await hasAdminAccess(token);
-                    setUser({ ...userData, isAdmin });
-                } else {
-                    clearToken();
-                    setUser(null);
-                }
+    const loadUser = async () => {
+        setLoading(true);
+        const token = await getToken();
+        if (token && token !== '') {
+            const userData = await getUserProfile(token);
+            if (userData) {
+                const isAdmin = await hasAdminAccess(token);
+                setUser({ ...userData, isAdmin });
             } else {
                 clearToken();
                 setUser(null);
             }
-            setLoading(false);
-        };
+        } else {
+            clearToken();
+            setUser(null);
+
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
         loadUser();
     }, []);
 

@@ -9,7 +9,7 @@ export default function AdminDashboard() {
             <h1>Bienvenido, Admin!</h1>
             <p className="text-secondary">Desde acá podes administrar el sitio</p>
             <AdminUsersSearch />
-            <div className="d-flex flex-column flex-md-row gap-4">
+            <div className="d-flex flex-column flex-md-row gap-4 justify-content-center">
             <TopPurchased />
             <TopFavorites />
             </div>

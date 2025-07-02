@@ -4,7 +4,7 @@ import cart from '../../../assets/cart/cart.svg'
 import './Header.css'
 import { useUserContext } from '../../../context/UserContext'
 import profilePlaceholder from '../../../assets/ui/profile-placeholder.png'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 function Header() {
@@ -18,6 +18,7 @@ function Header() {
     if (searchQuery) {
       navigate(`/search?query=${searchQuery}`);
     }
+    setSearchQuery('');
   }
 
   return (
@@ -25,9 +26,9 @@ function Header() {
       <div className="content-wrapper lh-1">
         <div className="d-flex justify-content-center align-items-center mb-2 mx-auto" style={{ width: '100%' }}>
           <div style={{ minWidth: 134, marginRight: 24 }} className="d-flex justify-content-center">
-            <a href='/'>
+            <Link to='/'>
               <img src={logo} width={134} height={34} />
-            </a>
+            </Link>
           </div>
           <div style={{ maxWidth: 600, flex: 1 }} className="d-flex justify-content-center">
             <form className='header-search w-100' onSubmit={handleSubmit}>
@@ -43,25 +44,25 @@ function Header() {
                 user ?
                   <>
                     <li className='ms-4 d-flex align-items-end'>
-                      <a href='/profile' className='align-self-end'>
+                      <Link to='/profile' className='align-self-end'>
                         <img src={user.image || profilePlaceholder} height={20} width={20} className='rounded-circle me-2 object-fit-cover' style={{ marginBottom: "-3px" }} />
-                      </a>
-                      <a href='/profile'>
+                      </Link>
+                      <Link to='/profile'>
                         {user.firstName}
-                      </a>
+                      </Link>
                     </li>
-                    <li className='ms-4'><a href='/purchases'>Mis compras</a></li>
-                    <li className='ms-4'><a href='/favorites'>Favoritos</a></li>
-                    <li className='ms-4'><a href='/cart'><img src={cart} width="20" height="20" /></a></li>
+                    <li className='ms-4'><Link to='/purchases'>Mis compras</Link></li>
+                    <li className='ms-4'><Link to='/favorites'>Favoritos</Link></li>
+                    <li className='ms-4'><Link to='/cart'><img src={cart} width="20" height="20" /></Link></li>
                   </>
                   :
                   <>
-                    <li className='ms-4 text-end'><a href='/register'>Creá tu cuenta</a></li>
-                    <li className='ms-4 text-end'><a href='/login'>Ingresá</a></li>
+                    <li className='ms-4 text-end'><Link to='/register'>Creá tu cuenta</Link></li>
+                    <li className='ms-4 text-end'><Link to='/login'>Ingresá</Link></li>
                     <li className='ms-4 text-end'>
-                      <a href='/login'>
+                      <Link to='/login'>
                         <img src={cart} />
-                      </a>
+                      </Link>
                     </li>
                   </>
               }

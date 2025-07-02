@@ -7,10 +7,11 @@ export default function useSearch(query) {
   const [searchText, setSearchText] = useState(query);
   const [loading, setLoading] = useState(true);
 
-  const resultsPerPage = 10; // Define how many results you want per page
+  const resultsPerPage = 12; // Define how many results you want per page
 
   useEffect(() => {
     setLoading(true);
+    setSearchResults(null);
     searchProducts(query, ((searchPage - 1) * resultsPerPage), resultsPerPage)
       .then((response) => {
         setSearchResults(response);
@@ -18,6 +19,7 @@ export default function useSearch(query) {
       })
       .catch((error) => {
         console.error("Error fetching search results:", error);
+        setSearchResults(null);
         setLoading(false);
       });
   }, [query, searchPage, searchText]);

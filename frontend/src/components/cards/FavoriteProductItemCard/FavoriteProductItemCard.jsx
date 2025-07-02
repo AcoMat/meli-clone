@@ -1,6 +1,8 @@
 import { useCartContext } from "../../../context/CartContext"
 import { useFavoritesContext } from "../../../context/FavoritesContext";
 import Toast from 'bootstrap/js/dist/toast';
+import { formatARS } from "../../../util/priceUtil";
+import { Link } from "react-router-dom";
 
 export default function FavoriteProductItemCard({ product, showOptions = true }) {
     const { addToCart } = useCartContext();
@@ -16,24 +18,24 @@ export default function FavoriteProductItemCard({ product, showOptions = true })
     return (
         <>
             <div className="p-2 pb-4 d-flex border-bottom justify-content-between">
-                <a href={`/product/${product.id}`} className="mx-auto">
+                <Link to={`/product/${product.id}`} className="mx-auto">
                     <img className="img-fluid mx-auto" src={product.pictures[0]} style={{ maxHeight: "180px" }} />
-                </a>
+                </Link>
                 <div className="d-flex px-2 w-75 flex-column justify-content-between">
                     <div>
-                        <a href={`/product/${product.id}`} className="fs-4 fw-medium text-decoration-none text-black">{product.name}</a>
-                        {product.priceDiscountPercentage && <span className="text-decoration-line-through fw-light">${product.price?.toFixed(2)}</span>}
+                        <p><Link to={`/product/${product.id}`} className="fs-5 fw-normal text-decoration-none text-black">{product.name}</Link></p>
+                        {product.priceDiscountPercentage && <span className="text-decoration-line-through fs-6 fw-light">{formatARS(product.price)}</span>}
                         {product.priceDiscountPercentage ?
-                            <h5>$ {product.price?.toFixed(2) * (product.priceDiscountPercentage / 100)}<span className="text-success fw-light"> {product.priceDiscountPercentage}% OFF</span></h5>
+                            <h4>{formatARS(product.priceWithDiscountApplied)}<span className="text-success fw-light fs-6"> {product.priceDiscountPercentage}% OFF</span></h4>
                             :
-                            product.price && <h5>$ {product.price?.toFixed(2)}</h5>
+                            product.price && <h5>{product.price?.toFixed(2)}</h5>
                         }
-                        {product.price && <p className="fw-light">en 6 cuotas de {product.price?.toFixed(2) / 12}</p>}
+                        {product.price && <p className="fw-light">en 6 cuotas de {formatARS(product.price / 12)}</p>}
                         {product.isFreeShipping && <span className="text-success fw-medium">Envío gratis</span>}
                     </div>
                     {
                         showOptions &&
-                        <div className="d-flex">
+                        <div className="d-flex mt-2">
                             <button
                                 className="p-0 border border-0 bg-transparent text-primary me-4"
                                 onClick={() => handleAddToCart()}

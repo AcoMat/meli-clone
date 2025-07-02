@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { formatARS } from "../../../util/priceUtil"
 
 export default function ProductCardHistory({ product, amount }) {
     let navigate = useNavigate()
@@ -9,13 +10,13 @@ export default function ProductCardHistory({ product, amount }) {
             <div className="d-flex px-2 w-75 flex-column justify-content-between">
                 <div>
                     <h4 className="fs-4 text-break"><span className="text-secondary">{amount}x </span>{product.name}</h4>
-                    {product.discount && <span className="text-decoration-line-through fw-light">${product.price.toFixed(2)}</span>}
+                    {product.discount && <span className="text-decoration-line-through fw-light">{formatARS(product?.price)}</span>}
                     {product.priceDiscountPercentage ?
-                        <h5>$ {product.price.toFixed(2) * (product.priceDiscountPercentage / 100)}<span className="text-success fw-light"> {product.priceDiscountPercentage}% OFF</span></h5>
+                        <h5>{formatARS(product.priceWithDiscountApplied)}<span className="text-success fw-light"> {product.priceDiscountPercentage}% OFF</span></h5>
                         :
                         product.price && <h5>$ {product.price?.toFixed(2)}</h5>
                     }
-                    <a href={`/product/${product.id}/review`}>Calificar</a>
+                    <Link to={`/product/${product.id}/review`}>Calificar</Link>
                 </div>
             </div>
         </div>
