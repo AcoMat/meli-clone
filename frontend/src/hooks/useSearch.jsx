@@ -7,7 +7,7 @@ export default function useSearch(query) {
   const [searchText, setSearchText] = useState(query);
   const [loading, setLoading] = useState(true);
 
-  const resultsPerPage = 10; // Define how many results you want per page
+  const resultsPerPage = 12; // Define how many results you want per page
 
   useEffect(() => {
     setLoading(true);
