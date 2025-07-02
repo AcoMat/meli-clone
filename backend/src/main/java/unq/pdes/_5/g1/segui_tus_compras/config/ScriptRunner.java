@@ -3,6 +3,7 @@ package unq.pdes._5.g1.segui_tus_compras.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 
 @Component
+@Profile("!test")
 public class ScriptRunner implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ScriptRunner.class);
