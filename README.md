@@ -1,62 +1,120 @@
-# 🛒 Grupo 1 - Seguí tus compras
+# Seguí tus compras
 
-Welcome to the **Seguí tus compras** project! This repository contains the code for managing and tracking your purchases efficiently.
+Este repositorio contiene el código fuente del proyecto "Seguí tus compras", una aplicación web para la gestión de compras.
+
+#### ... Y tambien el docker-compose para levantar todo el sistema.
 
 ---
 
-## 👥 Integrantes
+## Integrantes
 - **Acosta Matías**
 
 ---
 
-## 🖥️ FrontEnd
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+## Funcionalidades
+
+### Acceso Público (sin autenticación)
+- Búsqueda de productos por nombre.
+- Visualización de productos y sus detalles.
+
+### Usuarios Autenticados
+- **Todas las funcionalidades de acceso público.**
+- **Perfil:**
+    - Postear reseñas y calificaciones de productos.
+    - Consulta de historial de compras.
+    - Gestión de productos favoritos.
+- **Carrito de compras:**
+    - Agregar y eliminar productos.
+    - Modificar cantidades de productos.
+    - Finalización del proceso de compra.
+
+### Administradores
+- **Visualización de estadísticas:**
+    - Métricas de ventas.
+    - Métricas de actividad de usuarios.
 
 ---
 
-## ⚙️ BackEnd
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
+## Frontend
+
+El frontend está desarrollado con **React** y empaquetado con **Vite**.
+
+### Requisitos
+
+- **Node.js** (versión 20.x o superior)
+- **npm**
+
+### Instalación y Ejecución
+
+1.  Navegar al directorio `frontend`:
+    ```bash
+    cd frontend
+    ```
+2.  Instalar dependencias:
+    ```bash
+    npm install
+    ```
+3.  Iniciar el servidor de desarrollo:
+    ```bash
+    npm run dev
+    ```
+La aplicación estará disponible en `http://localhost:5173`.
 
 ---
 
-## 🛠️ Installation and Usage
+## Backend
 
-### 🔧 Local Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-repo/seguí-tus-compras.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd seguí-tus-compras
-   ```
-3. Start the backend server:
-   ```bash
-   cd backend
-   ./mvnw spring-boot:run
-   ```
-4. Start the frontend:
-   ```bash
-   cd frontend
-   npm start
-   ```
-5. Open your browser and navigate to `http://localhost:3000`.
+El backend está implementado con **Spring Boot**. Provee la API REST, gestiona la lógica de negocio y la persistencia de datos.
+
+### Requisitos
+
+- **JDK (Java Development Kit)** (versión 21 o superior)
+- **Maven** (versión 3.x o superior)
+
+### Instalación y Ejecución
+
+1.  Navegar al directorio `backend`:
+    ```bash
+    cd backend
+    ```
+2.  Ejecutar la aplicación:
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+El servidor se iniciará en `http://localhost:8080`.
 
 ---
 
-### 🐳 Docker Setup
-1. Ensure Docker is installed and running on your system.
-2. Clone the repository:
-   ```bash
-   git clone https://github.com/your-repo/seguí-tus-compras.git
-   ```
-3. Navigate to the project directory:
-   ```bash
-   cd seguí-tus-compras
-   ```
-4. Build and start the Docker containers:
-   ```bash
-   docker-compose up --build
-   ```
-5. Open your browser and navigate to `http://localhost:3000`.
+# Docker
 
+El proyecto puede ser ejecutado en su totalidad utilizando Docker Compose.
+
+### Requisitos
+
+- **Docker**
+- **Docker Compose**
+
+### Ejecución
+
+1.  Desde el directorio raíz del proyecto, ejecutar:
+    ```bash
+    docker-compose up --build
+    ```
+Este comando construirá las imágenes y levantará los contenedores para el frontend, backend y la base de datos MySQL.
+
+### Variables de Entorno
+
+Para el correcto funcionamiento de la aplicación, es necesario configurar las siguientes variables de entorno. Puedes crear un archivo `.env` en la raíz del proyecto con el siguiente contenido:
+
+```
+MERCADOLIBRE_API_CLIENT_ID=tu_client_id
+MERCADOLIBRE_API_CLIENT_SECRET=tu_client_secret
+MERCADOLIBRE_API_MOST_RECENT_TOKEN=tu_token
+```
+
+---
+
+## Estructura del Repositorio
+
+- `frontend/`: Código fuente de la aplicación React.
+- `backend/`: Código fuente de la aplicación Spring Boot.
