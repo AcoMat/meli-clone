@@ -86,7 +86,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "up{instance=\"spring-dockerized-app:8080\"}",
+          "expr": "up{instance=\"backend:8080\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
