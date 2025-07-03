@@ -12,31 +12,32 @@ import jakarta.servlet.http.HttpServletResponse;
 public class RequestLoggingInterceptor implements HandlerInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(RequestLoggingInterceptor.class);
+    private static final ThreadLocal<Long> startTimeThreadLocal = new ThreadLocal<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        long startTime = System.currentTimeMillis();
-        request.setAttribute("startTime", startTime);
-
-        String queryString = request.getQueryString();
-        String uri = request.getRequestURI() + (queryString == null ? "" : "?" + queryString);
-
-        logger.info("Incoming request - {} {} - from {}", request.getMethod(), uri, request.getRemoteAddr());
+        startTimeThreadLocal.set(System.currentTimeMillis());
         return true;
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
                                 Object handler, Exception ex) {
-        long startTime = (Long) request.getAttribute("startTime");
-        long duration = System.currentTimeMillis() - startTime;
+        try {
+            Long startTime = startTimeThreadLocal.get();
+            long duration = startTime != null ? System.currentTimeMillis() - startTime : 0;
 
-        String queryString = request.getQueryString();
-        String uri = request.getRequestURI() + (queryString == null ? "" : "?" + queryString);
+            String queryString = request.getQueryString();
+            String uri = request.getRequestURI() + (queryString == null ? "" : "?" + queryString);
 
-        logger.info("Outgoing response - {} {} - status {} - duration {}ms", request.getMethod(), uri, response.getStatus(), duration);
-        if (ex != null) {
-            logger.error("Request ended with exception", ex);
+            logger.info("Request completed - {} {} - from {} - status {} - duration {}ms",
+                       request.getMethod(), uri, request.getRemoteAddr(), response.getStatus(), duration);
+
+            if (ex != null) {
+                logger.error("Request ended with exception", ex);
+            }
+        } finally {
+            startTimeThreadLocal.remove();
         }
     }
 }
