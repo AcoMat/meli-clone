@@ -1,7 +1,7 @@
 # unq.pdes.2025.g1.segui-tus-compras
 
-## Variables de entorno
-    - SPRING_DATASOURCE_URL
+## Variables de entorno obligatorias
+    - SPRING_DATASOURCE_URL(connection string de la base de datos)
     - SPRING_DATASOURCE_USERNAME
     - SPRING_DATASOURCE_PASSWORD
     - JWT_SECRET

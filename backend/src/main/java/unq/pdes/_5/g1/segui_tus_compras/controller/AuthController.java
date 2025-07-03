@@ -3,6 +3,7 @@ package unq.pdes._5.g1.segui_tus_compras.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import unq.pdes._5.g1.segui_tus_compras.metrics.auth.AuthMetricsService;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.AuthResponseDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.LoginCredentials;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.RegisterData;
@@ -14,14 +15,17 @@ import unq.pdes._5.g1.segui_tus_compras.service.auth.AuthService;
 public class AuthController {
 
     private final AuthService authService;
+    private final AuthMetricsService authMetricsService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, AuthMetricsService authMetricsService) {
         this.authService = authService;
+        this.authMetricsService = authMetricsService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<BasicUserDto> register(@Valid @RequestBody RegisterData data) {
         AuthResponseDTO newUser = authService.register(data);
+        authMetricsService.incrementUserRegistration();
         return ResponseEntity.ok().header("Authorization", "Bearer " + newUser.token()).body(newUser.user());
     }
 
