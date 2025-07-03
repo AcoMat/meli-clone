@@ -50,17 +50,17 @@ La aplicación requiere las siguientes variables de entorno:
 
 | Variable | Descripción | Ejemplo |
 |----------|-------------|---------|
-| `VITE_API_URL` | URL base de la API del backend | `http://localhost:8080/` |
+| `VITE_BACKEND_URL` | URL base de la API del backend | `http://localhost:8080/` |
 
 ### Configuración de Entorno
 
 Crear un archivo `.env` en el directorio raíz:
 
 ```
-VITE_API_URL=http://localhost:8080/
+VITE_BACKEND_URL=http://localhost:8080/
 ```
 
-Para el despliegue en producción, asegúrese de que `VITE_API_URL` apunte al endpoint de la API de producción.
+Para el despliegue en producción, asegúrese de que `VITE_BACKEND_URL` apunte al endpoint de la API de producción.
 
 ## Instalación y Configuración
 
