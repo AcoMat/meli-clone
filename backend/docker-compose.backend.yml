@@ -1,5 +1,5 @@
 services:
-  spring-dockerized-app:
+  backend:
     build:
       context: .  # Directory to build Docker image from.
       dockerfile: Dockerfile  # Dockerfile to use for building the image.
@@ -9,7 +9,7 @@ services:
       mysqldb:
         condition: service_healthy  # Waits for 'mysqldb' to be healthy before starting.
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/segui_tus_compras?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/segui-tus-compras?useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=@milanesa
       - MERCADOLIBRE_API_MOST_RECENT_TOKEN=${MERCADOLIBRE_API_MOST_RECENT_TOKEN}
