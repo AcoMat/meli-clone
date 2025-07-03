@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import unq.pdes._5.g1.segui_tus_compras.exception.external.ExternalApiException;
 import unq.pdes._5.g1.segui_tus_compras.exception.external.InvalidApiTokenException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
@@ -35,35 +36,34 @@ public class MeLiApiService {
     }
 
     public ExternalProductDto getProductById(String productId) {
-        try {
-            ResponseEntity<ExternalProductDto> response = restClient.get()
-                    .uri("/products/" + productId)
-                    .header("Authorization", "Bearer " + apiToken)
-                    .retrieve()
-                    .toEntity(ExternalProductDto.class);
+        String uri = UriComponentsBuilder.fromPath("/products/{productId}")
+                .buildAndExpand(productId)
+                .toUriString();
 
-            if (response.getStatusCode().value() == 200) {
-                return response.getBody();
-            } else {
-                throw new ExternalApiException("Unexpected status code: " + response.getStatusCode().value());
-            }
-        } catch (HttpClientErrorException e) {
-            if (e.getStatusCode().value() == 401) {
-                throw new InvalidApiTokenException("Invalid API token for MercadoLibre API");
-            }
-            throw new ExternalApiException("Error calling MercadoLibre API: " + e.getMessage());
-        }
+        return executeRequest(uri, ExternalProductDto.class);
     }
 
     public ApiSearchDto search(String keywords, Integer offset, Integer limit) {
+        String uri = UriComponentsBuilder.fromPath("/products/search")
+                .queryParam("status", "active")
+                .queryParam("offset", offset)
+                .queryParam("limit", limit)
+                .queryParam("site_id", "MLA")
+                .queryParam("q", keywords)
+                .toUriString();
+
+        return executeRequest(uri, ApiSearchDto.class);
+    }
+
+    private <T> T executeRequest(String uri, Class<T> responseType) {
         try {
-            ResponseEntity<ApiSearchDto> response = restClient.get()
-                    .uri("/products/search?status=active&offset="+ offset +"&limit=" + limit + "&site_id=MLA&q=" + keywords)
+            ResponseEntity<T> response = restClient.get()
+                    .uri(uri)
                     .header("Authorization", "Bearer " + apiToken)
                     .retrieve()
-                    .toEntity(ApiSearchDto.class);
+                    .toEntity(responseType);
 
-            if (response.getStatusCode().value() == 200) {
+            if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {
                 throw new ExternalApiException("Unexpected status code: " + response.getStatusCode().value());

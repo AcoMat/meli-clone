@@ -3,185 +3,136 @@ package unq.pdes._5.g1.segui_tus_compras.service.external;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import unq.pdes._5.g1.segui_tus_compras.exception.external.ExternalApiException;
-import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
+import unq.pdes._5.g1.segui_tus_compras.exception.external.InvalidApiTokenException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
-@ActiveProfiles("test")
-@ExtendWith({MockitoExtension.class, SpringExtension.class})
+@ExtendWith(MockitoExtension.class)
 class MeLiApiServiceTest {
 
-    @Mock
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private RestClient restClient;
 
     @Mock
     private RestClient.Builder restClientBuilder;
 
+    @Mock
+    private RestClient.RequestHeadersUriSpec requestHeadersUriSpec;
+
+    @Mock
+    private RestClient.RequestHeadersSpec requestHeadersSpec;
+
+    @Mock
+    private RestClient.ResponseSpec responseSpec;
+
     private MeLiApiService meliApiService;
 
-    @Value("${mercadolibre.api.url}")
-    private String apiUrl;
-
-    @Value("${mercadolibre.api.most.recent.token}")
-    private String apiToken;
+    private final String apiUrl = "https://api.mercadolibre.com";
+    private final String apiToken = "test-token";
 
     @BeforeEach
     void setUp() {
-        doReturn(restClientBuilder).when(restClientBuilder).baseUrl(anyString());
-        doReturn(restClient).when(restClientBuilder).build();
-
+        when(restClientBuilder.baseUrl(apiUrl)).thenReturn(restClientBuilder);
+        when(restClientBuilder.build()).thenReturn(restClient);
         meliApiService = new MeLiApiService(restClientBuilder, apiUrl, apiToken);
+
+        lenient().when(restClient.get()).thenReturn(requestHeadersUriSpec);
+        lenient().when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
+        lenient().when(requestHeadersSpec.header(anyString(), anyString())).thenReturn(requestHeadersSpec);
+        lenient().when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
     }
 
     @Test
-    void getProductById_shouldReturnProduct_whenProductExists() {
-        // Arrange
-        String productId = "MLA123456";
+    void getProductById_whenProductExists_returnsProduct() {
+        String productId = "MLA123";
         ExternalProductDto expectedProduct = new ExternalProductDto();
-        expectedProduct.setId(productId);
+        when(responseSpec.toEntity(ExternalProductDto.class))
+                .thenReturn(ResponseEntity.ok(expectedProduct));
 
-        // Using answer to mock the chained calls
-        doAnswer(invocation -> {
-            RestClient.RequestHeadersUriSpec<?> uriSpec = mock(RestClient.RequestHeadersUriSpec.class);
-            RestClient.RequestHeadersSpec<?> headersSpec = mock(RestClient.RequestHeadersSpec.class);
-            RestClient.ResponseSpec responseSpec = mock(RestClient.ResponseSpec.class);
+        ExternalProductDto actualProduct = meliApiService.getProductById(productId);
 
-            doReturn(headersSpec).when(uriSpec).uri("/products/" + productId);
-            doReturn(headersSpec).when(headersSpec).header(eq("Authorization"), eq("Bearer " + apiToken));
-            doReturn(responseSpec).when(headersSpec).retrieve();
-            doReturn(expectedProduct).when(responseSpec).body(ExternalProductDto.class);
-
-            return uriSpec;
-        }).when(restClient).get();
-
-        // Act
-        ExternalProductDto result = meliApiService.getProductById(productId);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(productId, result.getId());
+        assertSame(expectedProduct, actualProduct);
     }
 
     @Test
-    void getProductById_shouldThrowProductNotFoundException_whenProductNotFound() {
-        // Arrange
-        String productId = "MLA999999";
+    void getProductById_whenApiReturns401_throwsInvalidApiTokenException() {
+        String productId = "MLA123";
+        when(requestHeadersSpec.retrieve())
+                .thenThrow(new HttpClientErrorException(HttpStatus.UNAUTHORIZED));
 
-        doAnswer(invocation -> {
-            RestClient.RequestHeadersUriSpec<?> uriSpec = mock(RestClient.RequestHeadersUriSpec.class);
-            RestClient.RequestHeadersSpec<?> headersSpec = mock(RestClient.RequestHeadersSpec.class);
-
-            doReturn(headersSpec).when(uriSpec).uri("/products/" + productId);
-            doReturn(headersSpec).when(headersSpec).header(anyString(), anyString());
-            doThrow(HttpClientErrorException.NotFound.class).when(headersSpec).retrieve();
-
-            return uriSpec;
-        }).when(restClient).get();
-
-        // Act & Assert
-        assertThrows(ProductNotFoundException.class, () -> meliApiService.getProductById(productId));
+        assertThrows(InvalidApiTokenException.class, () -> meliApiService.getProductById(productId));
     }
 
     @Test
-    void getProductById_shouldThrowExternalApiException_whenApiCallFails() {
-        // Arrange
-        String productId = "MLA123456";
+    void getProductById_whenApiReturnsOtherError_throwsExternalApiException() {
+        String productId = "MLA123";
+        when(requestHeadersSpec.retrieve())
+                .thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
-        doAnswer(invocation -> {
-            RestClient.RequestHeadersUriSpec<?> uriSpec = mock(RestClient.RequestHeadersUriSpec.class);
-            RestClient.RequestHeadersSpec<?> headersSpec = mock(RestClient.RequestHeadersSpec.class);
-
-            doReturn(headersSpec).when(uriSpec).uri("/products/" + productId);
-            doReturn(headersSpec).when(headersSpec).header(anyString(), anyString());
-            doThrow(RuntimeException.class).when(headersSpec).retrieve();
-
-            return uriSpec;
-        }).when(restClient).get();
-
-        // Act & Assert
         assertThrows(ExternalApiException.class, () -> meliApiService.getProductById(productId));
     }
 
     @Test
-    void search_shouldReturnResults_whenSearchIsSuccessful() {
-        // Arrange
-        String keywords = "smartphone";
-        Integer offset = 0;
-        Integer limit = 10;
-        ApiSearchDto expectedResults = new ApiSearchDto();
-        expectedResults.setKeywords(keywords);
+    void search_whenSearchIsSuccessful_returnsApiSearchDto() {
+        String keywords = "test";
+        ApiSearchDto expectedSearch = new ApiSearchDto();
+        when(responseSpec.toEntity(ApiSearchDto.class))
+                .thenReturn(ResponseEntity.ok(expectedSearch));
 
-        String expectedUri = "/products/search?status=active&offset=0&limit=10&site_id=MLA&q=smartphone";
+        ApiSearchDto actualSearch = meliApiService.search(keywords, 0, 10);
 
-        doAnswer(invocation -> {
-            RestClient.RequestHeadersUriSpec<?> uriSpec = mock(RestClient.RequestHeadersUriSpec.class);
-            RestClient.RequestHeadersSpec<?> headersSpec = mock(RestClient.RequestHeadersSpec.class);
-            RestClient.ResponseSpec responseSpec = mock(RestClient.ResponseSpec.class);
-
-            doReturn(headersSpec).when(uriSpec).uri(expectedUri);
-            doReturn(headersSpec).when(headersSpec).header(eq("Authorization"), eq("Bearer " + apiToken));
-            doReturn(responseSpec).when(headersSpec).retrieve();
-            doReturn(expectedResults).when(responseSpec).body(ApiSearchDto.class);
-
-            return uriSpec;
-        }).when(restClient).get();
-
-        // Act
-        ApiSearchDto result = meliApiService.search(keywords, offset, limit);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(keywords, result.getKeywords());
+        assertSame(expectedSearch, actualSearch);
     }
 
     @Test
-    void search_shouldThrowExternalApiException_whenSearchFails() {
-        // Arrange
-        String keywords = "smartphone";
-        Integer offset = 0;
-        Integer limit = 10;
+    void search_whenApiReturns401_throwsInvalidApiTokenException() {
+        String keywords = "test";
+        when(requestHeadersSpec.retrieve())
+                .thenThrow(new HttpClientErrorException(HttpStatus.UNAUTHORIZED));
 
-        String expectedUri = "/products/search?status=active&offset=0&limit=10&site_id=MLA&q=smartphone";
-
-        doAnswer(invocation -> {
-            RestClient.RequestHeadersUriSpec<?> uriSpec = mock(RestClient.RequestHeadersUriSpec.class);
-            RestClient.RequestHeadersSpec<?> headersSpec = mock(RestClient.RequestHeadersSpec.class);
-
-            doReturn(headersSpec).when(uriSpec).uri(expectedUri);
-            doReturn(headersSpec).when(headersSpec).header(anyString(), anyString());
-            doThrow(RuntimeException.class).when(headersSpec).retrieve();
-
-            return uriSpec;
-        }).when(restClient).get();
-
-        // Act & Assert
-        assertThrows(ExternalApiException.class, () -> meliApiService.search(keywords, offset, limit));
+        assertThrows(InvalidApiTokenException.class, () -> meliApiService.search(keywords, 0, 10));
     }
 
     @Test
-    void constructor_shouldThrowException_whenApiUrlIsEmpty() {
-        // Act & Assert
-        assertThrows(IllegalStateException.class, () ->
-            new MeLiApiService(restClientBuilder, "", apiToken));
+    void search_whenApiReturnsOtherError_throwsExternalApiException() {
+        String keywords = "test";
+        when(requestHeadersSpec.retrieve())
+                .thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
+
+        assertThrows(ExternalApiException.class, () -> meliApiService.search(keywords, 0, 10));
+    }
+
+
+    @Test
+    void constructor_whenApiUrlIsNull_throwsIllegalStateException() {
+        assertThrows(IllegalStateException.class, () -> new MeLiApiService(restClientBuilder, null, apiToken));
     }
 
     @Test
-    void constructor_shouldThrowException_whenApiTokenIsEmpty() {
-        // Act & Assert
-        assertThrows(IllegalStateException.class, () ->
-            new MeLiApiService(restClientBuilder, apiUrl, ""));
+    void constructor_whenApiUrlIsEmpty_throwsIllegalStateException() {
+        assertThrows(IllegalStateException.class, () -> new MeLiApiService(restClientBuilder, "", apiToken));
+    }
+
+    @Test
+    void constructor_whenApiTokenIsNull_throwsIllegalStateException() {
+        assertThrows(IllegalStateException.class, () -> new MeLiApiService(restClientBuilder, apiUrl, null));
+    }
+
+    @Test
+    void constructor_whenApiTokenIsEmpty_throwsIllegalStateException() {
+        assertThrows(IllegalStateException.class, () -> new MeLiApiService(restClientBuilder, apiUrl, ""));
     }
 }
