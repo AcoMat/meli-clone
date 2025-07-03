@@ -15,6 +15,7 @@ services:
       - MERCADOLIBRE_API_MOST_RECENT_TOKEN=${MERCADOLIBRE_API_MOST_RECENT_TOKEN}
       - MERCADOLIBRE_API_CLIENT_ID=${MERCADOLIBRE_API_CLIENT_ID}
       - MERCADOLIBRE_API_CLIENT_SECRET=${MERCADOLIBRE_API_CLIENT_SECRET}
+      - JWT_SECRET=${JWT_SECRET}
     networks:
       - springboot-mysql-network
     volumes:
@@ -24,7 +25,7 @@ services:
     image: mysql:8.0.39  # MySQL image version.
     ports:
       - "13306:3306"  # Maps port 3306 in the container to port 13306 on the host.
-    command: --init-file /data/application/init.sql
+    command: --init-file /data/application/init.sql --innodb-lock-wait-timeout=50 --innodb-rollback-on-timeout=ON --transaction-isolation=READ-COMMITTED
     volumes:
       - mysql-data:/var/lib/mysql  # Persistent storage for MySQL data.
       - ./init.sql:/data/application/init.sql  # Initialization scripts.
@@ -38,8 +39,43 @@ services:
       interval: 3s  # Time between retries.
       timeout: 30s  # Timeout for each health check.
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "19090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - springboot-mysql-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "13000:3000"
+    environment:
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/Segui Tus Compras-1751514930741.json
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+    networks:
+      - springboot-mysql-network
+    depends_on:
+      - prometheus
+
 volumes:
   mysql-data:  # Named volume for MySQL data.
+  prometheus-data:  # Named volume for Prometheus data.
+  grafana-data:
 
 networks:
   springboot-mysql-network:
