@@ -18,7 +18,7 @@ services:
       mysqldb:
         condition: service_healthy
     environment:
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_SECRET=SeguiTusCompras2025
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/segui-tus-compras?useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=@milanesa

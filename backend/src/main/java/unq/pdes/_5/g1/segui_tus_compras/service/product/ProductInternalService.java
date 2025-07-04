@@ -28,10 +28,11 @@ public class ProductInternalService {
                 apiProduct.buyBoxWinner = new ExternalProductDto.BuyBoxWinnerDto();
                 // Generate random price between 50.000 and 1.000.000
                 double randomPrice = 50000 + Math.random() * (1000000 - 50000);
-                apiProduct.buyBoxWinner.price = randomPrice;
+                apiProduct.buyBoxWinner.price = Math.round(randomPrice * 100.0) / 100.0;
                 // Gen Random discount percentage between 0 and 50
                 int randomDiscountPercentage = (int) (Math.random() * 51);
-                apiProduct.buyBoxWinner.originalPrice = randomPrice * (1 + randomDiscountPercentage / 100.0);
+                double originalPrice = apiProduct.buyBoxWinner.price * (1 + randomDiscountPercentage / 100.0);
+                apiProduct.buyBoxWinner.originalPrice = Math.round(originalPrice * 100.0) / 100.0;
                 // Generate random free shipping boolean
                 apiProduct.buyBoxWinner.shipping = new ExternalProductDto.BuyBoxWinnerDto.ShippingDto();
                 apiProduct.buyBoxWinner.shipping.freeShipping = Math.random() < 0.5;
