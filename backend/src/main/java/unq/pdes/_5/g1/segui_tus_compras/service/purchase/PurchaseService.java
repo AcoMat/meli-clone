@@ -2,6 +2,7 @@ package unq.pdes._5.g1.segui_tus_compras.service.purchase;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.purchase.PurchaseItemDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.out.product.TopPurchasedProductDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.out.user.UserPurchasesDto;
@@ -37,6 +38,7 @@ public class PurchaseService {
         this.purchaseRepository = purchaseRepository;
     }
 
+    @Transactional
     public void generatePurchase(Long userId, List<PurchaseItemDto> dtoItems) {
         User user = userService.getUserById(userId);
         List<PurchaseItem> items = dtoItems
@@ -44,7 +46,7 @@ public class PurchaseService {
                         productService.getProductById(p.productId),
                         p.amount
                         )
-                ).toList();
+                ).collect(Collectors.toList());
         user.addPurchase(new Purchase(user, items));
         userService.updateUser(user);
     }
