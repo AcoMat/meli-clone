@@ -11,10 +11,13 @@ import unq.pdes._5.g1.segui_tus_compras.exception.external.InvalidApiTokenExcept
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 import org.springframework.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class MeLiApiService {
 
+    private static final Logger logger = LoggerFactory.getLogger(MeLiApiService.class);
     private final RestClient restClient;
     private final String apiToken;
 
@@ -70,7 +73,8 @@ public class MeLiApiService {
             }
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode().value() == 401) {
-                throw new InvalidApiTokenException("Invalid API token for MercadoLibre API");
+                logger.error("Invalid API token for MercadoLibre API. Please check the configured token.");
+                throw new InvalidApiTokenException("Invalid API token for MercadoLibre API. Please check the configured token.");
             }
             throw new ExternalApiException("Error calling MercadoLibre API: " + e.getMessage());
         }

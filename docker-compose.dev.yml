@@ -36,10 +36,9 @@ services:
     image: mysql:8.0.39
     ports:
       - "13306:3306"
-    command: --init-file /data/application/init.sql
     volumes:
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql-data:/var/lib/mysql
-      - ./backend/init.sql:/data/application/init.sql
     networks:
       - app-network
     environment:
