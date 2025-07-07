@@ -1,14 +1,17 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { getToken } from "../services/TokenService";
 import { getUserFavorites, putFavoriteProduct } from "../services/ApiService";
+import { useUserContext } from "./UserContext";
 
 export const FavoritesContext = createContext();
 
 export function FavoritesProvider({ children }) {
+    const { user } = useUserContext();
     const [loading, setLoading] = useState(true);
     const [favorites, setFavorites] = useState(null);
 
     const fetchData = async () => {
+        if (!user) return;
         setLoading(true);
         const token = await getToken();
         if (!token) {
@@ -22,7 +25,7 @@ export function FavoritesProvider({ children }) {
 
     useEffect(() => {
         fetchData()
-    }, []);
+    }, [user]);
 
     const toggleFavoriteProduct = async (productId) => {
         setLoading(true);

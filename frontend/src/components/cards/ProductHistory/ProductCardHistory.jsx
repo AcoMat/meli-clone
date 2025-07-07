@@ -16,7 +16,7 @@ export default function ProductCardHistory({ product, amount }) {
                         :
                         product.price && <h5>$ {product.price?.toFixed(2)}</h5>
                     }
-                    <Link to={`/product/${product.id}/review`}>Calificar</Link>
+                    <Link to={`/product/${product.id}/review`} onClick={(e) => e.stopPropagation()}>Calificar</Link>
                 </div>
             </div>
         </div>

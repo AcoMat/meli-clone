@@ -17,14 +17,14 @@ function AdminUsersSearch() {
   return (
     <div className='bg-body p-4 rounded shadow-sm my-4'>
       <h3>Usuarios de la pagina</h3>
-      <div className='rounded-2' style={{ maxHeight: '600px'}}>
-        <input
-          type="text"
-          placeholder="Search users by name..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          style={{ marginBottom: '2rem', width: '100%', padding: '0.5rem' }}
-        />
+      <input
+        type="text"
+        placeholder="Search users by name..."
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+        style={{ marginBottom: '2rem', width: '100%', padding: '0.5rem' }}
+      />
+      <div className='rounded-2 overflow-y-auto' style={{ maxHeight: '60vh' }}>
         {loading ? (
           <div className="d-flex justify-content-center p-3">
             <div className="spinner-border spinner-border-sm" role="status">
