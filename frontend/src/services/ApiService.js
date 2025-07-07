@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:18080/';
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+if (!API_URL) {
+  throw new Error('VITE_BACKEND_URL is not defined. Please set it in your .env file.');
+}
+
 
 const axiosService = axios.create({
   baseURL: API_URL,
@@ -8,7 +12,6 @@ const axiosService = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
 
 //  USER AUTHENTICATION
 
@@ -23,7 +26,10 @@ export async function register(firstName, lastName, email, password) {
     return response;
   }
   catch (error) {
-    throw new Error('Error during registration: ' + error.response.data);
+    if (error.response) {
+      throw new Error('Error during registration: ' + error.response.data);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
   }
 }
 
@@ -36,8 +42,10 @@ export async function login(email, password) {
     return response;
   }
   catch (error) {
-    console.error('Error during login:', error);
-    return null;
+    if (error.response) {
+      throw new Error('Error during login: ' + error.response.data);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
   }
 }
 
@@ -45,7 +53,7 @@ export async function login(email, password) {
 
 export async function getUserProfile(token) {
   try {
-    const response = await axiosService.get(`/users/me`, {
+    const response = await axiosService.get(`/profile`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -60,7 +68,7 @@ export async function getUserProfile(token) {
 
 export async function getUserPurchases(token) {
   try {
-    const response = await axiosService.get(`/users/me/purchases`, {
+    const response = await axiosService.get(`/purchases`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -75,7 +83,7 @@ export async function getUserPurchases(token) {
 
 export async function getUserFavorites(token) {
   try {
-    const response = await axiosService.get(`/users/me/favorites`, {
+    const response = await axiosService.get(`/favorites`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -90,7 +98,7 @@ export async function getUserFavorites(token) {
 
 export async function postNewPurchase(token, items) {
   try {
-    const response = await axiosService.post(`/users/me/purchases`, {items}, {
+    const response = await axiosService.post(`/purchases`, {items}, {
       headers: {
         Authorization: `${token}`,
       },
@@ -98,14 +106,16 @@ export async function postNewPurchase(token, items) {
     return response.data;
   }
   catch (error) {
-    console.error('Error posting new purchase:', error);
-    throw new Error(error.response.data);
+    if (error.response) {
+      throw new Error(error.response.data);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
   }
 }
 
-export async function toggleFavorite(token, productId) {
+export async function putFavoriteProduct(token, productId) {
   try {
-    const response = await axiosService.put(`/users/me/favorites`, { productId }, {
+    const response = await axiosService.put(`/favorites`, { productId }, {
       headers: {
         Authorization: `${token}`,
       },
@@ -113,8 +123,10 @@ export async function toggleFavorite(token, productId) {
     return response.data;
   }
   catch (error) {
-    console.error(error);
-    throw new Error('Error toggling favorite:', error.response.data);
+    if (error.response) {
+      throw new Error('Error toggling favorite:', error.response.data);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
   }
 }
 
@@ -143,13 +155,16 @@ export async function postReview(token, productId, rating, review) {
     return response.data;
   }
   catch (error) {
-    throw new Error('Error posting new review:', error.response.data);
+    if (error.response) {
+      throw new Error('Error posting new review:', error.response.data);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
   }
 }
 
 export async function userBoughtProduct(token, productId) {
   try {
-    const response = await axiosService.post(`/users/me/purchases/${productId}`, {
+    const response = await axiosService.get(`/purchases/${productId}`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -157,7 +172,7 @@ export async function userBoughtProduct(token, productId) {
     return response.data;
   }
   catch (error) {
-    console.error(error.response.data);
+    console.error(error);
     return false;
   }
 }
@@ -183,8 +198,10 @@ export async function searchProducts(q, offset = 0, limit = 10) {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw new Error('Error fetching products:', error.response.data);
+    if (error.response) {
+      throw new Error('Error fetching products:', error.response.data);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
   }
 }
 
@@ -211,3 +228,101 @@ export async function getProductsReviews(productId) {
 }
 
 
+export async function adminGetUsers(token) {
+  try {
+    const response = await axiosService.get(`/admin/users`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    if (error.response) {
+      throw new Error(`Error fetching users: ${JSON.stringify(error.response.data)}`);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
+  }
+}
+
+export async function adminGetUserData(token, userId) {
+  try {
+    const response = await axiosService.get(`/admin/users/${userId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    if (error.response) {
+      throw new Error(`Error fetching user data: ${JSON.stringify(error.response.data)}`);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
+  }
+}
+
+export async function adminGetTopPurchased(token) {
+  try {
+    const response = await axiosService.get(`/admin/top/purchased`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    if (error.response) {
+      throw new Error(`Error fetching top products: ${JSON.stringify(error.response.data)}`);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
+  }
+}
+
+export async function adminGetTopFavorites(token) {
+  try {
+    const response = await axiosService.get(`/admin/top/favorites`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    if (error.response) {
+      throw new Error(`Error fetching top products: ${JSON.stringify(error.response.data)}`);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
+  }
+}
+
+export async function adminGetTopBuyers(token) {
+  try {
+    const response = await axiosService.get(`/admin/top/buyers`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    if (error.response) {
+      throw new Error(`Error fetching top buyers: ${JSON.stringify(error.response.data)}`);
+    }
+    throw new Error('Error de conexión. Por favor, intente más tarde.');
+  }
+}
+
+export async function hasAdminAccess(token) {
+  try {
+    await axiosService.get(`/admin`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    return true;
+  }
+  catch (error) {
+    return false;
+  }
+}

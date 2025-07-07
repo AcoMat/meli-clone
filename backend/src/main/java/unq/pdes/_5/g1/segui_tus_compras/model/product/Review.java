@@ -1,6 +1,7 @@
 package unq.pdes._5.g1.segui_tus_compras.model.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -23,9 +24,9 @@ public class Review {
     private String comment;
     private LocalDateTime createdAt;
     @ManyToOne
-    @JsonIgnore
     private Product product;
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
 
@@ -37,6 +38,7 @@ public class Review {
         this.createdAt = LocalDateTime.now();
     }
 
+    @JsonProperty("by")
     public String by() {
         return user.getFirstName() + " " + user.getLastName();
     }

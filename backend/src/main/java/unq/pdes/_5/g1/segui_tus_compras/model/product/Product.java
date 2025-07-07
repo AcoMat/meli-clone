@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.meli_api.ExternalProductDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 
 import java.util.ArrayList;
@@ -20,19 +20,21 @@ public class Product {
     Double price;
     @Column(columnDefinition = "TEXT")
     String description;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @Column
     List<String> pictures;
     Integer priceDiscountPercentage;
     Boolean isFreeShipping;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private List<ProductAttribute> attributes;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Commentary> commentaries;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 
@@ -77,6 +79,7 @@ public class Product {
         }
 
         this.commentaries = new ArrayList<>();
+        this.reviews = new ArrayList<>();
     }
 
     public Double getPriceWithDiscountApplied() {
@@ -94,6 +97,7 @@ public class Product {
     }
 
     public void addReview(Review newReview) {
+        this.reviews.removeIf(review -> review.getUser().equals(newReview.getUser()));
         this.reviews.add(newReview);
     }
 }

@@ -3,11 +3,11 @@ package unq.pdes._5.g1.segui_tus_compras.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.ReviewDto;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.SearchDTO;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.user.ReviewDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.out.search.SearchDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.CommentDto;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.PagingDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.user.CommentDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.out.search.PagingDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 import unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth;
@@ -38,7 +38,7 @@ public class ProductsController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<SearchDTO> searchProductByName(
+    public ResponseEntity<SearchDTO> searchProductsByName(
             @RequestParam String q,
             @RequestParam(required = false, defaultValue = "0") Integer offset,
             @RequestParam(required = false, defaultValue = "10") Integer limit
@@ -50,7 +50,7 @@ public class ProductsController {
 
     @GetMapping("/{productId}/comments")
     public ResponseEntity<List<Commentary>> getCommentsFromProduct(@PathVariable String productId) {
-        return ResponseEntity.ok(productService.getProductCommentaries(productId));
+        return ResponseEntity.ok(commentService.getProductCommentaries(productId));
     }
 
     @NeedsAuth
@@ -67,7 +67,7 @@ public class ProductsController {
 
     @GetMapping("/{productId}/reviews")
     public ResponseEntity<List<Review>> getReviewsFromProduct(@PathVariable String productId) {
-        return ResponseEntity.ok(productService.getProductReviews(productId));
+        return ResponseEntity.ok(reviewService.getProductReviews(productId));
     }
 
     @NeedsAuth

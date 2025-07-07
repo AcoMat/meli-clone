@@ -1,12 +1,14 @@
 
 import { memo, useState } from 'react';
 import { useCartContext } from '../../../context/CartContext';
-import useProduct from '../../../hooks/useProduct';
 import LoadingSwitch from '../../basic/LoadingSwitch/LoadingSwitch';
+import useGetProduct from '../../../hooks/useGetProduct';
+import { formatARS } from '../../../util/priceUtil';
+import { Link } from 'react-router-dom';
 
 const CartProduct = memo(({ cartItem }) => {
     const { updateAmount, removeFromCart } = useCartContext();
-    const { product, loading } = useProduct(cartItem.product.id);
+    const { product, loading } = useGetProduct(cartItem.product.id);
     const [amount, setAmount] = useState(cartItem.amount);
 
     const increaseAmount = () => {
@@ -27,7 +29,7 @@ const CartProduct = memo(({ cartItem }) => {
                     <div className='d-flex align-items-center'>
                         <img src={product?.pictures[0]} className='me-4' style={{ maxHeight: "100px" }} />
                         <div className='d-flex flex-column'>
-                            <a href={`/product/${cartItem.product.id}`} className='fs-5 fw-medium mb-2 text-decoration-none text-dark'>{product?.name}</a>
+                            <Link to={`/product/${cartItem.product.id}`} className='fs-5 fw-medium mb-2 text-decoration-none text-dark'>{product?.name}</Link>
                             <a onClick={() => removeFromCart(cartItem.product.id)} className='text-primary text-decoration-none mb-2' style={{ cursor: "pointer" }}>Eliminar</a>
                             <div
                                 className="d-inline-flex justify-content-center align-items-center gap-3 border rounded p-1"
@@ -43,7 +45,7 @@ const CartProduct = memo(({ cartItem }) => {
                     <div className='d-flex align-items-center'>
                         {
                             product?.price &&
-                            <span className='fw-medium fs-4'>$ {(product?.price * amount).toFixed(2)}</span>
+                            <span className='fw-medium fs-4'>{formatARS(product?.price * amount)}</span>
                         }
                     </div>
                 </div>
@@ -53,7 +55,7 @@ const CartProduct = memo(({ cartItem }) => {
                         product?.isFreeShipping ?
                             <span className='text-success fw-medium'>Gratis</span>
                             :
-                            <span className='fw-medium'>$ {product?.shipping?.price?.toFixed(2)}</span>
+                            <span className='fw-medium'>{formatARS(product?.shipping?.price)}</span>
                     }
                 </div>
             </div>

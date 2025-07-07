@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { postNewPurchase } from "../services/ApiService";
-import { getToken } from "../services/tokenService";
+import { getToken } from "../services/TokenService";
 
 export const CartContext = createContext()
 
@@ -23,7 +23,7 @@ export const CartProvider = ({ children }) => {
         }
     }, [cart]);
 
-    const addToCart = (product, amountToAdd = 1) => {
+    const addToCart = useCallback((product, amountToAdd = 1) => {
         setCart((prevCart) => {
             const existingItemIndex = prevCart.findIndex(
                 (item) => item.product.id === product.id
@@ -35,22 +35,22 @@ export const CartProvider = ({ children }) => {
             }
             return [...prevCart, { product, "amount": amountToAdd }];
         });
-    };
+    }, []);
 
-    const removeFromCart = (productId) => {
+    const removeFromCart = useCallback((productId) => {
         console.log("Removing product with ID:", productId);
         setCart((prevCart) => prevCart.filter((item) => item.product.id !== productId));
-    };
+    }, []);
 
-    const updateAmount = (productId, newAmount) => {
+    const updateAmount = useCallback((productId, newAmount) => {
         setCart((prevCart) =>
             prevCart.map((item) =>
                 item.product.id === productId ? { ...item, "amount": newAmount } : item
             )
         );
-    };
+    }, []);
 
-    const purchaseCart = async () => {
+    const purchaseCart = useCallback(async () => {
         const token = await getToken();
         if (!token) {
             console.error("No token found. User is not authenticated.");
@@ -61,16 +61,24 @@ export const CartProvider = ({ children }) => {
             amount: item.amount
         })));
         setCart([]);
-    };
+    }, [cart]);
 
-
-    const clearCart = () => {
+    const clearCart = useCallback(() => {
         setCart([]);
-    };
+    }, []);
 
+    // Memoize the context value to prevent unnecessary re-renders
+    const contextValue = useMemo(() => ({
+        cart,
+        addToCart,
+        removeFromCart,
+        updateAmount,
+        clearCart,
+        purchaseCart
+    }), [cart, addToCart, removeFromCart, updateAmount, clearCart, purchaseCart]);
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateAmount, clearCart, purchaseCart }}>
+        <CartContext.Provider value={contextValue}>
             {children}
         </CartContext.Provider>
     );

@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { clearToken, getToken, setToken } from '../services/tokenService';
-import { getUserProfile, login as loginService, register as registerService } from '../services/ApiService';
+import { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
+import { clearToken, getToken, setToken } from '../services/TokenService';
+import { getUserProfile, hasAdminAccess, login as loginService, register as registerService } from '../services/ApiService';
 
 export const UserContext = createContext()
 
@@ -8,59 +8,60 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
+    const loadUser = async () => {
         setLoading(true);
-        getToken().then((token) => {
-            if (token && token !== '') {
-                getUserProfile(token)
-                    .then((userData) => {
-                        if (userData) {
-                            setUser(userData);
-                        } else {
-                            clearToken();
-                        }
-                        setLoading(false);
-                    })
+        const token = await getToken();
+        if (token && token !== '') {
+            const userData = await getUserProfile(token);
+            if (userData) {
+                const isAdmin = await hasAdminAccess(token);
+                setUser({ ...userData, isAdmin });
             } else {
                 clearToken();
-                setLoading(false);
+                setUser(null);
             }
-        });
+        } else {
+            clearToken();
+            setUser(null);
+
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        loadUser();
     }, []);
 
-    /*
-    * Register a new user
-    * @param {string} firstName - The first name of the user
-    * @param {string} lastName - The last name of the user
-    * @param {string} email - The email of the user
-    * @param {string} password - The password of the user
-    * @throws {Error} If the registration fails
-    */
-    const register = async (firstName, lastName, email, password) => {
+    const register = useCallback(async (firstName, lastName, email, password) => {
         const res = await registerService(firstName, lastName, email, password);
         setToken(res.headers['authorization']);
-        setUser(res.data);
-    }
+        const isAdmin = await hasAdminAccess(res.headers['authorization']);
+        setUser({ ...res.data, isAdmin });
+    }, []);
 
-    const login = async (email, password) => {
+    const login = useCallback(async (email, password) => {
         const res = await loginService(email, password);
-        if (res && res.status === 200) {
-            console.log('Login successful');
-            setToken(res.headers['authorization']);
-            setUser(res.data);
-        } else {
-            console.error('Login failed');
-        }
-    };
+        setToken(res.headers['authorization']);
+        const isAdmin = await hasAdminAccess(res.headers['authorization']);
+        setUser({ ...res.data, isAdmin });
+    }, []);
 
-    const logout = () => {
+    const logout = useCallback(() => {
         clearToken();
         setUser(null);
-    };
+    }, []);
 
+    // Memoize the context value to prevent unnecessary re-renders
+    const contextValue = useMemo(() => ({
+        register,
+        login,
+        logout,
+        user,
+        loading
+    }), [register, login, logout, user, loading]);
 
     return (
-        <UserContext.Provider value={{ register, login, logout, user, loading }}>
+        <UserContext.Provider value={contextValue}>
             {children}
         </UserContext.Provider>
     );

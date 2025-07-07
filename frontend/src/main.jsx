@@ -10,7 +10,6 @@ import Home from './pages/Home';
 import Product from './pages/product/Product';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
-import User from './pages/user/User';
 import Cart from './pages/user/Cart';
 import Search from './pages/product/Search';
 import Favorites from './pages/user/Favorites';
@@ -21,6 +20,9 @@ import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
 import Review from './pages/product/Review';
 import Checkout from './pages/purchase/Checkout';
+import Profile from './pages/user/Profile';
+import UserProfileAdmin from './pages/admin/UserProfileAdmin';
+import { FavoritesProvider } from './context/FavoritesContext';
 
 
 const router = createBrowserRouter([
@@ -45,9 +47,8 @@ const router = createBrowserRouter([
         element: <Register />
       },
       {
-        path: "user",
-        element: <User />
-
+        path: "profile",
+        element: <Profile />
       },
       {
         path: "cart",
@@ -76,8 +77,12 @@ const router = createBrowserRouter([
       {
         path: "checkout",
         element: <Checkout />
+      },
+      {
+        path: "/admin/users/:idUser",
+        element: <UserProfileAdmin />
       }
-      ]
+    ]
   }
 
 ]);
@@ -87,7 +92,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <UserProvider>
       <CartProvider>
-        <RouterProvider router={router} />
+        <FavoritesProvider>
+          <RouterProvider router={router} />
+        </FavoritesProvider>
       </CartProvider>
     </UserProvider>
   </StrictMode>,

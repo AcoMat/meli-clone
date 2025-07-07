@@ -1,9 +1,10 @@
 import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
-import HorizontalProductCard from "../../components/cards/HorizontalProductCard/HorizontalProductCard";
-import useFavorites from "../../hooks/useFavorites";
+import FavoriteProductItemCard from "../../components/cards/FavoriteProductItemCard/FavoriteProductItemCard";
+import { useFavoritesContext } from "../../context/FavoritesContext";
+
 
 function Favorites() {
-    const { favorites, loading } = useFavorites();
+    const { favorites, loading } = useFavoritesContext();
 
     return (
         <div className="content-wrapper">
@@ -13,9 +14,9 @@ function Favorites() {
                 </div>
                 <div className="bg-body p-3 d-flex flex-column">
                     {favorites && favorites.length > 0 ?
-                        favorites.map((product) => {
+                        favorites?.map((product) => {
                             return (
-                                <HorizontalProductCard key={product.id} product={product} />
+                                <FavoriteProductItemCard key={product.id} product={product} />
                             )
                         })
                         :

@@ -35,6 +35,7 @@
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.language>java</sonar.language>
+		<sonar.exclusions>**/unq/pdes/_5/g1/segui_tus_compras/model/dto/**/*</sonar.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -93,6 +94,29 @@
 			<version>1.18.38</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.tngtech.archunit</groupId>
+			<artifactId>archunit-junit5</artifactId>
+			<version>1.2.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
 	</dependencies>
 
 
@@ -115,7 +139,7 @@
 					</execution>
 					<execution>
 						<id>jacoco-site</id>
-						<phase>package</phase>
+						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>

@@ -6,19 +6,19 @@ import InfoSectionV2 from '../../components/layout/InfoSection/InfoSectionV2';
 import ProductDescription from '../../components/product/ProductDescription/ProductDescription';
 import ProductCharacteristics from '../../components/product/ProductCharacteristics/ProductCharacteristics';
 import { useEffect } from 'react';
-import useProduct from '../../hooks/useProduct';
-import { postComment, postReview } from '../../services/ApiService';
-import { getToken } from '../../services/tokenService';
+import { postComment } from '../../services/ApiService';
 import ProductQuestionsAndResponses from '../../components/product/ProductQuestionsAndResponses/ProductQuestionsAndResponses';
 import QuestionForm from '../../components/forms/QuestionForm/QuestionForm';
 import ErrorPage from '../ErrorPage';
 import ProductRating from '../../components/product/ProductReviews/ProductRating';
 import ProductReviews from '../../components/product/ProductReviews/ProductReviews';
+import { getToken } from '../../services/TokenService';
+import useGetProduct from '../../hooks/useGetProduct';
 
 
 export default function Product() {
     const { idProduct } = useParams();
-    const { product, loading, refresh } = useProduct(idProduct);
+    const { product, loading, refresh } = useGetProduct(idProduct);
 
     const addComment = async (text) => {
         const token = await getToken();

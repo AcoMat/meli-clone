@@ -9,9 +9,10 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import unq.pdes._5.g1.segui_tus_compras.exception.AlreadyExistingUser;
-import unq.pdes._5.g1.segui_tus_compras.exception.InvalidTokenException;
-import unq.pdes._5.g1.segui_tus_compras.exception.MissingAuthorizationHeaderException;
+import unq.pdes._5.g1.segui_tus_compras.exception.auth.*;
+import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
+import unq.pdes._5.g1.segui_tus_compras.exception.purchase.NotBoughtYetException;
+
 import java.util.stream.Collectors;
 
 
@@ -39,9 +40,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("Request body is not readable", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({AlreadyExistingUser.class})
-    public ResponseEntity<String> alreadyExistingUser(AlreadyExistingUser ex) {
+    @ExceptionHandler({AlreadyExistingUserException.class})
+    public ResponseEntity<String> alreadyExistingUser(AlreadyExistingUserException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ProductNotFoundException.class})
+    public ResponseEntity<String> productNotFound(ProductNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(JWTVerificationException.class)
@@ -62,6 +68,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(WrongCredentialsException.class)
+    public ResponseEntity<String> handleWrongCredentialsException(WrongCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(NotBoughtYetException.class)
+    public ResponseEntity<String> handleNotBoughtYetException(NotBoughtYetException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<String> handleUnauthorizedAccessException(UnauthorizedAccessException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)

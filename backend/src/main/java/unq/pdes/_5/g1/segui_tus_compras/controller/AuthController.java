@@ -3,10 +3,11 @@ package unq.pdes._5.g1.segui_tus_compras.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.AuthResponseDTO;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.UserDTO;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.LoginCredentials;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.auth.RegisterData;
+import unq.pdes._5.g1.segui_tus_compras.metrics.auth.AuthMetricsService;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.AuthResponseDTO;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.LoginCredentials;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.RegisterData;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.out.user.BasicUserDto;
 import unq.pdes._5.g1.segui_tus_compras.service.auth.AuthService;
 
 @RestController
@@ -14,20 +15,23 @@ import unq.pdes._5.g1.segui_tus_compras.service.auth.AuthService;
 public class AuthController {
 
     private final AuthService authService;
+    private final AuthMetricsService authMetricsService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, AuthMetricsService authMetricsService) {
         this.authService = authService;
+        this.authMetricsService = authMetricsService;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterData data) {
-        AuthResponseDTO new_user = authService.register(data);
-        return ResponseEntity.ok().header("Authorization", "Bearer " + new_user.token).body(new_user.user);
+    public ResponseEntity<BasicUserDto> register(@Valid @RequestBody RegisterData data) {
+        AuthResponseDTO newUser = authService.register(data);
+        authMetricsService.incrementUserRegistration();
+        return ResponseEntity.ok().header("Authorization", "Bearer " + newUser.token()).body(newUser.user());
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@Valid @RequestBody LoginCredentials credentials) {
-        AuthResponseDTO logged_user = authService.login(credentials);
-        return ResponseEntity.ok().header("Authorization", "Bearer " + logged_user.token).body(logged_user.user);
+    public ResponseEntity<BasicUserDto> login(@Valid @RequestBody LoginCredentials credentials) {
+        AuthResponseDTO loggedUser = authService.login(credentials);
+        return ResponseEntity.ok().header("Authorization", "Bearer " + loggedUser.token()).body(loggedUser.user());
     }
 }

@@ -7,6 +7,7 @@ import { useCartContext } from '../../../context/CartContext';
 import { useState } from 'react';
 import Toast from 'bootstrap/js/dist/toast';
 import { useUserContext } from '../../../context/UserContext';
+import { formatARS } from '../../../util/priceUtil';
 
 function ProductBuy({ product }) {
     const { user } = useUserContext();
@@ -15,10 +16,11 @@ function ProductBuy({ product }) {
 
     const { addToCart } = useCartContext();
 
-    const handleAdd = () => {
+    const handleAdd = (redirect = false) => {
         if (!user) { navigate("/login"); return }
         addToCart(product, amount);
         showToast();
+        if (redirect) navigate("/cart");
     }
 
     const showToast = () => {
@@ -32,22 +34,24 @@ function ProductBuy({ product }) {
             <div className="col bg-body" style={{ minHeight: 0, maxWidth: "400px" }}>
                 <div className="position-relative" style={{ minWidth: 0 }}>
                     <LikeStarSwitch productId={product?.id} />
-                    <h6 className="w-75 text-break">{product?.name}</h6>
+                    <h6 className="fs-4 w-75 fw-semibold text-break">{product?.name}</h6>
                     <span style={{ color: "#666666", fontSize: "13px" }} onClick={() => { }}>
                         Por {product?.owner?.name || "???"}
                     </span>
                     {
                         product?.priceDiscountPercentage ?
                             <h5 className='mb-0 mt-2'>
-                                <span className="text-decoration-line-through fw-light">${product?.price?.toFixed(2)}</span>
-                                <span className="text-success fw-light"> {product?.priceDiscountPercentage}% OFF</span>
-                                <span className="text-success"> $ {(product?.price * (1 - product?.priceDiscountPercentage / 100)).toFixed(2)}</span>
+                                <span className="text-decoration-line-through fw-light">{formatARS(product?.price)}</span>
+                                <p>
+                                    <span className="fs-2 fw-normal"> {formatARS(product?.priceWithDiscountApplied)}</span>
+                                    <span className="text-success fw-medium"> {product?.priceDiscountPercentage}% OFF</span>
+                                </p>
                             </h5>
                             :
-                            <h5 className='mb-0 mt-2'>$ {product?.price?.toFixed(2) || "???"}</h5>
+                            <h5 className='mb-0 mt-2'>{formatARS(product?.price)}</h5>
                     }
-                    <p style={{ color: "#00A650" }}>En 12 cuotas de ${product?.price ? ((product?.price / 12).toFixed(2)) : "???"}</p>
-                    <p style={{ marginBottom: "12px" }}>Envio{product?.isFreeShipping ? " gratis" : ` $ ${product?.shipping?.price?.toFixed(2) || "???"}`}</p>
+                    <p style={{ color: "#00A650" }}>En 12 cuotas de {product?.price ? formatARS(product?.price / 12) : "???"}</p>
+                    <p className='text-success mb-3 fw-medium'>{product?.isFreeShipping ? "Envío gratis" : ` ${formatARS(product?.shipping?.price)}`}</p>
                     <h6>Stock disponible</h6>
                     <div style={{ minWidth: 0, overflow: 'hidden', width: '100%' }}>
                         <QuantitySelector amount={amount} setAmount={setAmount} />

@@ -1,17 +1,17 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
-import useProduct from "../../hooks/useProduct";
 import ErrorPage from "../ErrorPage";
 import LargeBlueButton from "../../components/basic/LargeBlueButton/LargeBlueButton";
 import { useEffect, useRef, useState } from "react";
 import StarReview from "../../components/product/ProductReviews/StarReview";
 import { postReview, userBoughtProduct } from "../../services/ApiService";
-import { getToken } from "../../services/tokenService";
+import { getToken } from "../../services/TokenService";
+import useGetProduct from "../../hooks/useGetProduct";
 
 export default function Review() {
     let navigate = useNavigate();
     const { idProduct } = useParams();
-    const { product, loading } = useProduct(idProduct);
+    const { product, loading } = useGetProduct(idProduct);
     const textArea = useRef(null);
 
     const [rating, setRating] = useState(0);
@@ -37,7 +37,7 @@ export default function Review() {
             }
             userBoughtProduct(token, idProduct).then((response) => {
                 if (!response) {
-                    navigate("/");
+                    navigate("/product/" + idProduct);
                 }
             });
         })
@@ -64,7 +64,7 @@ export default function Review() {
                             <textarea rows="3" ref={textArea} placeholder="Escribí tu opinión aquí..." className="w-100"></textarea>
                         </div>
                         <div className="d-flex justify-content-between">
-                            <a href={`/product/${idProduct}`} className="text-primary text-decoration-none ps-1">Cancelar</a>
+                            <Link to={`/product/${idProduct}`} className="text-primary text-decoration-none ps-1">Cancelar</Link>
                             <div className="w-25">
                                 <LargeBlueButton onClick={addReview} text={"Enviar"} />
                             </div>

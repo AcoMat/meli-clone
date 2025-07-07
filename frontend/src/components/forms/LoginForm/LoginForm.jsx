@@ -18,22 +18,21 @@ function LoginForm() {
   const loginStages = { email: 0, password: 1, error: 2 }
   const [loginStage, setLoginStage] = useState(loginStages.email);
 
-  const { login, user } = useUserContext();
+  const { login } = useUserContext();
+  const [loginError, setLoginError] = useState(null);
 
   const loginUser = async () => {
     setLoading(true);
-    await login(email, password);
-    if(!user) {
+    try {
+      await login(email, password);
+      navigate('/');
+    } catch (error) {
+      setLoginError(error.message);
       setLoginStage(loginStages.error);
+    } finally {
       setLoading(false);
     }
   }
-
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user])
 
   const nextStage = () => {
     switch (loginStage) {
@@ -65,7 +64,7 @@ function LoginForm() {
       {
         loginStage == loginStages.error ?
           <div className='mt-5'>
-            <UpsForm nextStage={nextStage} />
+            <UpsForm error={loginError} nextStage={nextStage} />
           </div>
           :
           <div className='d-flex flex-column justify-content-center flex-md-row bg-body rounded my-3 p-4 m-md-5 p-md-5'>
@@ -123,7 +122,7 @@ function LoginForm() {
                   loginStage === loginStages.password ?
                     <div className='d-flex gap-3 mt-4'>
                       <div className='w-50'>
-                        <LargeBlueButton text='Iniciar sesión' onClick={nextStage} loading={loading}/>
+                        <LargeBlueButton text='Iniciar sesión' onClick={nextStage} loading={loading} />
                       </div>
                       <div className='w-50'>
                         <SecundaryBtn text="¿Olvidaste tu contraseña?" onClick={() => navigate("/error")} />
