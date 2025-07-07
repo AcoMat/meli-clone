@@ -16,6 +16,7 @@ import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PurchaseService {
@@ -45,7 +46,7 @@ public class PurchaseService {
                                 productService.getProductById(p.productId),
                                 p.amount
                         )
-                ).toList();
+                ).collect(Collectors.toList());
         user.addPurchase(new Purchase(user, items));
         userService.updateUser(user);
     }
@@ -61,13 +62,13 @@ public class PurchaseService {
         List<Object[]> rawResults = purchaseItemRepository.findTopProductsRaw(PageRequest.of(0, 5));
         return rawResults.stream()
                 .map(row -> new TopPurchasedProductDto((Product) row[0], (Long) row[1]))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<UserPurchasesDto> getTopBuyers() {
         List<Object[]> result = purchaseRepository.findTopUsers(PageRequest.of(0, 5));
         return result.stream()
                 .map(row -> new UserPurchasesDto((User) row[0], (Long) row[1]))
-                .toList();
+                .collect(Collectors.toList());
     }
 }
