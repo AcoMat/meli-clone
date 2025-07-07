@@ -3,6 +3,8 @@ package unq.pdes._5.g1.segui_tus_compras.controller;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -104,57 +106,35 @@ class AuthControllerTest {
                 .andExpect(content().string("An user with this email already exists"));
     }
 
-    @Test
-    void shouldReturn400WhenRegisterWithInvalidEmail() throws Exception {
-        // Arrange
-        String registerRequestJson = """
+    @ParameterizedTest
+    @ValueSource(strings = {
+            """
                 {
                     "firstName": "John",
                     "lastName": "Doe",
                     "email": "invalid-email",
                     "password": "password123"
                 }
-                """;
-
-        // Act and Assert
-        mockMvc.perform(post("/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(registerRequestJson))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldReturn400WhenRegisterWithTooShortPassword() throws Exception {
-        // Arrange
-        String registerRequestJson = """
+            """,
+            """
                 {
                     "firstName": "John",
                     "lastName": "Doe",
                     "email": "johndoe@example.com",
                     "password": "123"
                 }
-                """;
-
-        // Act and Assert
-        mockMvc.perform(post("/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(registerRequestJson))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldReturn400WhenRegisterWithMissingFields() throws Exception {
-        // Arrange
-        String registerRequestJson = """
+            """,
+            """
                 {
                     "firstName": "John"
                 }
-                """;
-
+            """
+    })
+    void shouldReturn400WhenRegisterWithInvalidData(String registerRequestJson) throws Exception {
         // Act and Assert
         mockMvc.perform(post("/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(registerRequestJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(registerRequestJson))
                 .andExpect(status().isBadRequest());
     }
 

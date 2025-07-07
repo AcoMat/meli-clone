@@ -35,6 +35,7 @@
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.language>java</sonar.language>
+		<sonar.exclusions>**/unq/pdes/_5/g1/segui_tus_compras/model/dto/**/*</sonar.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>

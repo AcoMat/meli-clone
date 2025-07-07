@@ -108,7 +108,7 @@ class ProductsControllerTest {
 
     @Test
     void testPostCommentToProduct() throws Exception {
-        String TEST_COMMENT = "This is a test comment";
+        String testComment = "This is a test comment";
         Product product = new Product(createMockExternalProductDto());
 
         String userToken = "testUserToken";
@@ -125,7 +125,7 @@ class ProductsControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/products/" + product.getId() + "/comments")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", userToken)
-                        .content("{\"comment\":\"" + TEST_COMMENT + "\"}"))
+                        .content("{\"comment\":\"" + testComment + "\"}"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Comment added successfully"));
 
@@ -348,11 +348,11 @@ class ProductsControllerTest {
 
 
     private ExternalProductDto createMockExternalProductDto() {
-        String TEST_PRODUCT_ID = "MLA" + new Random().ints(9, 'A', 'Z' + 1)
+        String testProduct = "MLA" + new Random().ints(9, 'A', 'Z' + 1)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
         ExternalProductDto productDto = new ExternalProductDto();
-        productDto.id = TEST_PRODUCT_ID;
+        productDto.id = testProduct;
         productDto.name = "Test Product";
 
         // Set description
