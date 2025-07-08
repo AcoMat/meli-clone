@@ -47,24 +47,39 @@ El proyecto puede ser ejecutado en su totalidad utilizando Docker Compose.
 
 ### **Importante**
 Para el correcto funcionamiento de la aplicación, es necesario configurar
-la siguiente variable de entorno.
+las siguientes variables de entorno.
 En un archivo `.env` en la raíz del proyecto poner el siguiente contenido:
 ```
-MERCADOLIBRE_API_MOST_RECENT_TOKEN=tu_token
+MERCADOLIBRE_API_MOST_RECENT_TOKEN= token api mercado libre
 ```
 
 ### Ejecución
 
-1. Ir al directorio /backend y ejecutar:
-    ```bash
-    mvn clean package -DskipTests
-    ```
-   
-2. Desde el directorio raíz del proyecto, ejecutar:
+1. Desde el directorio raíz del proyecto, ejecutar:
     ```bash
     docker-compose -f docker-compose.dev.yml up --build
     ```
-Este comando construirá las imágenes y levantará los contenedores para el frontend, backend y la base de datos MySQL.
+Este comando construirá las imágenes (incluyendo la compilación del backend con Maven) y levantará los contenedores para el frontend, backend y la base de datos MySQL.
+
+### Servicios y Puertos
+
+Una vez que los contenedores estén ejecutándose, los siguientes servicios estarán disponibles:
+
+| Servicio  | Puerto | URL                                    | Descripción                           |
+|-----------|--------|----------------------------------------|---------------------------------------|
+| Frontend  | 15173  | http://localhost:15173                 | Aplicación web principal              |
+| Backend   | 18080  | http://localhost:18080                 | API REST del backend                  |
+| Swagger   | 18080  | http://localhost:18080/swagger-ui/index.html#/ | Documentación de la API          |
+| MySQL     | 13306  | localhost:13306                        | Base de datos                         |
+| Prometheus| 19090  | http://localhost:19090                 | Métricas del sistema                  |
+| Grafana   | 13000  | http://localhost:13000                 | Dashboard de monitoreo                |
+
+### API Documentation
+
+La documentación completa de la API está disponible en Swagger UI:
+- **URL**: http://localhost:18080/swagger-ui/index.html#/
+- Acceso directo para probar los endpoints
+- Documentación detallada de todos los servicios REST
 
 ---
 
