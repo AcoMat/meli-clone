@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../../context/CartContext";
 import { useState } from "react";
-import UpsForm from "../../components/forms/UpsForm";
-import PurchaseSumary from "./components/PurchaseSumary";
-import ChoosePaymentStage from "./components/ChoosePaymentStage";
 import checklist from "../../assets/ui/check-list.svg";
+import PurchaseSumary from "../../components/purchase/PurchaseSumary";
+import ChoosePaymentStage from "../../components/purchase/ChoosePaymentStage";
 
 export default function Checkout() {
     let navigate = useNavigate();

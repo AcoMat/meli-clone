@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProductImages from "../../components/product/ProductImages/ProductImages";
 import LoadingSwitch from '../../components/basic/LoadingSwitch/LoadingSwitch';
 import ProductBuy from '../../components/product/ProductBuy/ProductBuy';
@@ -14,13 +14,20 @@ import ProductRating from '../../components/product/ProductReviews/ProductRating
 import ProductReviews from '../../components/product/ProductReviews/ProductReviews';
 import { getToken } from '../../services/TokenService';
 import useGetProduct from '../../hooks/useGetProduct';
+import { useUserContext } from '../../context/UserContext';
 
 
 export default function Product() {
+    const navigate = useNavigate();
     const { idProduct } = useParams();
+    const { user } = useUserContext();
     const { product, loading, refresh } = useGetProduct(idProduct);
 
     const addComment = async (text) => {
+        if(!user) {
+            navigate('/login', { state: { from: `/product/${idProduct}` } });
+            return;
+        }
         const token = await getToken();
         await postComment(token, idProduct, text);
         refresh();

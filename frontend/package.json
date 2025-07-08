@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:run:ci": "cypress run --config-file cypress.config.ci.js"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
