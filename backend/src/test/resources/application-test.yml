@@ -21,8 +21,6 @@ jwt:
 
 mercadolibre:
   api:
-    client.id: ${MERCADOLIBRE_CLIENT_ID}
-    client.secret: ${MERCADOLIBRE_CLIENT_SECRET}
     most.recent.token: ${MERCADOLIBRE_API_MOST_RECENT_TOKEN}
 
 # Logging configuration for tests - override the debug level from main config
