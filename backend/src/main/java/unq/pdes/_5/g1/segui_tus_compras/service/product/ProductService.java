@@ -40,9 +40,18 @@ public class ProductService {
         if (apiProducts.results.isEmpty()) {
             return List.of();
         }
-        return apiProducts.results.stream().map(
-            result -> productInternalService.getProductById(result.id)
-        ).toList();
+        // Process products sequentially to avoid race conditions with duplicate IDs
+        // and collect unique products by ID to prevent duplicate processing
+        return apiProducts.results.stream()
+            .collect(java.util.stream.Collectors.toMap(
+                result -> result.id,
+                result -> result,
+                (existing, replacement) -> existing // Keep first occurrence if duplicate IDs
+            ))
+            .values()
+            .stream()
+            .map(result -> productInternalService.getProductById(result.id))
+            .toList();
     }
 
     public List<ProductFavoriteCountDto> getTopFavoriteProducts() {

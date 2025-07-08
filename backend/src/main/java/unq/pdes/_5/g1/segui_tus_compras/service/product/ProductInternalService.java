@@ -42,6 +42,12 @@ public class ProductInternalService {
             } catch (DataIntegrityViolationException e) {
                 // Another thread inserted it, so fetch it again
                 return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+            } catch (Exception e) {
+                // Check if it's a constraint violation wrapped in another exception
+                if (e.getMessage() != null && e.getMessage().contains("Duplicate entry")) {
+                    return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+                }
+                throw e;
             }
         });
     }
