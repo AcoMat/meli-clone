@@ -75,6 +75,8 @@ public class MeLiApiService {
             if (e.getStatusCode().value() == 401) {
                 logger.error("Invalid API token for MercadoLibre API. Please check the configured token.");
                 throw new InvalidApiTokenException("Invalid API token for MercadoLibre API. Please check the configured token.");
+            } else if (e.getStatusCode().value() == 400) {
+                throw new IllegalArgumentException("Bad request to MercadoLibre API: Invalid parameter");
             }
             throw new ExternalApiException("Error calling MercadoLibre API: " + e.getMessage());
         }
