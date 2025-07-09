@@ -14,6 +14,7 @@ import unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth;
 import unq.pdes._5.g1.segui_tus_compras.service.product.CommentService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ReviewService;
+import unq.pdes._5.g1.segui_tus_compras.metrics.product.ProductMetricsService;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -25,16 +26,25 @@ public class ProductsController {
     private final ProductService productService;
     private final CommentService commentService;
     private final ReviewService reviewService;
+    private final ProductMetricsService productMetricsService;
 
-    public ProductsController(ProductService productService, CommentService commentService, ReviewService reviewService) {
+    public ProductsController(
+            ProductService productService,
+            CommentService commentService,
+            ReviewService reviewService,
+            ProductMetricsService productMetricsService
+    ) {
         this.productService = productService;
         this.commentService = commentService;
         this.reviewService = reviewService;
+        this.productMetricsService = productMetricsService;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable String id) {
-        return ResponseEntity.ok(productService.getProductById(id));
+        Product product = productService.getProductById(id);
+        productMetricsService.incrementProductView(id);
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping("/search")
@@ -62,6 +72,7 @@ public class ProductsController {
     ) {
         Long userId = (Long) request.getAttribute("userId");
         commentService.addCommentToProduct(productId, commentDto.comment, userId);
+        productMetricsService.incrementCommentByProduct(productId);
         return ResponseEntity.ok("Comment added successfully");
     }
 
@@ -78,7 +89,8 @@ public class ProductsController {
             HttpServletRequest request
     ) {
         Long userId = (Long) request.getAttribute("userId");
-        reviewService.addReviewToProduct(productId, reviewDto.rating, reviewDto.review , userId);
+        reviewService.addReviewToProduct(productId, reviewDto.rating, reviewDto.review, userId);
+        productMetricsService.incrementReviewByProduct(productId);
         return ResponseEntity.ok("Review added successfully");
     }
 }

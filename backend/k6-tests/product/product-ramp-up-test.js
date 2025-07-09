@@ -1,5 +1,6 @@
 import http from 'k6/http';
 import { check } from 'k6';
+import { BASE_URL } from '../config.js';
 
 export let options = {
     stages: [
@@ -10,7 +11,7 @@ export let options = {
 };
 
 export default function () {
-    const res = http.get('http://localhost:8080/products/MLA16211422');
+    const res = http.get(`${BASE_URL}/products/MLA16211422`);
 
     const statusCheck = check(res, {
         'status is 200': (r) => {

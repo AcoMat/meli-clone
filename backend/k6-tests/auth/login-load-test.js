@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { vu } from 'k6/execution';
+import { BASE_URL, users } from '../config.js';
 
 export const options = {
     vus: 5, // 5 virtual users
@@ -11,29 +12,6 @@ export const options = {
         checks: ['rate>0.99'], // 99% of checks should pass
     },
 };
-
-const BASE_URL = 'http://localhost:8080';
-
-const users = [
-    { firstName: 'Julian', lastName: 'Trejo', email: 'juliantrejo@email.com', password: 'julian123' },
-    { firstName: 'Douglas', lastName: 'Espagnol', email: 'douglasespagnol@email.com', password: 'douglas123' },
-    { firstName: 'Juan', lastName: 'Cruzcenturion', email: 'juancruzcenturion@email.com', password: 'juan123' },
-    { firstName: 'Lucas', lastName: 'Dellagiustina', email: 'lucasdellagiustina@email.com', password: 'lucas123' },
-    { firstName: 'Juan', lastName: 'Ignaciogarcia', email: 'juanignaciogarcia@email.com', password: 'juan123' },
-    { firstName: 'Uriel', lastName: 'Pineyro', email: 'urielpineyro@email.com', password: 'uriel123' },
-    { firstName: 'Matias', lastName: 'Laime', email: 'matiaslaime@email.com', password: 'matias123' },
-    { firstName: 'Juan', lastName: 'Cabezas', email: 'juancabezas@email.com', password: 'juan123' },
-    { firstName: 'Aguero', lastName: 'Mauro', email: 'agueromauro@email.com', password: 'aguero123' },
-    { firstName: 'Aguero', lastName: 'Fernando', email: 'aguerofernando@email.com', password: 'aguero123' },
-    { firstName: 'Mailin', lastName: 'Sonez', email: 'mailinsonez@email.com', password: 'mailin123' },
-    { firstName: 'Carlos', lastName: 'Saldana', email: 'carlossaldana@email.com', password: 'carlos123' },
-    { firstName: 'Adrian', lastName: 'Cardozo', email: 'adriancardozo@email.com', password: 'adrian123' },
-    { firstName: 'Sofia', lastName: 'Rossi', email: 'sofiarossi@email.com', password: 'sofia123' },
-    { firstName: 'Mateo', lastName: 'Diaz', email: 'mateodiaz@email.com', password: 'mateo123' },
-    { firstName: 'Valentina', lastName: 'Gomez', email: 'valentinagomez@email.com', password: 'valentina123' },
-    { firstName: 'Benjamin', lastName: 'Castro', email: 'benjamincastro@email.com', password: 'benjamin123' },
-    { firstName: 'Isabella', lastName: 'Hernandez', email: 'isabellahernandez@email.com', password: 'isabella123' }
-];
 
 // Store registered users for login testing
 let registeredUsers = [];
@@ -103,8 +81,6 @@ export default function (data) {
         },
     };
 
-    console.log(`VU${vu.idInTest}-Iter${iterationCounter}: Attempting login for user: ${user.email}`);
-
     const response = http.post(`${BASE_URL}/auth/login`, loginPayload, params);
 
     const isSuccess = check(response, {
@@ -138,4 +114,3 @@ export default function (data) {
         }
     }
 }
-

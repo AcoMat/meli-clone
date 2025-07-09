@@ -1,12 +1,7 @@
 import http from 'k6/http';
 import { check } from 'k6';
 import { randomItem } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
-
-const searchQueries = [
-    'samsung', 'iphone', 'xiaomi', 'motorola', 'huawei', 'nokia', 'sony', 'lg', 'google', 'oneplus'
-];
-
-const BASE_URL = 'http://localhost:8080';
+import { BASE_URL, searchQueries } from '../config.js';
 
 export let options = {
     vus: 25,

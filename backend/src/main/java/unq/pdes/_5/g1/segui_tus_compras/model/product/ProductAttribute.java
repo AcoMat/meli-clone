@@ -1,5 +1,6 @@
 package unq.pdes._5.g1.segui_tus_compras.model.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -24,7 +25,11 @@ public class ProductAttribute {
     @Column(name = "attribute_value")
     private String value;
 
-    // Constructor for backward compatibility
+    @ManyToOne
+    @JoinColumn(name = "product_id") // FK
+    @JsonIgnore
+    private Product product;
+
     public ProductAttribute(String attributeId, String name, String value) {
         this.attributeId = attributeId;
         this.name = name;

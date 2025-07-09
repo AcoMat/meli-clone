@@ -26,8 +26,7 @@ public class Product {
     Integer priceDiscountPercentage;
     Boolean isFreeShipping;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id")
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProductAttribute> attributes;
 
     @JsonIgnore
