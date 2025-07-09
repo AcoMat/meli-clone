@@ -22,7 +22,7 @@ jwt:
 mercadolibre:
   api:
     most.recent.token: test-token
-
+    
 # Logging configuration for tests - override the debug level from main config
 logging:
   level:
