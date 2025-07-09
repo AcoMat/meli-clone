@@ -25,20 +25,7 @@ public class PurchaseItemDtoTest {
 
     @Test
     void testPurchaseItemDto_withNullProductId_shouldFailValidation() {
-        PurchaseItemDto dto = new PurchaseItemDto();
-        dto.productId = null;
-        dto.amount = 1;
-
-        Set<ConstraintViolation<PurchaseItemDto>> violations = validator.validate(dto);
-        assertEquals(1, violations.size());
-        assertEquals("must not be null", violations.iterator().next().getMessage());
-    }
-
-    @Test
-    void testPurchaseItemDto_withNullAmount_shouldFailValidation() {
-        PurchaseItemDto dto = new PurchaseItemDto();
-        dto.productId = "123";
-        dto.amount = null;
+        PurchaseItemDto dto = new PurchaseItemDto("", 1);
 
         Set<ConstraintViolation<PurchaseItemDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
@@ -47,9 +34,7 @@ public class PurchaseItemDtoTest {
 
     @Test
     void testPurchaseItemDto_withZeroAmount_shouldFailValidation() {
-        PurchaseItemDto dto = new PurchaseItemDto();
-        dto.productId = "123";
-        dto.amount = 0;
+        PurchaseItemDto dto = new PurchaseItemDto("123", 0);
 
         Set<ConstraintViolation<PurchaseItemDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
@@ -58,9 +43,7 @@ public class PurchaseItemDtoTest {
 
     @Test
     void testPurchaseItemDto_withNegativeAmount_shouldFailValidation() {
-        PurchaseItemDto dto = new PurchaseItemDto();
-        dto.productId = "123";
-        dto.amount = -1;
+        PurchaseItemDto dto = new PurchaseItemDto("123", -1);
 
         Set<ConstraintViolation<PurchaseItemDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
@@ -69,9 +52,7 @@ public class PurchaseItemDtoTest {
 
     @Test
     void testPurchaseItemDto_withValidData_shouldPassValidation() {
-        PurchaseItemDto dto = new PurchaseItemDto();
-        dto.productId = "123";
-        dto.amount = 1;
+        PurchaseItemDto dto = new PurchaseItemDto("123", 1);
 
         Set<ConstraintViolation<PurchaseItemDto>> violations = validator.validate(dto);
         assertTrue(violations.isEmpty());

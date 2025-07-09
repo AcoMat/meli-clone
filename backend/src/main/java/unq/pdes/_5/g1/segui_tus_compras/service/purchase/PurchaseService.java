@@ -43,8 +43,8 @@ public class PurchaseService {
         User user = userService.getUserById(userId);
         List<PurchaseItem> items = dtoItems
                 .stream().map(p -> new PurchaseItem(
-                                productService.getProductById(p.productId),
-                                p.amount
+                                productService.getProductById(p.getProductId()),
+                                p.getAmount()
                         )
                 ).collect(Collectors.toList());
         user.addPurchase(new Purchase(user, items));

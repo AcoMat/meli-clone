@@ -6,7 +6,7 @@ const searchQueries = [
     'samsung', 'iphone', 'xiaomi', 'motorola', 'huawei', 'nokia', 'sony', 'lg', 'google', 'oneplus'
 ];
 
-const BASE_URL = __ENV.BASE_URL || 'http://localhost:8080';
+const BASE_URL = 'http://localhost:8080';
 
 export let options = {
     vus: 25,

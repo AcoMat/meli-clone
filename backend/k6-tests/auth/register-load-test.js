@@ -1,10 +1,10 @@
 import http from 'k6/http';
-import { check, sleep } from 'k6';
+import { check } from 'k6';
 import { vu } from 'k6/execution';
 
 export const options = {
-    vus: 5, // Reduced to 5 virtual users to avoid overwhelming the database
-    duration: '30s', // Run for 30 seconds
+    vus: 10, // Reduced to 5 virtual users to avoid overwhelming the database
+    duration: '15s', // Run for 30 seconds
 };
 
 const BASE_URL = 'http://localhost:8080';
@@ -56,8 +56,6 @@ export default function () {
         },
     };
 
-    console.log(`VU${vu.idInTest}-Iter${iterationCounter}: Registering user: ${uniqueUser.firstName} ${uniqueUser.lastName} with email: ${uniqueUser.email}`);
-
     const response = http.post(`${BASE_URL}/auth/register`, payload, params);
 
     const isSuccess = check(response, {
@@ -89,9 +87,5 @@ export default function () {
         if (response.error) {
             console.error(`Network error: ${response.error}`);
         }
-    } else {
-        console.log(`VU${vu.idInTest}: Successfully registered ${uniqueUser.email}`);
     }
-
-    sleep(1); // Wait 1 second between requests to reduce load
 }

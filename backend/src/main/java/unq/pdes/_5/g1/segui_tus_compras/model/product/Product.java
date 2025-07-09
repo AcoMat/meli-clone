@@ -26,7 +26,7 @@ public class Product {
     Integer priceDiscountPercentage;
     Boolean isFreeShipping;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private List<ProductAttribute> attributes;
 
@@ -52,9 +52,14 @@ public class Product {
         this.id = apiProduct.id;
         this.name = apiProduct.name;
         this.description = apiProduct.description != null ? apiProduct.description.content : null;
-        this.attributes = apiProduct.attributes != null ? apiProduct.attributes.stream()
-                .map(attribute -> new ProductAttribute(attribute.id, attribute.name, attribute.value))
-                .toList() : null;
+
+        this.attributes = new ArrayList<>();
+        if (apiProduct.attributes != null) {
+            this.attributes = apiProduct.attributes.stream()
+                    .map(attribute -> new ProductAttribute(attribute.id, attribute.name, attribute.value))
+                    .toList();
+        }
+
         this.pictures = apiProduct.pictures != null ? apiProduct.pictures.stream()
                 .map(picture -> picture.url)
                 .toList() : null;
@@ -80,6 +85,7 @@ public class Product {
 
         this.commentaries = new ArrayList<>();
         this.reviews = new ArrayList<>();
+        this.favoritedBy = new ArrayList<>();
     }
 
     public Double getPriceWithDiscountApplied() {
