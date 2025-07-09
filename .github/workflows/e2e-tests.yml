@@ -32,12 +32,12 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build and start backend with test profile
+      - name: Build and start backend with h2 profile
         run: |
           cd backend
           chmod +x mvnw
           ./mvnw clean compile
-          nohup ./mvnw spring-boot:run -Dspring-boot.run.profiles=test &
+          nohup ./mvnw spring-boot:run -Dspring-boot.run.profiles=h2 &
           echo $! > backend.pid
         env:
           MERCADOLIBRE_API_MOST_RECENT_TOKEN: ${{ secrets.MERCADOLIBRE_API_MOST_RECENT_TOKEN }}
