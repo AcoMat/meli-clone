@@ -1,6 +1,7 @@
 package unq.pdes._5.g1.segui_tus_compras.service.product;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import unq.pdes._5.g1.segui_tus_compras.exception.purchase.NotBoughtYetException;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
@@ -28,6 +29,7 @@ public class ReviewService {
         return _productService.getProductById(productId).getReviews();
     }
 
+    @Transactional
     public  void addReviewToProduct(String productId, Integer rating, String review, Long userId) {
         Product product = _productService.getProductById(productId);
         User user = _userService.getUserById(userId);

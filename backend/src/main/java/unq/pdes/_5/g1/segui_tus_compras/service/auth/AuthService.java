@@ -2,6 +2,7 @@ package unq.pdes._5.g1.segui_tus_compras.service.auth;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.AlreadyExistingUserException;
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.WrongCredentialsException;
 import unq.pdes._5.g1.segui_tus_compras.metrics.auth.AuthMetricsService;
@@ -28,6 +29,7 @@ public class AuthService {
         this.authMetricsService = authMetricsService;
     }
 
+    @Transactional
     public AuthResponseDTO register(RegisterData registerData) {
 
         if (usersRepository.existsByEmail(registerData.getEmail())) {
@@ -46,6 +48,7 @@ public class AuthService {
         return new AuthResponseDTO(new BasicUserDto(new_user), jwtTokenProvider.generateToken(new_user.getId()));
     }
 
+    @Transactional
     public AuthResponseDTO login(LoginCredentials credentials){
         User user = usersRepository.findByEmail(credentials.email);
         if (user == null || !passwordEncoder.matches(credentials.password, user.getPassword())) {
