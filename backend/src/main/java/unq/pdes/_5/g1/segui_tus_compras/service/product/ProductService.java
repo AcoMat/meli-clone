@@ -12,6 +12,7 @@ import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.external.MeLiApiService;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductService {
@@ -24,15 +25,12 @@ public class ProductService {
         this.meLiService = externalApiService;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional()
     public Product getProductById(String id) {
-        // First try to find existing product
         Product existingProduct = productsRepository.findById(id).orElse(null);
         if (existingProduct != null) {
             return existingProduct;
         }
-
-        // If not found, create it in a separate transaction
         return createProductFromApi(id);
     }
 
@@ -92,6 +90,7 @@ public class ProductService {
         productsRepository.save(product);
     }
 
+    @Transactional
     public List<Product> searchProducts(String keywords, int offset, int limit) {
         ApiSearchDto apiProducts = meLiService.search(keywords, offset, limit);
         if (apiProducts.results.isEmpty()) {
@@ -115,7 +114,7 @@ public class ProductService {
                     return null;
                 }
             })
-            .filter(product -> product != null) // Remove null products that failed to process
+            .filter(Objects::nonNull) // Remove null products that failed to process
             .toList();
     }
 
