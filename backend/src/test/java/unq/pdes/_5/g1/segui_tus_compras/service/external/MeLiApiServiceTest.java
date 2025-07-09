@@ -107,10 +107,19 @@ class MeLiApiServiceTest {
     }
 
     @Test
-    void search_whenApiReturnsOtherError_throwsExternalApiException() {
+    void search_whenApiReturns400_throwsExternalApiException() {
         String keywords = "test";
         when(requestHeadersSpec.retrieve())
                 .thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
+
+        assertThrows(IllegalArgumentException.class, () -> meliApiService.search(keywords, 0, 10));
+    }
+
+    @Test
+    void search_whenApiReturnsOtherError_throwsExternalApiException() {
+        String keywords = "test";
+        when(requestHeadersSpec.retrieve())
+                .thenThrow(new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
 
         assertThrows(ExternalApiException.class, () -> meliApiService.search(keywords, 0, 10));
     }

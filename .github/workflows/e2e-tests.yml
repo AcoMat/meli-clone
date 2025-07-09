@@ -7,20 +7,6 @@ on:
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
-    
-    services:
-      mysql:
-        image: mysql:8.0.39
-        env:
-          MYSQL_ROOT_PASSWORD: "@milanesa"
-          MYSQL_DATABASE: segui-tus-compras
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost -u root -p@milanesa"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
 
     steps:
       - name: Checkout code
@@ -46,24 +32,12 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Wait for MySQL
-        run: |
-          until mysqladmin ping -h"127.0.0.1" -P3306 -uroot -p"@milanesa" --silent; do
-            echo 'Waiting for MySQL...'
-            sleep 1
-          done
-
-      - name: Initialize database
-        run: |
-          mysql -h127.0.0.1 -P3306 -uroot -p"@milanesa" < backend/init.sql
-
-      - name: Build and start backend
+      - name: Build and start backend with test profile
         run: |
           cd backend
           chmod +x mvnw
           ./mvnw clean compile
-          nohup ./mvnw spring-boot:run \
-            -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:mysql://localhost:3306/segui-tus-compras?useSSL=false&allowPublicKeyRetrieval=true --spring.datasource.username=root --spring.datasource.password=@milanesa" &
+          nohup ./mvnw spring-boot:run -Dspring-boot.run.profiles=test &
           echo $! > backend.pid
         env:
           MERCADOLIBRE_API_MOST_RECENT_TOKEN: ${{ secrets.MERCADOLIBRE_API_MOST_RECENT_TOKEN }}
