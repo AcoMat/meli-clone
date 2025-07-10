@@ -36,7 +36,7 @@ jobs:
         run: |
           cd backend
           chmod +x mvnw
-          ./mvnw clean compile
+          ./mvnw clean compile -DskipTests
           nohup ./mvnw spring-boot:run -Dspring-boot.run.profiles=h2 &
           echo $! > backend.pid
         env:
