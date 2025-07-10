@@ -1,15 +1,25 @@
 import LoadingSwitch from "../../components/basic/LoadingSwitch/LoadingSwitch";
 import profileImagePlaceholder from "../../assets/ui/profile-placeholder.png";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import PurchaseHistory from "../../components/user/Purchases/PurchaseHistory";
 import FavoriteProductItemCard from "../../components/cards/FavoriteProductItemCard/FavoriteProductItemCard";
 import InfoSectionV2 from "../../components/layout/InfoSection/InfoSectionV2";
 import StarRating from "../../components/product/ProductReviews/StarRating";
 import { useAdminGetUserData } from "../../hooks/admin/useAdminGetUserData";
+import { useEffect } from "react";
+import { useUserContext } from "../../context/UserContext";
 
 function UserProfileAdmin() {
+    const navigate = useNavigate();
     const { idUser } = useParams();
-    const { userData, loading, error } = useAdminGetUserData(idUser);
+    const { userData, loading } = useAdminGetUserData(idUser);
+    const { user } = useUserContext();
+
+    useEffect(() => {
+        if (!user || !user.isAdmin) {
+            navigate("/");
+        }
+    }, [user]);
 
     return (
         <LoadingSwitch loading={loading}>
