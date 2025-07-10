@@ -1,6 +1,7 @@
 package unq.pdes._5.g1.segui_tus_compras.model.user;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "app_users")
+@EqualsAndHashCode(of = {"id"})
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

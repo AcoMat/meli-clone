@@ -185,8 +185,8 @@ class ProductsControllerTest {
 
         String userToken = "testUserToken";
         Long userId = 1L;
-        User user = new User("John","Doe","john@email.com","securePass");
-
+        User user = spy(new User("John", "Doe", "john@email.com", "securePass"));
+        doReturn(1L).when(user).getId();
         // Create purchase with one item using the produc
         PurchaseItem purchaseItem = new PurchaseItem(product, 1);
         List<PurchaseItem> purchaseItems = List.of(purchaseItem);
@@ -255,13 +255,15 @@ class ProductsControllerTest {
 
         String userToken = "testUserToken";
         Long userId = 1L;
-        User user = new User("John","Doe","john@email.com","securePass");
+        User user = spy(new User("John", "Doe", "john@email.com", "securePass"));
+        doReturn(1L).when(user).getId();
         when(usersRepository.findById(userId)).thenReturn(Optional.of(user));
         when(jwtTokenProvider.validateTokenAndGetUserId(userToken)).thenReturn(userId);
 
         String userToken2 = "testUserToken2";
         Long userId2 = 2L;
-        User user2 = new User("Jesse","Doe","jesse@email.com","securePass2");
+        User user2 = spy(new User("John", "Doe", "john@email.com", "securePass"));
+        doReturn(1L).when(user).getId();
         when(usersRepository.findById(userId2)).thenReturn(Optional.of(user2));
         when(jwtTokenProvider.validateTokenAndGetUserId(userToken2)).thenReturn(userId2);
 
