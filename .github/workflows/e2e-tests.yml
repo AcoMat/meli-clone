@@ -62,6 +62,8 @@ jobs:
           cd frontend
           nohup npm run preview -- --port 5173 &
           echo $! > frontend.pid
+        env:
+          VITE_BACKEND_URL: http://localhost:8080
 
       - name: Wait for frontend to be ready
         run: |
