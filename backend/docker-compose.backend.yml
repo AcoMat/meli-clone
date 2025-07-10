@@ -24,6 +24,7 @@ services:
     ports:
       - "13306:3306"  # Maps port 3306 in the container to port 13306 on the host.
     volumes:
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql-data:/var/lib/mysql  # Persistent storage for MySQL data.
     networks:
       - springboot-mysql-network  # Connects to the specified network.

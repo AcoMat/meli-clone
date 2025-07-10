@@ -123,8 +123,6 @@ export default function(data) {
         console.error(`[VU ${vu.idInTest}] Status: ${favoriteResponse.status}`);
         console.error(`[VU ${vu.idInTest}] Response body: ${favoriteResponse.body}`);
         console.error(`[VU ${vu.idInTest}] Request payload: ${favoritePayload}`);
-    } else {
-        console.log(`[VU ${vu.idInTest}] Favorites operation successful: ${favoriteResponse.body}`);
     }
 
     sleep(1);
@@ -133,7 +131,7 @@ export default function(data) {
     const purchasePayload = JSON.stringify({
         items: [{
             productId: productId,
-            quantity: Math.floor(Math.random() * 3) + 1 // Random quantity between 1-3
+            amount: Math.floor(Math.random() * 3) + 1 // Random quantity between 1-3
         }]
     });
 

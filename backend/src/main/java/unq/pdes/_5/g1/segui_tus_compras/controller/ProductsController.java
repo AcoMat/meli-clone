@@ -55,6 +55,7 @@ public class ProductsController {
     ) {
         List<Product> productsSearch = productService.searchProducts(q, offset, limit);
         PagingDto paging = new PagingDto(offset, limit, productsSearch.size());
+        productMetricsService.incrementSearch(q);
         return ResponseEntity.ok(new SearchDTO(paging, q, productsSearch));
     }
 

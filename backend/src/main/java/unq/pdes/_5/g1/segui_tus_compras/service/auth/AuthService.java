@@ -7,7 +7,7 @@ import unq.pdes._5.g1.segui_tus_compras.exception.auth.AlreadyExistingUserExcept
 import unq.pdes._5.g1.segui_tus_compras.exception.auth.WrongCredentialsException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.out.user.BasicUserDto;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.AuthResponseDTO;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.out.auth.AuthResponseDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.LoginCredentials;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.auth.RegisterData;
 import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
