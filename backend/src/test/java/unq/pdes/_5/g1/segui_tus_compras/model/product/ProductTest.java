@@ -68,8 +68,7 @@ class ProductTest {
         dto.id = id;
         dto.buyBoxWinner.originalPrice = price;
         if (discountPercentage != null) {
-            double discountedPrice = price * (1 - discountPercentage / 100.0);
-            dto.buyBoxWinner.price = discountedPrice;
+            dto.buyBoxWinner.price = price * (1 - discountPercentage / 100.0);
         }
         return new Product(dto);
     }
@@ -241,6 +240,15 @@ class ProductTest {
         // Arrange
         Product product = new Product();
         User user = createTestUser("Test", "User");
+        // Set non-null IDs using reflection
+        try {
+            java.lang.reflect.Field idField = User.class.getDeclaredField("id");
+            idField.setAccessible(true);
+            idField.set(user, 1L);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
 
         Review firstReview = new Review(product, user, 4, "Good product");
         product.addReview(firstReview);
@@ -262,6 +270,16 @@ class ProductTest {
         Product product = new Product();
         User firstUser = createTestUser("First", "User");
         User secondUser = createTestUser("Second", "User");
+
+        // Set non-null IDs using reflection
+        try {
+            java.lang.reflect.Field idField = User.class.getDeclaredField("id");
+            idField.setAccessible(true);
+            idField.set(firstUser, 1L);
+            idField.set(secondUser, 2L);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         Review firstReview = new Review(product, firstUser, 4, "Review from first user");
         Review secondReview = new Review(product, secondUser, 5, "Review from second user");

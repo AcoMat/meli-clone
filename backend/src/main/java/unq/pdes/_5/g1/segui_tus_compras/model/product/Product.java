@@ -97,7 +97,7 @@ public class Product {
     }
 
     public void addReview(Review newReview) {
-        this.reviews.removeIf(review -> review.getUser().equals(newReview.getUser()));
+        this.reviews.removeIf(review -> review.getUser().getId().equals(newReview.getUser().getId()));
         this.reviews.add(newReview);
     }
 }
