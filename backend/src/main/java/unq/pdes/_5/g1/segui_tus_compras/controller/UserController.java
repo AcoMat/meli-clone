@@ -69,11 +69,8 @@ public class UserController {
         Long userId = (Long) request.getAttribute("userId");
         purchaseService.generatePurchase(userId, dto.items);
 
-        // Incrementar métricas de compra para el usuario
         userMetricsService.incrementUserPurchase(userId);
-
-        // Incrementar métricas de compra para cada producto
-        dto.items.forEach(item -> productMetricsService.incrementProductPurchase(item.getProductId()));
+        dto.items.forEach(item -> productMetricsService.incrementProductPurchase(item.getProductId(), item.getAmount()));
 
         return ResponseEntity.ok("Purchase created successfully");
     }

@@ -1,22 +1,24 @@
 package unq.pdes._5.g1.segui_tus_compras.metrics.user;
 
 import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class UserMetricsService {
 
     private final MeterRegistry meterRegistry;
     private final ConcurrentHashMap<String, Counter> userPurchaseCounters;
-    private final ConcurrentHashMap<String, Counter> userFavoriteCounters;
+    private final ConcurrentHashMap<String, AtomicInteger> userFavoriteGauges;
 
     public UserMetricsService(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
         this.userPurchaseCounters = new ConcurrentHashMap<>();
-        this.userFavoriteCounters = new ConcurrentHashMap<>();
+        this.userFavoriteGauges = new ConcurrentHashMap<>();
     }
 
     public void incrementUserPurchase(Long userId) {
@@ -30,25 +32,27 @@ public class UserMetricsService {
     }
 
     public void incrementUserFavorite(Long userId) {
-        Counter counter = userFavoriteCounters.computeIfAbsent(String.valueOf(userId), id ->
-            Counter.builder("user_favorites_total")
-                    .description("Total de favoritos por usuario")
+        AtomicInteger favoriteCount = userFavoriteGauges.computeIfAbsent(String.valueOf(userId), id -> {
+            AtomicInteger count = new AtomicInteger(0);
+            Gauge.builder("user_favorites_current", count, AtomicInteger::get)
+                    .description("Número actual de favoritos por usuario")
                     .tag("user_id", id)
-                    .register(meterRegistry)
-        );
-        counter.increment();
+                    .register(meterRegistry);
+            return count;
+        });
+        favoriteCount.incrementAndGet();
     }
 
     public void decrementUserFavorite(Long userId) {
-        // Para decrementar, podemos usar un counter negativo o manejar la lógica diferente
-        // En este caso, vamos a mantener un contador de favoritos removidos
-        Counter counter = userFavoriteCounters.computeIfAbsent(String.valueOf(userId) + "_removed", id ->
-            Counter.builder("user_favorites_removed_total")
-                    .description("Total de favoritos removidos por usuario")
-                    .tag("user_id", String.valueOf(userId))
-                    .register(meterRegistry)
-        );
-        counter.increment();
+        AtomicInteger favoriteCount = userFavoriteGauges.computeIfAbsent(String.valueOf(userId), id -> {
+            AtomicInteger count = new AtomicInteger(0);
+            Gauge.builder("user_favorites_current", count, AtomicInteger::get)
+                    .description("Número actual de favoritos por usuario")
+                    .tag("user_id", id)
+                    .register(meterRegistry);
+            return count;
+        });
+        favoriteCount.decrementAndGet();
     }
 
 }

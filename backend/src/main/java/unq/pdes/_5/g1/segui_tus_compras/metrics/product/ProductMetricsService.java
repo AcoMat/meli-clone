@@ -1,10 +1,12 @@
 package unq.pdes._5.g1.segui_tus_compras.metrics.product;
 
 import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ProductMetricsService {
@@ -14,7 +16,8 @@ public class ProductMetricsService {
     private final ConcurrentHashMap<String, Counter> productCommentCounters;
     private final ConcurrentHashMap<String, Counter> productReviewCounters;
     private final ConcurrentHashMap<String, Counter> productPurchaseCounters;
-    private final ConcurrentHashMap<String, Counter> productFavoriteCounters;
+    private final ConcurrentHashMap<String, AtomicInteger> productFavoriteGauges;
+    private final ConcurrentHashMap<String, Counter> productSearchCounters;
 
     public ProductMetricsService(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
@@ -22,7 +25,8 @@ public class ProductMetricsService {
         this.productCommentCounters = new ConcurrentHashMap<>();
         this.productReviewCounters = new ConcurrentHashMap<>();
         this.productPurchaseCounters = new ConcurrentHashMap<>();
-        this.productFavoriteCounters = new ConcurrentHashMap<>();
+        this.productFavoriteGauges = new ConcurrentHashMap<>();
+        this.productSearchCounters = new ConcurrentHashMap<>();
     }
 
     public void incrementProductView(String productId) {
@@ -56,35 +60,48 @@ public class ProductMetricsService {
     }
 
 
-    public void incrementProductPurchase(String productId) {
+    public void incrementProductPurchase(String productId, int quantity) {
         Counter counter = productPurchaseCounters.computeIfAbsent(productId, id ->
                 Counter.builder("product_purchases_total")
                         .description("Total de compras por producto")
                         .tag("product_id", id)
                         .register(meterRegistry)
         );
+        counter.increment(quantity);
+    }
+
+    public void incrementSearch(String query) {
+        Counter counter = productSearchCounters.computeIfAbsent(query, q ->
+                Counter.builder("product_searches_total")
+                        .description("Total de busquedas de productos")
+                        .tag("query", q)
+                        .register(meterRegistry)
+        );
         counter.increment();
     }
 
     public void incrementProductFavorite(String productId) {
-        Counter counter = productFavoriteCounters.computeIfAbsent(productId, id ->
-                Counter.builder("product_favorites_total")
-                        .description("Total de favoritos por producto")
-                        .tag("product_id", id)
-                        .register(meterRegistry)
-        );
-        counter.increment();
+        AtomicInteger favoriteCount = productFavoriteGauges.computeIfAbsent(productId, id -> {
+            AtomicInteger count = new AtomicInteger(0);
+            Gauge.builder("product_favorites_current", count, AtomicInteger::get)
+                    .description("Número actual de favoritos por producto")
+                    .tag("product_id", id)
+                    .register(meterRegistry);
+            return count;
+        });
+        favoriteCount.incrementAndGet();
     }
 
     public void decrementProductFavorite(String productId) {
-        // Similar al anterior, mantenemos un contador de favoritos removidos
-        Counter counter = productFavoriteCounters.computeIfAbsent(productId + "_removed", id ->
-                Counter.builder("product_favorites_removed_total")
-                        .description("Total de favoritos removidos por producto")
-                        .tag("product_id", productId)
-                        .register(meterRegistry)
-        );
-        counter.increment();
+        AtomicInteger favoriteCount = productFavoriteGauges.computeIfAbsent(productId, id -> {
+            AtomicInteger count = new AtomicInteger(0);
+            Gauge.builder("product_favorites_current", count, AtomicInteger::get)
+                    .description("Número actual de favoritos por producto")
+                    .tag("product_id", id)
+                    .register(meterRegistry);
+            return count;
+        });
+        favoriteCount.decrementAndGet();
     }
 
 }
