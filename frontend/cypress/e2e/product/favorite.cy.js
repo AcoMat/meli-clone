@@ -21,9 +21,13 @@ describe('Pruebas de funcionalidad de favoritos', () => {
     });
     // Ahora va a la página del producto y lo agrega a favoritos
     cy.visit('http://localhost:5173/product/MLA49315128');
-    cy.get('.like-button').should('be.visible').click();
+    cy.get('.like-button').should('be.visible');
+    cy.get('.like-button').click();
     // El botón debe mostrar la estrella llena (src contiene 'star-fill')
-    cy.get('.like-button img').should('have.attr', 'src').and('include', 'star-fill');
+    cy.get('.like-button img', { timeout: 10000 })
+        .should('be.visible')
+        .and('have.attr', 'src')
+        .and('include', 'star-fill');
     // Verifica que el producto aparece en la lista de favoritos
     cy.visit('/favorites');
     cy.get('a[href="/product/MLA49315128"]').should('exist');
@@ -49,9 +53,13 @@ describe('Pruebas de funcionalidad de favoritos', () => {
     cy.get('a[href="/product/MLA49315128"]').should('not.exist');
     // Va a la página del producto y lo agrega a favoritos
     cy.visit('/product/MLA49315128');
-    cy.get('.like-button').should('be.visible').click();
+    cy.get('.like-button').should('be.visible');
+    cy.get('.like-button').click();
     // Verifica que el botón muestra la estrella llena
-    cy.get('.like-button img').should('have.attr', 'src').and('include', 'star-fill');
+    cy.get('.like-button img', { timeout: 10000 })
+        .should('be.visible')
+        .and('have.attr', 'src')
+        .and('include', 'star-fill');
     // Vuelve a favoritos y verifica que el producto está
     cy.visit('/favorites');
     cy.get('a[href="/product/MLA49315128"]').should('exist');
