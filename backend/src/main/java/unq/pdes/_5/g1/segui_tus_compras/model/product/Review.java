@@ -25,7 +25,7 @@ public class Review {
     private LocalDateTime createdAt;
     @ManyToOne
     private Product product;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
