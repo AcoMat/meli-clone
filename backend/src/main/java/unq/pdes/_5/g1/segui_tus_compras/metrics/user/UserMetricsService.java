@@ -15,6 +15,8 @@ public class UserMetricsService {
     private final ConcurrentHashMap<String, Counter> userPurchaseCounters;
     private final ConcurrentHashMap<String, AtomicInteger> userFavoriteGauges;
 
+    String tagKey = "user_id";
+
     public UserMetricsService(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
         this.userPurchaseCounters = new ConcurrentHashMap<>();
@@ -25,7 +27,7 @@ public class UserMetricsService {
         Counter counter = userPurchaseCounters.computeIfAbsent(String.valueOf(userId), id ->
             Counter.builder("user_purchases_total")
                     .description("Total de compras por usuario")
-                    .tag("user_id", id)
+                    .tag(tagKey, id)
                     .register(meterRegistry)
         );
         counter.increment();
@@ -36,7 +38,7 @@ public class UserMetricsService {
             AtomicInteger count = new AtomicInteger(0);
             Gauge.builder("user_favorites_current", count, AtomicInteger::get)
                     .description("Número actual de favoritos por usuario")
-                    .tag("user_id", id)
+                    .tag(tagKey, id)
                     .register(meterRegistry);
             return count;
         });
@@ -48,7 +50,7 @@ public class UserMetricsService {
             AtomicInteger count = new AtomicInteger(0);
             Gauge.builder("user_favorites_current", count, AtomicInteger::get)
                     .description("Número actual de favoritos por usuario")
-                    .tag("user_id", id)
+                    .tag(tagKey, id)
                     .register(meterRegistry);
             return count;
         });

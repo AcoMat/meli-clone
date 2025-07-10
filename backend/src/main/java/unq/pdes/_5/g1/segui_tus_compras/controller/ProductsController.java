@@ -16,6 +16,7 @@ import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ReviewService;
 import unq.pdes._5.g1.segui_tus_compras.metrics.product.ProductMetricsService;
 import jakarta.validation.Valid;
+import unq.pdes._5.g1.segui_tus_compras.service.search.SearchService;
 
 import java.util.List;
 
@@ -27,17 +28,20 @@ public class ProductsController {
     private final CommentService commentService;
     private final ReviewService reviewService;
     private final ProductMetricsService productMetricsService;
+    private final SearchService searchService;
 
     public ProductsController(
             ProductService productService,
             CommentService commentService,
             ReviewService reviewService,
-            ProductMetricsService productMetricsService
+            ProductMetricsService productMetricsService,
+            SearchService searchService
     ) {
         this.productService = productService;
         this.commentService = commentService;
         this.reviewService = reviewService;
         this.productMetricsService = productMetricsService;
+        this.searchService = searchService;
     }
 
     @GetMapping("/{id}")
@@ -53,7 +57,7 @@ public class ProductsController {
             @RequestParam(required = false, defaultValue = "0") Integer offset,
             @RequestParam(required = false, defaultValue = "10") Integer limit
     ) {
-        List<Product> productsSearch = productService.searchProducts(q, offset, limit);
+        List<Product> productsSearch = searchService.searchProducts(q, offset, limit);
         PagingDto paging = new PagingDto(offset, limit, productsSearch.size());
         productMetricsService.incrementSearch(q);
         return ResponseEntity.ok(new SearchDTO(paging, q, productsSearch));

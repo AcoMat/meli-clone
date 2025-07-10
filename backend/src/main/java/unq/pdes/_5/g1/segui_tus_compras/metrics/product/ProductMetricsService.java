@@ -29,11 +29,13 @@ public class ProductMetricsService {
         this.productSearchCounters = new ConcurrentHashMap<>();
     }
 
+    String tagKey = "product_id";
+
     public void incrementProductView(String productId) {
         Counter counter = productViewCounters.computeIfAbsent(productId, id ->
             Counter.builder("product_views_total")
                     .description("Total de vistas por producto")
-                    .tag("product_id", id)
+                    .tag(tagKey, id)
                     .register(meterRegistry)
         );
         counter.increment();
@@ -43,7 +45,7 @@ public class ProductMetricsService {
         Counter counter = productCommentCounters.computeIfAbsent(productId, id ->
             Counter.builder("product_comments_total")
                     .description("Total de comentarios por producto")
-                    .tag("product_id", id)
+                    .tag(tagKey, id)
                     .register(meterRegistry)
         );
         counter.increment();
@@ -53,7 +55,7 @@ public class ProductMetricsService {
         Counter counter = productReviewCounters.computeIfAbsent(productId, id ->
             Counter.builder("product_reviews_total")
                     .description("Total de reviews por producto")
-                    .tag("product_id", id)
+                    .tag(tagKey, id)
                     .register(meterRegistry)
         );
         counter.increment();
@@ -64,7 +66,7 @@ public class ProductMetricsService {
         Counter counter = productPurchaseCounters.computeIfAbsent(productId, id ->
                 Counter.builder("product_purchases_total")
                         .description("Total de compras por producto")
-                        .tag("product_id", id)
+                        .tag(tagKey, id)
                         .register(meterRegistry)
         );
         counter.increment(quantity);
@@ -85,7 +87,7 @@ public class ProductMetricsService {
             AtomicInteger count = new AtomicInteger(0);
             Gauge.builder("product_favorites_current", count, AtomicInteger::get)
                     .description("Número actual de favoritos por producto")
-                    .tag("product_id", id)
+                    .tag(tagKey, id)
                     .register(meterRegistry);
             return count;
         });
@@ -97,7 +99,7 @@ public class ProductMetricsService {
             AtomicInteger count = new AtomicInteger(0);
             Gauge.builder("product_favorites_current", count, AtomicInteger::get)
                     .description("Número actual de favoritos por producto")
-                    .tag("product_id", id)
+                    .tag(tagKey, id)
                     .register(meterRegistry);
             return count;
         });
