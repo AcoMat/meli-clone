@@ -15,10 +15,25 @@ describe('Product Review Tests', () => {
     });
 
     describe('Review Form', () => {
+        before(() => {
+            cy.loginAdmin();
+            // Secure login and add product purchase
+            cy.visit('/product/MLA49315128');
+            cy.contains('Agregar al carrito').click();
+            cy.visit('/cart');
+            cy.intercept('Post', '/purchases').as('purchase');
+            cy.contains('Continuar compra').click();
+            cy.contains('Continuar').click();
+            cy.wait('@purchase').its('response.statusCode').should('eq', 200);
+            cy.visit('/profile');
+            cy.contains('Cerrar sesión').click();
+        });
+
         beforeEach(() => {
             cy.loginAdmin();
             cy.visit('/product/MLA49315128/review');
-        });
+            cy.contains('¿Qué te pareció este producto?').should('be.visible');
+        })
 
         it('should display product information and review form', () => {
             // Check product image is displayed
@@ -96,6 +111,7 @@ describe('Product Review Tests', () => {
         });
 
         it('should successfully submit review with rating and comment', () => {
+            // Now visit the review page
             cy.intercept('POST', '/products/MLA49315128/reviews').as('postReview');
             // Select 4 stars
             cy.get('[alt="Empty Star"]').eq(3).click();
@@ -261,7 +277,6 @@ describe('Product Review Tests', () => {
 
         it('should handle missing product gracefully', () => {
             cy.visit('/product/INVALID_ID/review');
-            cy.wait('@getProductError');
             // Should show error page
             cy.contains('Parece que esta página no existe').should('be.visible');
         });

@@ -77,7 +77,7 @@ jobs:
           working-directory: frontend
           browser: chrome
           headless: true
-          config-file: cypress.config.ci.js
+          config-file: cypress/cypress.config.ci.js
           spec: cypress/e2e/**/*.cy.js
         env:
           CYPRESS_baseUrl: http://localhost:5173

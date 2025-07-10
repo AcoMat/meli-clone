@@ -23,13 +23,13 @@ public class User {
     private String password;
     private boolean isAdmin = false;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Purchase> purchases = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Commentary> commentaries = new ArrayList<>();
 
     @ManyToMany
@@ -59,7 +59,7 @@ public class User {
     }
 
     public boolean toggleFavorite(Product product) {
-        if (this.favorites.contains(product)) {
+        if (this.favorites.stream().map(Product::getId).anyMatch(id -> id.equals(product.getId()))){
             this.favorites.remove(product);
             return false;
         } else {

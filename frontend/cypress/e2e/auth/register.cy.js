@@ -1,6 +1,6 @@
 describe('Register page e2e tests', () => {
-    const uniqueEmail = `testuser_${Date.now()}@mail.com`;
-    const uniqueEmail2 = `testuser_${Date.now()}2@mail.com`;
+    const uniqueEmail = `testuser${Date.now()}@mail.com`;
+    const uniqueEmail2 = `testuser${Date.now()}2@mail.com`;
 
     beforeEach(() => {
         cy.visit('/register');

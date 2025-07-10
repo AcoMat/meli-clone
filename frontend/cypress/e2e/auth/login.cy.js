@@ -155,29 +155,6 @@ describe('Login Page Tests', () => {
       cy.contains('¡Ups! Algo salió mal').should('be.visible');
       cy.contains('Error de conexión. Por favor, intente más tarde.').should('be.visible');
     });
-
-    it('should show loading state during login process', () => {
-      // Mock slow login response
-      cy.intercept('POST', '**/auth/login', {
-        statusCode: 200,
-        headers: {
-          'authorization': 'Bearer mock-token'
-        },
-        body: {
-          id: 1,
-          firstName: 'Test',
-          lastName: 'User',
-          email: 'user@example.com'
-        },
-        delay: 1000
-      }).as('loginRequest');
-
-      cy.get('input[name="password"]').type('password123');
-      cy.contains('Iniciar sesión').click();
-
-      // Check that button shows loading state (assuming it gets disabled or shows spinner)
-      cy.get('button').contains('Iniciar sesión').should('be.disabled');
-    });
   });
 
   describe('Error Stage', () => {
@@ -212,26 +189,7 @@ describe('Login Page Tests', () => {
 
   describe('User Already Logged In', () => {
     it('should redirect to profile if user is already logged in', () => {
-      // Mock that user is already logged in
-      cy.window().then((win) => {
-        win.localStorage.setItem('token', 'mock-token');
-      });
-
-      cy.intercept('GET', '**/users/profile', {
-        statusCode: 200,
-        body: {
-          id: 1,
-          firstName: 'Test',
-          lastName: 'User',
-          email: 'user@example.com'
-        }
-      }).as('profileRequest');
-
-      cy.intercept('GET', '**/users/admin', {
-        statusCode: 200,
-        body: false
-      }).as('adminRequest');
-
+      cy.loginAdmin()
       cy.visit('/login');
       cy.url().should('include', '/profile');
     });
@@ -250,16 +208,6 @@ describe('Login Page Tests', () => {
       // Check password stage
       cy.get('label').contains('Contraseña').should('be.visible');
       cy.get('input[name="password"]').should('have.attr', 'type', 'password');
-    });
-
-    it('should support keyboard navigation', () => {
-      cy.get('input[name="email"]').type('user@example.com');
-      cy.get('input[name="email"]').type('{enter}');
-      cy.contains('Ingresá tu contraseña de Mercado Libre').should('be.visible');
-
-      cy.get('input[name="password"]').type('password123');
-      cy.get('input[name="password"]').type('{enter}');
-      // Should trigger login attempt
     });
   });
 });

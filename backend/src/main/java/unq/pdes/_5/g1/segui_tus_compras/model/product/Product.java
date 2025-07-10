@@ -31,11 +31,11 @@ public class Product {
     private List<ProductAttribute> attributes;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Commentary> commentaries;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Review> reviews;
 
     @JsonIgnore
@@ -97,7 +97,7 @@ public class Product {
     }
 
     public void addReview(Review newReview) {
-        this.reviews.removeIf(review -> review.getUser().equals(newReview.getUser()));
+        this.reviews.removeIf(review -> review.getUser().getId().equals(newReview.getUser().getId()));
         this.reviews.add(newReview);
     }
 }
