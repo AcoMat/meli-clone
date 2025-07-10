@@ -29,7 +29,7 @@ public class PurchaseItemDtoTest {
 
         Set<ConstraintViolation<PurchaseItemDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
-        assertEquals("must not be null", violations.iterator().next().getMessage());
+        assertEquals("Product ID cannot be empty", violations.iterator().next().getMessage());
     }
 
     @Test
@@ -38,7 +38,7 @@ public class PurchaseItemDtoTest {
 
         Set<ConstraintViolation<PurchaseItemDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
-        assertEquals("must be greater than 0", violations.iterator().next().getMessage());
+        assertEquals("Amount must be at least 1", violations.iterator().next().getMessage());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class PurchaseItemDtoTest {
 
         Set<ConstraintViolation<PurchaseItemDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
-        assertEquals("must be greater than 0", violations.iterator().next().getMessage());
+        assertEquals("Amount must be at least 1", violations.iterator().next().getMessage());
     }
 
     @Test

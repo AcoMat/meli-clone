@@ -12,6 +12,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import unq.pdes._5.g1.segui_tus_compras.exception.external.ExternalApiException;
 import unq.pdes._5.g1.segui_tus_compras.exception.external.InvalidApiTokenException;
+import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 
@@ -77,12 +78,12 @@ class MeLiApiServiceTest {
     }
 
     @Test
-    void getProductById_whenApiReturnsOtherError_throwsExternalApiException() {
+    void getProductById_withInvalidOrNullProductInApi_throwsNotFound() {
         String productId = "MLA123";
         when(requestHeadersSpec.retrieve())
                 .thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
-        assertThrows(ExternalApiException.class, () -> meliApiService.getProductById(productId));
+        assertThrows(ProductNotFoundException.class, () -> meliApiService.getProductById(productId));
     }
 
     @Test
