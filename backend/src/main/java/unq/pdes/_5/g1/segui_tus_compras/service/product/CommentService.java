@@ -1,6 +1,7 @@
 package unq.pdes._5.g1.segui_tus_compras.service.product;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
@@ -22,6 +23,7 @@ public class CommentService {
         return _productService.getProductById(productId).getCommentaries();
     }
 
+    @Transactional
     public void addCommentToProduct(String productId, String comment, Long userId) {
         User user = _userService.getUserById(userId);
         Product product = _productService.getProductById(productId);
