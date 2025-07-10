@@ -17,7 +17,6 @@ function LikeStarSwitch({ productId }) {
     }, [favorites])
 
     const handleLike = (e) => {
-        e.stopPropagation(); // Prevent event bubbling to parent elements
         if (user) {
             toggleFavoriteProduct(productId);
         } else {

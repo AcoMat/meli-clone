@@ -61,8 +61,10 @@ public class User {
     }
 
     public boolean toggleFavorite(Product product) {
-        if (this.favorites.stream().map(Product::getId).anyMatch(id -> id.equals(product.getId()))){
-            this.favorites.remove(product);
+        boolean exists = this.favorites.stream()
+                .anyMatch(p -> p.getId().equals(product.getId()));
+        if (exists) {
+            this.favorites.removeIf(p -> p.getId().equals(product.getId()));
             return false;
         } else {
             this.favorites.add(product);
