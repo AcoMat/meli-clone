@@ -3,6 +3,7 @@ package unq.pdes._5.g1.segui_tus_compras.model.user;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Question;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "app_users")
+@NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +44,6 @@ public class User {
     )
     private List<Product> favorites = new ArrayList<>();
 
-    public User() {
-    }
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
@@ -60,19 +60,12 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    public boolean toggleFavorite(Product product) {
-        boolean exists = this.favorites.stream()
-                .anyMatch(p -> p.getId().equals(product.getId()));
-        if (exists) {
+    public void toggleFavorite(Product product) {
+        if (this.favorites.stream()
+                .anyMatch(p -> p.getId().equals(product.getId()))) {
             this.favorites.removeIf(p -> p.getId().equals(product.getId()));
-            return false;
         } else {
             this.favorites.add(product);
-            return true;
         }
-    }
-
-    public void addPurchase(Purchase purchase) {
-        this.purchases.add(purchase);
     }
 }

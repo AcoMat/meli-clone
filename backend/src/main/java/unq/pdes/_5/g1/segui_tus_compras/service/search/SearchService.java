@@ -1,5 +1,6 @@
 package unq.pdes._5.g1.segui_tus_compras.service.search;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
@@ -21,6 +22,7 @@ public class SearchService {
         this.productService = productService;
     }
 
+    @Cacheable("searchProducts")
     public List<Product> searchProducts(String keywords, int offset, int limit) {
         ApiSearchDto apiProducts = meLiService.search(keywords, offset, limit);
         if (apiProducts.results.isEmpty()) {

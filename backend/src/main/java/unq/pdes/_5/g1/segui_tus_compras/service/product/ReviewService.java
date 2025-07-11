@@ -34,21 +34,22 @@ public class ReviewService {
     }
 
     public List<Review> getProductReviews(String productId) {
-        return productService.getProductById(productId).getReviews();
+        return reviewsRepository.findByProductId(productId);
     }
 
     @Transactional
-    public  void addReviewToProduct(String productId, Integer rating, String review, Long userId) {
-        Product product = productService.getProductById(productId);
-        User user = userService.getUserById(userId);
+    public void addReviewToProduct(String productId, Integer rating, String review, Long userId) {
         if(!purchaseService.userBoughtProduct(userId, productId)) {
             throw new NotBoughtYetException();
         }
-        product.getReviews().stream()
-                .filter(r -> r.getUser().getId().equals(userId))
-                .findFirst().ifPresent(reviewsRepository::delete);
-        product.addReview(new Review(product, user, rating, review));
-        productService.updateProduct(product);
+        Product product = productService.getProductById(productId);
+        User user = userService.getUserById(userId);
+
+        // Check if the user has already reviewed this product
+        reviewsRepository.findByProductAndUser(product, user)
+                .ifPresent(reviewsRepository::delete);
+
+        reviewsRepository.save(new Review(product, user, rating, review));
     }
 
 }

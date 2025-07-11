@@ -48,16 +48,11 @@ public class PurchaseService {
                         )
                 ).collect(Collectors.toList());
         Purchase purchase = new Purchase(user, items);
-        items.forEach(item -> item.setPurchase(purchase));
-        user.addPurchase(purchase);
-        userService.updateUser(user);
+        purchaseRepository.save(purchase);
     }
 
     public boolean userBoughtProduct(Long userId, String productId) {
-        User user = userService.getUserById(userId);
-        return user.getPurchases().stream()
-                .anyMatch(purchase -> purchase.getItems().stream()
-                        .anyMatch(item -> item.getProduct().getId().equals(productId)));
+        return purchaseRepository.hasUserBoughtProduct(userId, productId);
     }
 
     public List<TopPurchasedProductDto> getTopPurchasedProducts() {

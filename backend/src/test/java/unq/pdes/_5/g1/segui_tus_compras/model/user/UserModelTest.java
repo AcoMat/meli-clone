@@ -18,13 +18,11 @@ public class UserModelTest {
         assert !user.getFavorites().contains(product);
 
         // Toggle favorite should add the product
-        boolean added = user.toggleFavorite(product);
-        assert added;
+        user.toggleFavorite(product);
         assert user.getFavorites().contains(product);
 
         // Toggle favorite again should remove the product
-        boolean removed = user.toggleFavorite(product);
-        assert !removed;
+        user.toggleFavorite(product);
         assert !user.getFavorites().contains(product);
     }
 }

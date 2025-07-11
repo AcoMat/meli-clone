@@ -1,6 +1,5 @@
 package unq.pdes._5.g1.segui_tus_compras.service.product;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,6 @@ public class ProductService {
         this.productInternalService = productInternalService;
     }
 
-    @Cacheable("products")
     @Transactional()
     public Product getProductById(String id) {
         Product existingProduct = productsRepository.findById(id).orElse(null);
