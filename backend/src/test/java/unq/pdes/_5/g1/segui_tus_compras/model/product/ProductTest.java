@@ -208,7 +208,7 @@ class ProductTest {
         // Arrange
         Product product = new Product();
         User user = createTestUser("Test", "User");
-        Commentary comment = new Commentary(user, product, "Great product!");
+        Question comment = new Question(user, product, "Great product!");
 
         // Act
         product.addComment(comment);

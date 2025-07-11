@@ -32,7 +32,7 @@ public class Product {
 
     @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Commentary> commentaries;
+    private List<Question> commentaries;
 
     @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -92,7 +92,7 @@ public class Product {
         return price;
     }
 
-    public void addComment(Commentary newComment) {
+    public void addComment(Question newComment) {
         this.commentaries.add(newComment);
     }
 

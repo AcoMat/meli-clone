@@ -5,13 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.user.ReviewDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.out.search.SearchDTO;
-import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Question;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.user.CommentDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.out.search.PagingDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 import unq.pdes._5.g1.segui_tus_compras.security.annotation.NeedsAuth;
-import unq.pdes._5.g1.segui_tus_compras.service.product.CommentService;
+import unq.pdes._5.g1.segui_tus_compras.service.product.QuestionsService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ReviewService;
 import unq.pdes._5.g1.segui_tus_compras.metrics.product.ProductMetricsService;
@@ -25,20 +25,20 @@ import java.util.List;
 public class ProductsController {
 
     private final ProductService productService;
-    private final CommentService commentService;
+    private final QuestionsService questionsService;
     private final ReviewService reviewService;
     private final ProductMetricsService productMetricsService;
     private final SearchService searchService;
 
     public ProductsController(
             ProductService productService,
-            CommentService commentService,
+            QuestionsService questionsService,
             ReviewService reviewService,
             ProductMetricsService productMetricsService,
             SearchService searchService
     ) {
         this.productService = productService;
-        this.commentService = commentService;
+        this.questionsService = questionsService;
         this.reviewService = reviewService;
         this.productMetricsService = productMetricsService;
         this.searchService = searchService;
@@ -64,8 +64,8 @@ public class ProductsController {
     }
 
     @GetMapping("/{productId}/comments")
-    public ResponseEntity<List<Commentary>> getCommentsFromProduct(@PathVariable String productId) {
-        return ResponseEntity.ok(commentService.getProductCommentaries(productId));
+    public ResponseEntity<List<Question>> getCommentsFromProduct(@PathVariable String productId) {
+        return ResponseEntity.ok(questionsService.getProductCommentaries(productId));
     }
 
     @NeedsAuth
@@ -76,7 +76,7 @@ public class ProductsController {
             HttpServletRequest request
     ) {
         Long userId = (Long) request.getAttribute("userId");
-        commentService.addCommentToProduct(productId, commentDto.comment, userId);
+        questionsService.addCommentToProduct(productId, commentDto.comment, userId);
         productMetricsService.incrementCommentByProduct(productId);
         return ResponseEntity.ok("Comment added successfully");
     }

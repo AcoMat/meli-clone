@@ -21,6 +21,7 @@ public class Review {
     @Min(1)
     @Max(5)
     private Integer rating;
+    @Column(columnDefinition = "TEXT")
     private String comment;
     private LocalDateTime createdAt;
     @ManyToOne

@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
-import unq.pdes._5.g1.segui_tus_compras.model.product.Commentary;
+import unq.pdes._5.g1.segui_tus_compras.model.product.Question;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
@@ -95,7 +95,7 @@ class ProductsControllerTest {
     void testGetCommentsFromProduct() throws Exception {
         Product mockedProduct = new Product(createMockExternalProductDto());
         User user = new User("John","Doe","john@email.com","securePass");
-        mockedProduct.addComment(new Commentary(user, mockedProduct, "Great product!"));
+        mockedProduct.addComment(new Question(user, mockedProduct, "Great product!"));
         when(productsRepository.findById(mockedProduct.getId())).thenReturn(Optional.of(mockedProduct));
 
         // Perform request and validate response

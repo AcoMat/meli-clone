@@ -47,7 +47,9 @@ public class PurchaseService {
                                 p.getAmount()
                         )
                 ).collect(Collectors.toList());
-        user.addPurchase(new Purchase(user, items));
+        Purchase purchase = new Purchase(user, items);
+        items.forEach(item -> item.setPurchase(purchase));
+        user.addPurchase(purchase);
         userService.updateUser(user);
     }
 
