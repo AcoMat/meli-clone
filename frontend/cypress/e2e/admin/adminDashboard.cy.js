@@ -41,4 +41,13 @@ describe('Admin Dashboard', () => {
     cy.contains('Top Productos Favoritos').should('not.exist');
     cy.contains('Top Compradores').should('not.exist');
   });
+
+  it('shouldnt show the dashboard if logged in', () => {
+    // Try to visit admin dashboard directly
+    cy.visit('/admin');
+
+    // Verify redirection to login page
+    cy.url().should('include', '/login');
+    cy.contains('Ingresá tu e-mail o teléfono para iniciar sesión').should('be.visible');
+  });
 });
