@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Getter
+@EqualsAndHashCode(of = {"id"})
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

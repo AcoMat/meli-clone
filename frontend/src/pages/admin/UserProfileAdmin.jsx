@@ -23,7 +23,6 @@ function UserProfileAdmin() {
 
     return (
         <LoadingSwitch loading={loading}>
-
             <div className='content-wrapper'>
                 <div className='w-75 px-md-5 mx-auto my-5 d-flex flex-column gap-4 bg-body rounded shadow-sm'>
                     <div className='bg-body d-flex p-4 rounded shadow-sm'>

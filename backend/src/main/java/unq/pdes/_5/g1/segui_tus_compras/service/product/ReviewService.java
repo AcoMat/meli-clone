@@ -44,11 +44,16 @@ public class ReviewService {
         }
         Product product = productService.getProductById(productId);
         User user = userService.getUserById(userId);
-
         // Check if the user has already reviewed this product
-        reviewsRepository.findByProductAndUser(product, user)
-                .ifPresent(reviewsRepository::delete);
-
+        List<Review> existingReviews = reviewsRepository.findByProductAndUser(product, user);
+        if (!existingReviews.isEmpty()) {
+            for (Review r : existingReviews) {
+                product.getReviews().remove(r);
+                user.getReviews().remove(r);
+            }
+            reviewsRepository.deleteAll(existingReviews);
+        }
+        // Save the new review
         reviewsRepository.save(new Review(product, user, rating, review));
     }
 
