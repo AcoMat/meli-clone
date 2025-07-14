@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.user.ReviewDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.out.search.SearchDTO;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Question;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.in.user.CommentDto;
+import unq.pdes._5.g1.segui_tus_compras.model.dto.in.user.QuestionsDto;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.out.search.PagingDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
@@ -63,22 +63,22 @@ public class ProductsController {
         return ResponseEntity.ok(new SearchDTO(paging, q, productsSearch));
     }
 
-    @GetMapping("/{productId}/comments")
-    public ResponseEntity<List<Question>> getCommentsFromProduct(@PathVariable String productId) {
-        return ResponseEntity.ok(questionsService.getProductCommentaries(productId));
+    @GetMapping("/{productId}/questions")
+    public ResponseEntity<List<Question>> getQuestionsFromProduct(@PathVariable String productId) {
+        return ResponseEntity.ok(questionsService.getProductQuestions(productId));
     }
 
     @NeedsAuth
-    @PostMapping("/{productId}/comments")
-    public ResponseEntity<String> addCommentToProduct(
+    @PostMapping("/{productId}/questions")
+    public ResponseEntity<String> addQuestionToProduct(
             @PathVariable String productId,
-            @Valid @RequestBody CommentDto commentDto,
+            @Valid @RequestBody QuestionsDto questionsDto,
             HttpServletRequest request
     ) {
         Long userId = (Long) request.getAttribute("userId");
-        questionsService.addCommentToProduct(productId, commentDto.comment, userId);
-        productMetricsService.incrementCommentByProduct(productId);
-        return ResponseEntity.ok("Comment added successfully");
+        questionsService.addQuestionToProduct(productId, questionsDto.text, userId);
+        productMetricsService.incrementQuestionByProduct(productId);
+        return ResponseEntity.ok("Question added successfully");
     }
 
     @GetMapping("/{productId}/reviews")

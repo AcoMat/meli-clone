@@ -111,10 +111,10 @@ class ProductsControllerTest {
         Question question = new Question(user, product, "Great product!");
         questionsRepository.save(question);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/products/" + product.getId() + "/comments")
+        mockMvc.perform(MockMvcRequestBuilders.get("/products/" + product.getId() + "/questions")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].comment").value("Great product!"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].text").value("Great product!"));
     }
 
     @Test
@@ -129,12 +129,12 @@ class ProductsControllerTest {
         when(jwtTokenProvider.validateTokenAndGetUserId(userToken)).thenReturn(user.getId());
 
         String testQuestion = "This is a test question";
-        mockMvc.perform(MockMvcRequestBuilders.post("/products/" + product.getId() + "/comments")
+        mockMvc.perform(MockMvcRequestBuilders.post("/products/" + product.getId() + "/questions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", userToken)
-                        .content("{\"comment\":\"" + testQuestion + "\"}"))
+                        .content("{\"text\":\"" + testQuestion + "\"}"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("Comment added successfully"));
+                .andExpect(MockMvcResultMatchers.content().string("Question added successfully"));
     }
 
     @Test

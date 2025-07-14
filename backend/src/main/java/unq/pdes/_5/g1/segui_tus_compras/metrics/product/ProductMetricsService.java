@@ -13,7 +13,7 @@ public class ProductMetricsService {
 
     private final MeterRegistry meterRegistry;
     private final ConcurrentHashMap<String, Counter> productViewCounters;
-    private final ConcurrentHashMap<String, Counter> productCommentCounters;
+    private final ConcurrentHashMap<String, Counter> productQuestionsCounters;
     private final ConcurrentHashMap<String, Counter> productReviewCounters;
     private final ConcurrentHashMap<String, Counter> productPurchaseCounters;
     private final ConcurrentHashMap<String, AtomicInteger> productFavoriteGauges;
@@ -22,7 +22,7 @@ public class ProductMetricsService {
     public ProductMetricsService(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
         this.productViewCounters = new ConcurrentHashMap<>();
-        this.productCommentCounters = new ConcurrentHashMap<>();
+        this.productQuestionsCounters = new ConcurrentHashMap<>();
         this.productReviewCounters = new ConcurrentHashMap<>();
         this.productPurchaseCounters = new ConcurrentHashMap<>();
         this.productFavoriteGauges = new ConcurrentHashMap<>();
@@ -41,9 +41,9 @@ public class ProductMetricsService {
         counter.increment();
     }
 
-    public void incrementCommentByProduct(String productId) {
-        Counter counter = productCommentCounters.computeIfAbsent(productId, id ->
-            Counter.builder("product_comments_total")
+    public void incrementQuestionByProduct(String productId) {
+        Counter counter = productQuestionsCounters.computeIfAbsent(productId, id ->
+            Counter.builder("product_questions_total")
                     .description("Total de comentarios por producto")
                     .tag(tagKey, id)
                     .register(meterRegistry)

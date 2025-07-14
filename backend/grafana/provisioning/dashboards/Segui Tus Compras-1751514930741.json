@@ -1385,7 +1385,7 @@
         {
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by (product_id) (product_comments_total)",
+          "expr": "sum by (product_id) (product_questions_total)",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,

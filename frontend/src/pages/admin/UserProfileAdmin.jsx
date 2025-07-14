@@ -33,7 +33,6 @@ function UserProfileAdmin() {
                         </div>
                     </div>
                     <InfoSectionV2 title={"Ultimas compras del usuario"}>
-
                         <div className="d-flex flex-column">
                             {
                                 userData.purchases && userData.purchases?.length > 0 ?
@@ -65,14 +64,14 @@ function UserProfileAdmin() {
                         </div>
                     </InfoSectionV2>
                     <InfoSectionV2 title={"Ultimos comentarios del usuario"}>
-                        {userData.commentaries && userData.commentaries?.length > 0 ?
-                            userData.commentaries.map((commentary) => (
-                                <div className="d-flex align-items-center my-3" key={commentary?.id}>
-                                    <Link to={`/product/${commentary.product.id}`}>
-                                    <img className="rounded-circle object-fit-contain" src={commentary.product.pictures[0]} width={50} height={50} />
+                        {userData.questions && userData.questions?.length > 0 ?
+                            userData.questions.map((question) => (
+                                <div className="d-flex align-items-center my-3 mx-4" key={question?.id}>
+                                    <Link to={`/product/${question.product.id}`}>
+                                        <img className="rounded-circle object-fit-contain" src={question.product.pictures[0]} width={50} height={50}  alt="product image"/>
                                     </Link>
-                                    <div className={`mx-4`} key={commentary?.id}>
-                                        <p className={`mb-0 my-3`} index={commentary?.id}>{commentary?.comment}</p>
+                                    <div className={`mx-4`} key={question?.id}>
+                                        <p className={`mb-0 my-3`} key={question?.id}>{question?.text}</p>
                                     </div>
                                 </div>
 
@@ -91,7 +90,7 @@ function UserProfileAdmin() {
                                             userData.reviews.map((review) => (
                                                 <div key={review.id} className="d-flex gap-3">
                                                     <Link to={`/product/${review.product.id}`} >
-                                                    <img className="rounded-circle object-fit-contain" src={review.product.pictures[0]} width={50} height={50} />
+                                                    <img className="rounded-circle object-fit-contain" src={review.product.pictures[0]} width={50} height={50} alt="product image"/>
                                                     </Link>
                                                     <div className="d-flex flex-column">
                                                         <div className="mb-3" style={{ fontSize: "0.8rem" }}>

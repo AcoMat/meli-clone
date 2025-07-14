@@ -12,7 +12,7 @@ function ProductQuestionsAndResponses({questions}) {
                                 <img src={avatarPlaceholder} className="rounded-circle object-fit-contain" width={30}/>
                                 <span>{question.by}</span>
                             </div>
-                            <p className={`mt-2`} index={question?.id}>{question?.comment}</p>
+                            <p className={`mt-2`} index={question?.id}>{question?.text}</p>
                         </div>
                     ))
                     :

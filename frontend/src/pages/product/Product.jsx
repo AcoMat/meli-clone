@@ -6,7 +6,7 @@ import InfoSectionV2 from '../../components/layout/InfoSection/InfoSectionV2';
 import ProductDescription from '../../components/product/ProductDescription/ProductDescription';
 import ProductCharacteristics from '../../components/product/ProductCharacteristics/ProductCharacteristics';
 import { useEffect } from 'react';
-import { postComment } from '../../services/ApiService';
+import { postQuestion } from '../../services/ApiService';
 import ProductQuestionsAndResponses from '../../components/product/ProductQuestionsAndResponses/ProductQuestionsAndResponses';
 import QuestionForm from '../../components/forms/QuestionForm/QuestionForm';
 import ErrorPage from '../ErrorPage';
@@ -23,13 +23,13 @@ export default function Product() {
     const { user } = useUserContext();
     const { product, loading, refresh } = useGetProduct(idProduct);
 
-    const addComment = async (text) => {
+    const addQuestion = async (text) => {
         if(!user) {
             navigate('/login', { state: { from: `/product/${idProduct}` } });
             return;
         }
         const token = await getToken();
-        await postComment(token, idProduct, text);
+        await postQuestion(token, idProduct, text);
         refresh();
     }
 
@@ -56,10 +56,10 @@ export default function Product() {
 
                         <InfoSectionV2 title="Preguntas">
                             <QuestionForm
-                                addQuestion={addComment}
+                                addQuestion={addQuestion}
                             />
                             <ProductQuestionsAndResponses
-                                questions={product?.commentaries}
+                                questions={product?.questions}
                             />
                         </InfoSectionV2>
                         <InfoSectionV2 title="Opiniones del producto">

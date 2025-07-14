@@ -21,7 +21,7 @@ public class Question {
     private Long id;
     @NotBlank
     @Column(columnDefinition = "TEXT")
-    private String comment;
+    private String text;
     private LocalDateTime createdAt;
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -32,15 +32,15 @@ public class Question {
     private User user;
 
 
-    public Question(User by, Product product, String comment) {
+    public Question(User by, Product product, String text) {
         this.user = by;
         this.product = product;
-        this.comment = comment;
+        this.text = text;
         this.createdAt = LocalDateTime.now();
     }
 
     @JsonProperty("by")
     public String getUserName() {
-        return this.user.getFirstName();
+        return this.user.getFirstName() + " " + this.user.getLastName();
     }
 }

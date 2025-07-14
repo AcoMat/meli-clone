@@ -128,9 +128,9 @@ export async function putFavoriteProduct(token, productId) {
   }
 }
 
-export async function postComment(token, productId, comment) {
+export async function postQuestion(token, productId, question) {
   try {
-    const response = await axiosService.post(`/products/${productId}/comments`, { comment }, {
+    const response = await axiosService.post(`/products/${productId}/questions`, { question }, {
       headers: {
         Authorization: `${token}`,
       },
@@ -138,7 +138,7 @@ export async function postComment(token, productId, comment) {
     return response.data;
   }
   catch (error) {
-    console.error('Error posting new comment:', error);
+    console.error('Error posting new question:', error);
     return null;
   }
 }
@@ -203,13 +203,13 @@ export async function searchProducts(q, offset = 0, limit = 10) {
   }
 }
 
-export async function getProductsComments(productId) {
+export async function getProductQuestions(productId) {
   try {
-    const response = await axiosService.get(`/products/${productId}/comments`);
+    const response = await axiosService.get(`/products/${productId}/questions`);
     return response.data;
   }
   catch (error) {
-    console.error('Error fetching product comments:', error);
+    console.error('Error fetching product questions:', error);
     return null;
   }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProductById, getProductsComments, getProductsReviews } from "../services/ApiService";
+import { getProductById, getProductQuestions, getProductsReviews } from "../services/ApiService";
 
 export default function useGetProduct(productId) {
   const [product, setProduct] = useState(null);
@@ -12,9 +12,9 @@ export default function useGetProduct(productId) {
       setLoading(false);
       return;
     }
-    const commentaries = await getProductsComments(productId);
+    const questions = await getProductQuestions(productId);
     const reviews = await getProductsReviews(productId);
-    product.commentaries = commentaries;
+    product.questions = questions;
     product.reviews = reviews;
     setProduct(product);
     setLoading(false);

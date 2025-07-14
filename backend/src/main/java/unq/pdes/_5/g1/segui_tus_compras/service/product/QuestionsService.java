@@ -26,16 +26,16 @@ public class QuestionsService {
         this.userService = userService;
     }
 
-    public List<Question> getProductCommentaries(String productId) {
+    public List<Question> getProductQuestions(String productId) {
         return questionsRepository.findByProductId(productId);
     }
 
     @Transactional
-    public void addCommentToProduct(String productId, String comment, Long userId) {
+    public void addQuestionToProduct(String productId, String text, Long userId) {
         User user = userService.getUserById(userId);
         Product product = productService.getProductById(productId);
 
-        Question newQuestion = new Question(user, product, comment);
+        Question newQuestion = new Question(user, product, text);
         questionsRepository.save(newQuestion);
     }
 }

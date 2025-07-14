@@ -17,7 +17,7 @@ public class UserDto {
     public List<Purchase> purchases;
     public List<Review> reviews;
     public List<Product> favorites;
-    public List<Question> commentaries;
+    public List<Question> questions;
 
     public UserDto(User user) {
         this.id = user.getId();
@@ -27,7 +27,7 @@ public class UserDto {
         this.purchases = user.getPurchases();
         this.reviews = user.getReviews();
         this.favorites = user.getFavorites();
-        this.commentaries = user.getQuestions();
+        this.questions = user.getQuestions();
         this.isAdmin = user.isAdmin();
     }
 }

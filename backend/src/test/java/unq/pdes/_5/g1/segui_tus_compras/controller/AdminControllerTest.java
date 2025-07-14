@@ -112,7 +112,7 @@ class AdminControllerTest {
                 .andExpect(jsonPath("$.purchases").isArray())
                 .andExpect(jsonPath("$.reviews").isArray())
                 .andExpect(jsonPath("$.favorites").isArray())
-                .andExpect(jsonPath("$.commentaries").isArray());
+                .andExpect(jsonPath("$.questions").isArray());
     }
 
     @Test
