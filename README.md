@@ -106,28 +106,28 @@ Para facilitar la visualización de la aplicación, se han incluido datos inicia
 
 **usuarios:**
 
-| Rol     | Email                             | Contraseña   |
-|---------|-----------------------------------|--------------|
-| admin   | admin@email.com                   | matias123    |
-| admin   | santiagorugna@email.com@email.com | santiago123  |
-| cliente | juliantrejo@email.com             | julian123    |
-| cliente | douglasespagnol@email.com         | douglas123   |
-| cliente | juancruzcenturion@email.com       | juan123      |
-| cliente | lucasdellagiustina@email.com      | lucas123     |
-| cliente | juanignaciogarcia@email.com       | juan123      |
-| cliente | urielpiñeyro@email.com            | uriel123     |
-| cliente | matiaslaime@email.com             | matias123    |
-| cliente | juancabezas@email.com             | juan123      |
-| cliente | agueromauro@email.com             | aguero123    |
-| cliente | aguerofernando@email.com          | aguero123    |
-| cliente | mailinsoñez@email.com             | mailin123    |
-| cliente | carlossaldaña@email.com           | carlos123    |
-| cliente | adriancardozo@email.com           | adrian123    |
-| cliente | sofiarossi@email.com              | sofia123     |
-| cliente | mateodiaz@email.com               | mateo123     |
-| cliente | valentinagomez@email.com          | valentina123 |
-| cliente | benjamincastro@email.com          | benjamin123  |
-| cliente | isabellahernandez@email.com       | isabella123  |
+| Rol     | Email                        | Contraseña   |
+|---------|------------------------------|--------------|
+| admin   | admin@email.com              | admin123     |
+| admin   | santiagorugna@email.com      | admin123     |
+| cliente | juliantrejo@email.com        | julian123    |
+| cliente | douglasespagnol@email.com    | douglas123   |
+| cliente | juancruzcenturion@email.com  | juan123      |
+| cliente | lucasdellagiustina@email.com | lucas123     |
+| cliente | juanignaciogarcia@email.com  | juan123      |
+| cliente | urielpiñeyro@email.com       | uriel123     |
+| cliente | matiaslaime@email.com        | matias123    |
+| cliente | juancabezas@email.com        | juan123      |
+| cliente | agueromauro@email.com        | aguero123    |
+| cliente | aguerofernando@email.com     | aguero123    |
+| cliente | mailinsoñez@email.com        | mailin123    |
+| cliente | carlossaldaña@email.com      | carlos123    |
+| cliente | adriancardozo@email.com      | adrian123    |
+| cliente | sofiarossi@email.com         | sofia123     |
+| cliente | mateodiaz@email.com          | mateo123     |
+| cliente | valentinagomez@email.com     | valentina123 |
+| cliente | benjamincastro@email.com     | benjamin123  |
+| cliente | isabellahernandez@email.com  | isabella123  |
 
 ---
 
