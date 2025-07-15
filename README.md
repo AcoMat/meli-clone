@@ -69,6 +69,15 @@ Si prefieres utilizar imágenes preconstruidas, puedes ejecutar el siguiente com
   docker-compose -f docker-compose.prod.yml up --build
 ```
 
+### Nube
+El sistema también está desplegado en la nube utilizando Render. Puedes acceder a la aplicación en el siguiente enlace:
+ **[Seguí tus compras en Render](https://unq-pdes-2025-g1-segui-tus-compras.onrender.com)**
+
+(URL del backend: https://segui-tus-compras-backend.onrender.com)
+
+Tener en cuenta que el backend puede tardar unos minutos en iniciar la primera vez que se accede, 
+ya que **Render mantiene inactivos los contenedores cuando no hay tráfico**.
+
 ### Servicios y Puertos
 
 Una vez que los contenedores estén ejecutándose, los siguientes servicios estarán disponibles:
