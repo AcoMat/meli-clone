@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -85,13 +86,14 @@ public class ProductsController {
         return ResponseEntity.ok(questionsService.getProductQuestions(productId));
     }
 
+    @NeedsAuth
+    @PostMapping("/{productId}/questions")
     @Operation(summary = "Add a question to a product", description = "Adds a new question to a product. Requires authentication.")
+    @SecurityRequirement(name = "bearerAuth")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Question added successfully"),
         @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    @NeedsAuth
-    @PostMapping("/{productId}/questions")
     public ResponseEntity<String> addQuestionToProduct(
             @Parameter(description = "Product ID") @PathVariable String productId,
             @Valid @RequestBody QuestionsDto questionsDto,
@@ -112,14 +114,15 @@ public class ProductsController {
         return ResponseEntity.ok(reviewService.getProductReviews(productId));
     }
 
+    @NeedsAuth
+    @PostMapping("/{productId}/reviews")
     @Operation(summary = "Add a review to a product", description = "Adds a new review to a product. Requires authentication.")
+    @SecurityRequirement(name = "bearerAuth")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Review added successfully"),
         @ApiResponse(responseCode = "400", description = "Invalid input"),
         @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
-    @NeedsAuth
-    @PostMapping("/{productId}/reviews")
     public ResponseEntity<String> postReviewToProduct(
             @Parameter(description = "Product ID") @PathVariable String productId,
             @Valid @RequestBody ReviewDto reviewDto,
