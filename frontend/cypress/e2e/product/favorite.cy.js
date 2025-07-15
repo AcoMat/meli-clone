@@ -10,7 +10,7 @@ describe('Pruebas de funcionalidad de favoritos', () => {
 
     // Test para agregar a favoritos con login
     it('debería agregar a favoritos el producto estando logueado', () => {
-        cy.loginAdmin();
+        cy.registerRandomUser()
         // Ahora va a la página del producto y lo agrega a favoritos
         cy.visit('/product/MLA49315128');
         cy.get('.like-button')

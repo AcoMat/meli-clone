@@ -1,6 +1,8 @@
 package unq.pdes._5.g1.segui_tus_compras.service.product;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
@@ -18,7 +20,7 @@ public class ProductInternalService {
         this.meLiService = meLiService;
     }
 
-    @Transactional()
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Product createProductFromApi(String id) {
         // Double-check if product was created by another thread
         Product existingProduct = productsRepository.findById(id).orElse(null);
@@ -39,6 +41,10 @@ public class ProductInternalService {
             apiProduct.buyBoxWinner.shipping.freeShipping = Math.random() < 0.5;
         }
 
-        return productsRepository.save(new Product(apiProduct));
+        try {
+            return productsRepository.save(new Product(apiProduct));
+        } catch (DataIntegrityViolationException e){
+            return productsRepository.findById(id).orElseThrow(() -> new RuntimeException("Error creating product from API: " + e.getMessage()));
+        }
     }
 }

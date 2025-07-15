@@ -3,6 +3,7 @@ package unq.pdes._5.g1.segui_tus_compras.model.product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"id"})
 public class Product {
     @Id
     String id;
@@ -92,15 +94,5 @@ public class Product {
             return price - (price * priceDiscountPercentage / 100);
         }
         return price;
-    }
-
-    public void toggleFavoritedBy(User user) {
-        boolean exists = this.favoritedBy.stream()
-                .anyMatch(u -> u.getId().equals(user.getId()));
-        if (exists) {
-            this.favoritedBy.removeIf(u -> u.getId().equals(user.getId()));
-        } else {
-            this.favoritedBy.add(user);
-        }
     }
 }

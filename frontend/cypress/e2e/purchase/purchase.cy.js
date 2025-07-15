@@ -1,6 +1,6 @@
 describe('Purchase flow', () => {
   it('should allow admin to purchase product MLA49315128 after login', () => {
-    cy.loginAdmin();
+    cy.registerRandomUser();
     
     // Go to product page
     cy.visit('/product/MLA49315128');

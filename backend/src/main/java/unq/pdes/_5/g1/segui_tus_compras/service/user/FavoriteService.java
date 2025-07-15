@@ -22,11 +22,9 @@ public class FavoriteService {
         User user = userService.getUserById(userId);
         Product product = productService.getProductById(productId);
 
-        user.toggleFavorite(product);
-        product.toggleFavoritedBy(user);
-
+        boolean isFavorite = user.toggleFavorite(product);
         userService.updateUser(user);
-        return user.getFavorites().contains(product);
+        return isFavorite;
     }
 
 }

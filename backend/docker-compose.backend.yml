@@ -24,12 +24,13 @@ services:
     ports:
       - "13306:3306"  # Maps port 3306 in the container to port 13306 on the host.
     volumes:
-      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - mysql-data:/var/lib/mysql  # Persistent storage for MySQL data.
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - springboot-mysql-network  # Connects to the specified network.
     environment:
       MYSQL_ROOT_PASSWORD: "@milanesa"
+      MYSQL_DATABASE: segui-tus-compras
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p@milanesa" ]
       retries: 10  # Number of retries before considering the service unhealthy.

@@ -128,9 +128,9 @@ export async function putFavoriteProduct(token, productId) {
   }
 }
 
-export async function postQuestion(token, productId, question) {
+export async function postQuestion(token, productId, text) {
   try {
-    const response = await axiosService.post(`/products/${productId}/questions`, { question }, {
+    const response = await axiosService.post(`/products/${productId}/questions`, { text }, {
       headers: {
         Authorization: `${token}`,
       },

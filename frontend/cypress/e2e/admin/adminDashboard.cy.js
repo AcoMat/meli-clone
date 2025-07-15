@@ -1,6 +1,4 @@
 describe('Admin Dashboard', () => {
-  const uniqueEmail = `testuser${Date.now()}@mail.com`;
-
   beforeEach(() => {
     cy.visit('/');
   });
@@ -22,7 +20,7 @@ describe('Admin Dashboard', () => {
 
   it('should not display admin dashboard for regular users', () => {
     // Login as regular user
-    cy.registerUser(uniqueEmail, 'Password123!');
+    cy.registerRandomUser();
     
     // Verify admin dashboard is NOT visible
     cy.contains('Bienvenido, Admin!').should('not.exist');

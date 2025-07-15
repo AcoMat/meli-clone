@@ -1,11 +1,10 @@
-describe('Product comments', () => {
+describe('Product questions', () => {
   beforeEach(() => {
     cy.visit('/product/MLA49315128');
   });
 
-  it('should add a comment', () => {
-    // Login as admin user
-    cy.loginAdmin();
+  it('should add a question', () => {
+    cy.registerRandomUser()
     
     // Navigate to the product page
     cy.visit('/product/MLA49315128');
@@ -21,13 +20,13 @@ describe('Product comments', () => {
     cy.get('textarea[name="question"]').type(testQuestion);
     
     // Set up intercept to monitor the comment POST request
-    cy.intercept('POST', '/products/MLA49315128/comments').as('postComment');
+    cy.intercept('POST', '/products/MLA49315128/questions').as('postQuestion');
     
     // Click the "Preguntar" button
     cy.contains('Preguntar').click();
     
     // Wait for the API call to complete
-    cy.wait('@postComment').its('response.statusCode').should('eq', 200);
+    cy.wait('@postQuestion').its('response.statusCode').should('eq', 200);
     
     // Verify the textarea is cleared after submission
     cy.get('textarea[name="question"]').should('have.value', '');
@@ -36,7 +35,7 @@ describe('Product comments', () => {
     cy.contains(testQuestion).should('be.visible');
   });
 
-  it('should not allow adding empty comments', () => {
+  it('should not allow adding empty questions', () => {
     // Login as admin user
     cy.loginAdmin();
     
@@ -47,7 +46,7 @@ describe('Product comments', () => {
     cy.contains('Preguntas').should('be.visible');
     
     // Set up intercept to monitor the comment POST request
-    cy.intercept('POST', '/products/MLA49315128/comments').as('postComment');
+    cy.intercept('POST', '/products/MLA49315128/questions').as('postQuestion');
     
     // Try to submit empty comment
     cy.get('textarea[name="question"]').should('be.visible');
@@ -66,20 +65,20 @@ describe('Product comments', () => {
     cy.get('textarea[name="question"]').should('be.focused');
     
     // Verify no API call was made
-    cy.get('@postComment').should('not.exist');
+    cy.get('@postQuestion').should('not.exist');
     
     // Verify textarea still has empty value
     cy.get('textarea[name="question"]').should('have.value', '');
   });
 
-  it('should require login to add comments', () => {
+  it('should require login to add questions', () => {
     // Navigate to the product page without login
     cy.visit('/product/MLA49315128');
     
     // Wait for page to load
     cy.contains('Preguntas').should('be.visible');
     
-    // Try to add a comment
+    // Try to add a question
     cy.get('textarea[name="question"]').should('be.visible');
     cy.get('textarea[name="question"]').type('Esta pregunta debería requerir login');
     
@@ -101,7 +100,7 @@ describe('Product comments', () => {
     // Wait for page to load
     cy.contains('Preguntas').should('be.visible');
     
-    // Try to add a comment to trigger redirect
+    // Try to add a question to trigger redirect
     cy.get('textarea[name="question"]').should('be.visible');
     cy.get('textarea[name="question"]').type('Esta pregunta requiere login');
     cy.contains('Preguntar').click();

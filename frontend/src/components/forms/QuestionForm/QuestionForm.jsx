@@ -5,7 +5,7 @@ function QuestionForm({ addQuestion }) {
     const form = useRef(null);
 
     const handleSendQuestion = () => {
-        if (form.current.value.trim() == "") {
+        if (form.current.value.trim() === "") {
             form.current.focus();
             alert("Por favor, ingrese una pregunta.");
             return;

@@ -24,8 +24,8 @@ export default function ProductCharacteristics({ characteristics }) {
                             style={{ fontSize: "0.7rem", minWidth: "220px", maxWidth: "100%", tableLayout: "fixed", wordBreak: "break-word" }}
                         >
                             <tbody>
-                                {half.map(({ id, name, value }) => (
-                                    <tr key={id}>
+                                {half.map(({ name, value }) => (
+                                    <tr key={name}>
                                         <td className="fw-medium p-3 text-capitalize" style={{ wordBreak: "break-word" }}>{name}</td>
                                         <td className="p-3" style={{ wordBreak: "break-word" }}>{value}</td>
                                     </tr>

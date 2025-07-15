@@ -60,12 +60,15 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    public void toggleFavorite(Product product) {
+    public boolean toggleFavorite(Product product) {
         if (this.favorites.stream()
                 .anyMatch(p -> p.getId().equals(product.getId()))) {
             this.favorites.removeIf(p -> p.getId().equals(product.getId()));
+            return false;
         } else {
             this.favorites.add(product);
+            return true;
         }
     }
+
 }

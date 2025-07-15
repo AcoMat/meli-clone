@@ -33,8 +33,9 @@ public class ReviewService {
         this.reviewsRepository = reviewsRepository;
     }
 
+    @Transactional
     public List<Review> getProductReviews(String productId) {
-        return reviewsRepository.findByProductId(productId);
+            return reviewsRepository.findByProductId(productId);
     }
 
     @Transactional
@@ -51,7 +52,6 @@ public class ReviewService {
                 product.getReviews().remove(r);
                 user.getReviews().remove(r);
             }
-            reviewsRepository.deleteAll(existingReviews);
         }
         // Save the new review
         reviewsRepository.save(new Review(product, user, rating, review));
