@@ -1,17 +1,15 @@
 services:
   frontend:
-    image: acomat/segui-tus-compras:frontend-latest
+    image: acomat/segui-tus-compras-frontend:latest
     ports:
       - "15173:80"
     depends_on:
       - backend
-    environment:
-      - VITE_BACKEND_URL=backend:8080
     networks:
       - app-network
 
   backend:
-    image: acomat/segui-tus-compras:backend-latest
+    image: acomat/segui-tus-compras-backend:latest
     ports:
       - "18080:8080"
     depends_on:

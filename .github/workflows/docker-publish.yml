@@ -67,3 +67,5 @@ jobs:
           tags: |
             acomat/segui-tus-compras-frontend:${{ github.ref_name }}
             acomat/segui-tus-compras-frontend:latest
+          build-args: |
+            VITE_BACKEND_URL=http://backend:8080
