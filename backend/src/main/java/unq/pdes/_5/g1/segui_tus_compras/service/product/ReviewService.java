@@ -52,6 +52,8 @@ public class ReviewService {
                 product.getReviews().remove(r);
                 user.getReviews().remove(r);
             }
+            reviewsRepository.deleteAll(existingReviews);
+            reviewsRepository.flush();
         }
         // Save the new review
         reviewsRepository.save(new Review(product, user, rating, review));
