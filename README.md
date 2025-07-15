@@ -45,34 +45,42 @@ El proyecto puede ser ejecutado en su totalidad utilizando Docker Compose.
 - **Docker Compose**
 - **Variables de Entorno**
 
-### **Importante**
+ **Importante**:
 Para el correcto funcionamiento de la aplicación, es necesario configurar
 las siguientes variables de entorno.
 En un archivo `.env` en la raíz del proyecto poner el siguiente contenido:
+
 ```
 MERCADOLIBRE_API_MOST_RECENT_TOKEN= token api mercado libre
 ```
 
 ### Ejecución
 
-1. Desde el directorio raíz del proyecto, ejecutar:
-    ```bash
-    docker-compose -f docker-compose.dev.yml up --build
-    ```
-Este comando construirá las imágenes (incluyendo la compilación del backend con Maven) y levantará los contenedores para el frontend, backend y la base de datos MySQL.
+### Código fuente
+Desde el directorio raíz del proyecto, ejecutar:
+```bash
+  docker-compose -f docker-compose.dev.yml up --build
+```
+Este comando construirá las imágenes y levantará los contenedores para el frontend, backend y la base de datos MySQL.
+
+### Imágenes DockerHub
+Si prefieres utilizar imágenes preconstruidas, puedes ejecutar el siguiente comando:
+```bash
+  docker-compose -f docker-compose.prod.yml up --build
+```
 
 ### Servicios y Puertos
 
 Una vez que los contenedores estén ejecutándose, los siguientes servicios estarán disponibles:
 
-| Servicio  | Puerto | URL                                    | Descripción                           |
-|-----------|--------|----------------------------------------|---------------------------------------|
-| Frontend  | 15173  | http://localhost:15173                 | Aplicación web principal              |
-| Backend   | 18080  | http://localhost:18080                 | API REST del backend                  |
-| Swagger   | 18080  | http://localhost:18080/swagger-ui/index.html#/ | Documentación de la API          |
-| MySQL     | 13306  | localhost:13306                        | Base de datos                         |
-| Prometheus| 19090  | http://localhost:19090                 | Métricas del sistema                  |
-| Grafana   | 13000  | http://localhost:13000                 | Dashboard de monitoreo                |
+| Servicio   | Puerto | URL                                            | Descripción              |
+|------------|--------|------------------------------------------------|--------------------------|
+| Frontend   | 15173  | http://localhost:15173                         | Aplicación web principal |
+| Backend    | 18080  | http://localhost:18080                         | API REST del backend     |
+| Swagger    | 18080  | http://localhost:18080/swagger-ui/index.html#/ | Documentación de la API  |
+| MySQL      | 13306  | localhost:13306                                | Base de datos            |
+| Prometheus | 19090  | http://localhost:19090                         | Métricas del sistema     |
+| Grafana    | 13000  | http://localhost:13000                         | Dashboard de monitoreo   |
 
 #### Grafana
 El sistema viene integrado con Grafana para monitoreo y visualización de métricas. Las credenciales por defecto son:
@@ -101,9 +109,10 @@ La documentación completa de la API está disponible en Swagger UI:
 
 ---
 
-### Datos iniciales
+## Datos iniciales
 Para facilitar la visualización de la aplicación, se han incluido datos iniciales en la base de datos. Estos datos incluyen productos, usuarios y reseñas predefinidos.
 
+### Ejecucion LOCAL/via Docker Compose
 **usuarios:**
 
 | Rol     | Email                        | Contraseña   |
@@ -129,6 +138,11 @@ Para facilitar la visualización de la aplicación, se han incluido datos inicia
 | cliente | benjamincastro@email.com     | benjamin123  |
 | cliente | isabellahernandez@email.com  | isabella123  |
 
+### Ejecucion en la nube (Render)
+
+| Rol     | Email                        | Contraseña   |
+|---------|------------------------------|--------------|
+| admin   | admin@email.com              | admin123     |
 ---
 
 ## Tests de carga con k6
