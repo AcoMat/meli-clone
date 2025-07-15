@@ -13,8 +13,6 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=@milanesa
       - MERCADOLIBRE_API_MOST_RECENT_TOKEN=${MERCADOLIBRE_API_MOST_RECENT_TOKEN}
-      - MERCADOLIBRE_API_CLIENT_ID=${MERCADOLIBRE_API_CLIENT_ID}
-      - MERCADOLIBRE_API_CLIENT_SECRET=${MERCADOLIBRE_API_CLIENT_SECRET}
       - JWT_SECRET=${JWT_SECRET}
     networks:
       - springboot-mysql-network
@@ -26,12 +24,13 @@ services:
     ports:
       - "13306:3306"  # Maps port 3306 in the container to port 13306 on the host.
     volumes:
+      - mysql-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - mysql-data:/var/lib/mysql  # Persistent storage for MySQL data.
     networks:
       - springboot-mysql-network  # Connects to the specified network.
     environment:
       MYSQL_ROOT_PASSWORD: "@milanesa"
+      MYSQL_DATABASE: segui-tus-compras
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p@milanesa" ]
       retries: 10  # Number of retries before considering the service unhealthy.
@@ -40,7 +39,7 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    container_name: prometheus
+    container_name: segui-tus-compras-prometheus
     ports:
       - "19090:9090"
     volumes:
@@ -57,7 +56,7 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
+    container_name: segui-tus-compras-grafana
     ports:
       - "13000:3000"
     environment:

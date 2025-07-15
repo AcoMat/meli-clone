@@ -2,12 +2,10 @@ package unq.pdes._5.g1.segui_tus_compras.service.product;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import unq.pdes._5.g1.segui_tus_compras.exception.product.ProductNotFoundException;
-import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ApiSearchDto;
+import org.springframework.transaction.annotation.Transactional;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.out.product.ProductFavoriteCountDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
-import unq.pdes._5.g1.segui_tus_compras.service.external.MeLiApiService;
 
 import java.util.List;
 
@@ -15,38 +13,23 @@ import java.util.List;
 public class ProductService {
 
     private final ProductsRepository productsRepository;
-    private final MeLiApiService meLiService;
     private final ProductInternalService productInternalService;
 
-    public ProductService(ProductsRepository productsRepository, MeLiApiService externalApiService, ProductInternalService productInternalService) {
+    public ProductService(ProductsRepository productsRepository, ProductInternalService productInternalService) {
         this.productsRepository = productsRepository;
-        this.meLiService = externalApiService;
         this.productInternalService = productInternalService;
     }
 
+    @Transactional()
     public Product getProductById(String id) {
-        return productInternalService.getProductById(id);
-    }
-
-    public void updateProduct(Product product) {
-        if (!productsRepository.existsById(product.getId())) {
-            throw new ProductNotFoundException(product.getId());
+        Product existingProduct = productsRepository.findById(id).orElse(null);
+        if (existingProduct != null) {
+            return existingProduct;
         }
-        productsRepository.save(product);
-    }
-
-    public List<Product> searchProducts(String keywords, int offset, int limit) {
-        ApiSearchDto apiProducts = meLiService.search(keywords, offset, limit);
-        if (apiProducts.results.isEmpty()) {
-            return List.of();
-        }
-        return apiProducts.results.stream().map(
-            result -> productInternalService.getProductById(result.id)
-        ).toList();
+        return productInternalService.createProductFromApi(id);
     }
 
     public List<ProductFavoriteCountDto> getTopFavoriteProducts() {
         return productsRepository.findTopFavoriteProducts(PageRequest.of(0, 5));
     }
-
 }

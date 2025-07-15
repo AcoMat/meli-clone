@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'backend/**'
+      - '.github/workflows/sonar-analysis.yml'
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -15,8 +18,6 @@ jobs:
 
     env:
       MERCADOLIBRE_API_MOST_RECENT_TOKEN: ${{ secrets.MERCADOLIBRE_API_MOST_RECENT_TOKEN }}
-      MERCADOLIBRE_API_CLIENT_ID: ${{ secrets.MERCADOLIBRE_API_CLIENT_ID }}
-      MERCADOLIBRE_API_CLIENT_SECRET: ${{ secrets.MERCADOLIBRE_API_CLIENT_SECRET }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     steps:

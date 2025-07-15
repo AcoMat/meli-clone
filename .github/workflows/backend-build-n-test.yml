@@ -1,14 +1,13 @@
 name: Backend Unit Tests
 
 on:
-  push:
-    branches:
-      - main
-      - dev
   pull_request:
     branches:
       - main
       - dev
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-build-n-test.yml'
 
 jobs:
   unit-tests-backend:
@@ -16,13 +15,7 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
-
-    env:
-      MERCADOLIBRE_API_MOST_RECENT_TOKEN: ${{ secrets.MERCADOLIBRE_API_MOST_RECENT_TOKEN }}
-      MERCADOLIBRE_API_CLIENT_ID: ${{ secrets.MERCADOLIBRE_API_CLIENT_ID }}
-      MERCADOLIBRE_API_CLIENT_SECRET: ${{ secrets.MERCADOLIBRE_API_CLIENT_SECRET }}
-      JWT_SECRET: ${{ secrets.JWT_SECRET }}
-
+        
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

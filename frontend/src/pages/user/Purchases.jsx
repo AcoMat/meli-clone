@@ -16,7 +16,7 @@ function Purchases() {
                         purchases && purchases?.length > 0 ?
                             purchases.slice().reverse().map((purchase) => {
                                 return (
-                                    <PurchaseHistory key={purchase.date.toString()} purchase={purchase} />
+                                    <PurchaseHistory key={purchase.date.toString()} purchase={purchase} showReviewLink={true} />
                                 )
                             })
                             :

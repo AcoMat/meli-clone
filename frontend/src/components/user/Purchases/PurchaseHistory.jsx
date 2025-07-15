@@ -1,7 +1,7 @@
 import { formatARS } from "../../../util/priceUtil"
 import ProductCardHistory from "../../cards/ProductHistory/ProductCardHistory"
 
-export default function PurchaseHistory({purchase}) {
+export default function PurchaseHistory({purchase, showReviewLink = false}) {
 
     return (
         <div className="bg-body rounded mb-4">
@@ -13,7 +13,12 @@ export default function PurchaseHistory({purchase}) {
                 {
                     purchase.items.map((item) => {
                         return (
-                            <ProductCardHistory key={item.product.id + purchase.id} product={item.product} amount={item.amount}/>
+                            <ProductCardHistory
+                                key={item.product.id + purchase.id}
+                                product={item.product}
+                                amount={item.amount}
+                                showReviewLink={showReviewLink}
+                            />
                         )
                     })
                 }
