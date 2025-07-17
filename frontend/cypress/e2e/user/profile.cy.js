@@ -13,7 +13,7 @@ describe('Profile page e2e Test', () => {
         cy.loginAdmin()
         cy.visit('/profile')
         cy.contains('Matias Acosta').should('exist')
-        cy.contains('admin@email.com').should('exist')
+        cy.contains('matiasacosta@email.com').should('exist')
         cy.contains('Cerrar sesión').should('exist')
     })
 })

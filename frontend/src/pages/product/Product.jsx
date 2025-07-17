@@ -65,7 +65,7 @@ export default function Product() {
                         <InfoSectionV2 title="Opiniones del producto">
                             {
                                 product.reviews && product.reviews.length > 0 ?
-                                    <div className='d-flex gap-5 mx-3'>
+                                    <div className='d-flex flex-sm-column flex-lg-row gap-5 mx-3'>
                                         <ProductRating reviews={product.reviews} />
                                         <ProductReviews reviews={product.reviews} />
                                     </div>

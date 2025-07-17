@@ -8,6 +8,7 @@ function Home() {
 
     return (
         <>
+            <h1>Prueba</h1>
             <AdsCarousel id={"1"} />
             <div className="d-flex flex-column content-wrapper gap-5">
                 {
