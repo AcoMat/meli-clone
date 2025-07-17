@@ -20,7 +20,7 @@ export default function ProductRating({ reviews }) {
 
     return (
         reviews && reviews?.length > 0 &&
-        <div className="d-flex flex-column w-25">
+        <div className="d-flex flex-column">
             <div className="d-flex gap-3">
                 <span className="fw-bold blue-meli" style={{ fontSize: "3.5rem" }}>{averageRating.toFixed(1)}</span>
                 <div className="d-flex flex-column justify-content-center">

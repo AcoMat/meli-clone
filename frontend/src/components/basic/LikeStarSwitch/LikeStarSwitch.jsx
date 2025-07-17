@@ -1,15 +1,15 @@
 import starIcon from '../../../assets/ui/star.svg'
 import starFilledIcon from '../../../assets/ui/star-fill.svg'
 import './LikeStarSwitch.css'
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useUserContext } from '../../../context/UserContext';
-import { useFavoritesContext } from '../../../context/FavoritesContext';
+import {useNavigate} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {useUserContext} from '../../../context/UserContext';
+import {useFavoritesContext} from '../../../context/FavoritesContext';
 
-function LikeStarSwitch({ productId }) {
+function LikeStarSwitch({productId}) {
     const navigate = useNavigate();
-    const { user } = useUserContext();    
-    const { favorites, toggleFavoriteProduct } = useFavoritesContext();
+    const {user} = useUserContext();
+    const {favorites, toggleFavoriteProduct, loading} = useFavoritesContext();
     const [liked, setLiked] = useState(false);
 
     useEffect(() => {
@@ -33,9 +33,9 @@ function LikeStarSwitch({ productId }) {
         >
             <img
                 src={liked ? starFilledIcon : starIcon}
-                className=''
                 width={20}
                 height={20}
+                alt="like"
             />
         </div>
     );
