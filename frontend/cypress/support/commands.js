@@ -1,7 +1,7 @@
 Cypress.Commands.add('loginAdmin', () => {
   cy.intercept('POST', '/auth/login').as('loginRequest');
   cy.visit('/login');
-  cy.get('input[name="email"]').type("matiasacosta@email.com");
+  cy.get('input[name="email"]').type("admin@email.com");
   cy.contains('Continuar').click();
   cy.get('input[name="password"]').type('admin123');
   cy.contains('Iniciar sesión').click();
