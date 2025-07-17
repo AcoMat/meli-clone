@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://localhost:18080';
+export const BASE_URL = 'http://localhost:8080';
 
 export const users = [
     { firstName: 'Julian', lastName: 'Trejo', email: 'juliantrejo@email.com', password: 'julian123' },
