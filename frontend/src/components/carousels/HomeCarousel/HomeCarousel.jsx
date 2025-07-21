@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import HomeCard from "../../cards/HomeCard/HomeCard";
 import nextarrow from "../../../assets/arrows/next-arrow.svg";
 import prevarrow from "../../../assets/arrows/prev-arrow.svg";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
-export default function HomeCarousel({ id }) {
+export default function HomeCarousel({id}) {
     let navigate = useNavigate();
     const [cardsPerSlide, setCardsPerSlide] = useState(3);
     useEffect(() => {
@@ -23,13 +23,6 @@ export default function HomeCarousel({ id }) {
     }, []);
     const defaultCards = [
         {
-            header: "Envio Gratis",
-            img: "https://web.archive.org/web/20250211160640im_/https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/new-buyer.svg",
-            desc: "Explora productos seleccionados con envío gratis",
-            link: "/sales",
-            footer: "Mostrar productos"
-        },
-        {
             header: "Ingresá a tu cuenta",
             img: "https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/registration-da.svg",
             desc: "Disfrutá de ofertas y comprá sin limites",
@@ -37,10 +30,20 @@ export default function HomeCarousel({ id }) {
             footer: "Ingresar a tu cuenta"
         },
         {
+            header: "Medios de pago",
+            img: "https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/payment-methods.svg",
+            desc: "Pagá tus compras de forma rápida y segura",
+            footer: "Conocer medios de pago"
+        },{
+            header: "Tiendas oficiales",
+            img: "https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/payment-methods.svg",
+            desc: "Encontrá tus marcas preferidas",
+            footer: "Mostrar tiendas"
+        },
+        {
             header: "Más vendidos",
             img: "https://http2.mlstatic.com/frontend-assets/homes-palpatine/dynamic-access-desktop/top-sale.svg",
             desc: "Explorá productos que son tendencia",
-            link: "/sales",
             footer: "Ir a mas vendidos"
         }
     ]
@@ -57,20 +60,20 @@ export default function HomeCarousel({ id }) {
     const productChunks = createProductChunks();
 
     return (
-        <div>
-            <div id={id} className={`carousel slide products-carousel-wrapper`}>
-                <div className={`carousel-inner mx-auto w-75`}>
-                    {
-                        productChunks.length > 0 ?
-                            (productChunks.map((chunk, chunkIndex) => (
-                                <div key={chunkIndex} className={`carousel-item ${chunkIndex === 0 ? 'active' : ''}`}>
-                                    <div className={`d-flex py-1 gap-3 justify-content-center`}>
-                                        {chunk.map((product, index) => (
-                                            <HomeCard key={`product-${chunkIndex}-${index}`} data={product} navigate={navigate} />
-                                        ))}
-                                    </div>
+        <div id={id} className={`carousel slide products-carousel-wrapper py-3`}>
+            <div className={`carousel-inner mx-auto w-75`}>
+                {
+                    productChunks.length > 0 ?
+                        (productChunks.map((chunk, chunkIndex) => (
+                            <div key={chunkIndex} className={`carousel-item ${chunkIndex === 0 ? 'active' : ''}`}>
+                                <div className={`d-flex py-1 gap-3 justify-content-center`}>
+                                    {chunk.map((product, index) => (
+                                        <HomeCard key={`product-${chunkIndex}-${index}`} data={product}
+                                                  navigate={navigate}/>
+                                    ))}
                                 </div>
-                            )))
+                            </div>
+                        )))
                         :
                         <div className="d-flex justify-content-center align-items-center w-100 h-75">
                             <div className="spinner-border text-secondary" role="status">
@@ -78,19 +81,20 @@ export default function HomeCarousel({ id }) {
                             </div>
                         </div>
 
-                    }
-                </div>
-                {productChunks.length > 1 && (
-                    <>
-                        <button className="carousel-control-prev" type="button" data-bs-target={`#${id}`} data-bs-slide="prev">
-                            <img src={prevarrow} alt="Previous" />
-                        </button>
-                        <button className="carousel-control-next" type="button" data-bs-target={`#${id}`} data-bs-slide="next">
-                            <img src={nextarrow} alt="Next" />
-                        </button>
-                    </>
-                )}
+                }
             </div>
+            {productChunks.length > 1 && (
+                <>
+                    <button className="carousel-control-prev" type="button" data-bs-target={`#${id}`}
+                            data-bs-slide="prev">
+                        <img src={prevarrow} alt="Previous"/>
+                    </button>
+                    <button className="carousel-control-next" type="button" data-bs-target={`#${id}`}
+                            data-bs-slide="next">
+                        <img src={nextarrow} alt="Next"/>
+                    </button>
+                </>
+            )}
         </div>
     );
 }

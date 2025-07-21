@@ -1,11 +1,9 @@
-import './HomeCard.css'
 export default function HomeCard({ data, navigate }) {
 
     return (
         <article
-        className={`bg-body d-flex flex-column rounded text-decoration-none w-50 text-dark home-card`} 
+        className={`bg-body d-flex flex-column rounded text-decoration-none w-50 text-dark`}
         onClick={() => navigate(data.link)}
-        style={{cursor: "pointer"}}
         >
             <span className="fw-medium p-2 text-center">{data.header}</span>
             <img className='img-fluid w-50 my-2 mx-auto' src={data.img} />

@@ -16,8 +16,8 @@
 @media (max-width: 600px) {
     #adscarousel {
         aspect-ratio: 3.8;
-        min-height: 140px;
-        max-height: 300px;
+        min-height: 180px;
+        max-height: 400px;
         height: auto;
     }
     #adscarousel img {
