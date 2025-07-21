@@ -2,10 +2,25 @@ import { useNavigate } from "react-router-dom";
 import HomeCard from "../../cards/HomeCard/HomeCard";
 import nextarrow from "../../../assets/arrows/next-arrow.svg";
 import prevarrow from "../../../assets/arrows/prev-arrow.svg";
+import { useEffect, useState } from "react";
 
 export default function HomeCarousel({ id }) {
     let navigate = useNavigate();
-    const CARDS_PER_SLIDE = 3;
+    const [cardsPerSlide, setCardsPerSlide] = useState(3);
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 576) {
+                setCardsPerSlide(2);
+            } else if (window.innerWidth < 992) {
+                setCardsPerSlide(3);
+            } else {
+                setCardsPerSlide(5);
+            }
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     const defaultCards = [
         {
             header: "Envio Gratis",
@@ -33,8 +48,8 @@ export default function HomeCarousel({ id }) {
 
     const createProductChunks = () => {
         const chunks = [];
-        for (let i = 0; i < defaultCards?.length; i += CARDS_PER_SLIDE) {
-            chunks.push(defaultCards?.slice(i, i + CARDS_PER_SLIDE));
+        for (let i = 0; i < defaultCards?.length; i += cardsPerSlide) {
+            chunks.push(defaultCards?.slice(i, i + cardsPerSlide));
         }
         return chunks;
     };
@@ -44,7 +59,7 @@ export default function HomeCarousel({ id }) {
     return (
         <div>
             <div id={id} className={`carousel slide products-carousel-wrapper`}>
-                <div className={`carousel-inner mx-auto w-50`}>
+                <div className={`carousel-inner mx-auto w-75`}>
                     {
                         productChunks.length > 0 ?
                             (productChunks.map((chunk, chunkIndex) => (

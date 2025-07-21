@@ -24,15 +24,15 @@ function Header() {
   return (
     <header className='header'>
       <div className="content-wrapper lh-1">
-        <div className="d-flex justify-content-center align-items-center mb-2 mx-auto" style={{ width: '100%' }}>
-          <div style={{ minWidth: 134, marginRight: 24 }} className="d-flex justify-content-center">
+        <div className="d-flex flex-column flex-md-row justify-content-center align-items-center mb-2 mx-auto" style={{ width: '100%' }}>
+          <div style={{ minWidth: 134, marginRight: 0 }} className="d-flex justify-content-center mb-2 mb-md-0 me-md-3">
             <Link to='/'>
               <img src={logo} width={134} height={34} />
             </Link>
           </div>
-          <div style={{ maxWidth: 600, flex: 1 }} className="d-flex justify-content-center">
-            <form className='header-search w-100' onSubmit={handleSubmit}>
-              <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} type='text' name='query' className='mt-0 shadow-sm' placeholder='Buscar productos, marcas y más…' />
+          <div style={{ maxWidth: 600, flex: 1 }} className="d-flex justify-content-center w-100 w-md-auto">
+            <form className='header-search w-100 mx-2' onSubmit={handleSubmit}>
+              <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} type='text' name='query' className='mt-0 shadow-sm w-100' placeholder='Buscar productos, marcas y más…' />
               <button className='position-absolute translate-middle' type='submit'><img src={searchIcon} width={25} height={25} /></button>
             </form>
           </div>
@@ -72,6 +72,6 @@ function Header() {
       </div>
     </header>
   );
-};
+}
 
 export default Header

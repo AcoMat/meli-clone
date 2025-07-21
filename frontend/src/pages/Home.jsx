@@ -1,6 +1,6 @@
 import AdminDashboard from "../components/admin/AdminDashboard";
 import AdsCarousel from "../components/carousels/AdsCarousel/AdsCarousel";
-import HomeCarousel from "../components/carousels/Home/HomeCarousel";
+import HomeCarousel from "../components/carousels/HomeCarousel/HomeCarousel";
 import { useUserContext } from "../context/UserContext";
 
 function Home() {
@@ -14,11 +14,7 @@ function Home() {
                     user && user.isAdmin ? (
                         <AdminDashboard />
                     ) : (
-                        <>
-                            <div data-cy="home-carousel">
-                                <HomeCarousel id={"1"} />
-                            </div>
-                        </>
+                        <HomeCarousel id={"1"} />
                     )
                 }
             </div >
