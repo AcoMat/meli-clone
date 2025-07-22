@@ -37,7 +37,7 @@ jobs:
           cd backend
           chmod +x mvnw
           ./mvnw clean compile -DskipTests
-          nohup ./mvnw spring-boot:run -Dspring-boot.run.profiles=h2 &
+          nohup ./mvnw spring-boot:run -Dspring-boot.run.profiles=e2e &
           echo $! > backend.pid
         env:
           MERCADOLIBRE_CLIENT_ID: "test"
