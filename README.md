@@ -2,14 +2,9 @@
 
 Este repositorio contiene el código fuente del proyecto "Seguí tus compras", una aplicación web para la gestión de compras.
 
-#### ... Y tambien el docker-compose para levantar todo el sistema.
-
----
-
-## Integrantes
-- **Acosta Matías**
-
----
+## Technologías utilizadas
+- **Frontend:** React, JavaScript, Vite, Bootstrap CSS
+- **Backend:** Java, Spring Boot, JPA, Hibernate, MySQL
 
 ## Funcionalidades
 
