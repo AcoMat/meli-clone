@@ -27,7 +27,7 @@ function Header() {
         <div className="d-flex flex-column flex-md-row justify-content-center align-items-center mb-2 mx-auto" style={{ width: '100%' }}>
           <div style={{ minWidth: 134, marginRight: 0 }} className="d-flex justify-content-center mb-2 mb-md-0 me-md-3">
             <Link to='/'>
-              <img src={logo} width={134} height={34} />
+              <img id="logo" alt="logo" src={logo} width={134} height={34} />
             </Link>
           </div>
           <div style={{ maxWidth: 600, flex: 1 }} className="d-flex justify-content-center w-100 w-md-auto">

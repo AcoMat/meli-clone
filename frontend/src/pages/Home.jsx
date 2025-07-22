@@ -8,13 +8,13 @@ function Home() {
 
     return (
         <>
-            <AdsCarousel id={"1"} />
+            <AdsCarousel />
             <div className="d-flex flex-column content-wrapper gap-5">
                 {
                     user && user.isAdmin ? (
                         <AdminDashboard />
                     ) : (
-                        <HomeCarousel id={"1"} />
+                        <HomeCarousel />
                     )
                 }
             </div >

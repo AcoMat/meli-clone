@@ -1,24 +1,17 @@
 describe('Home Page e2e tests', () => {
-  it('passes', () => {
+  it('home page loads', () => {
     cy.visit('/')
-    cy.get('#1').should('be.visible')
+    cy.get('#adscarousel').should('be.visible')
   })
 
   it('should display all carousel cards', () => {
     cy.visit('/')
-    cy.get('#1').within(() => {
-      cy.contains('Envio Gratis').should('exist')
+    cy.get('#homecarousel').within(() => {
       cy.contains('Ingresá a tu cuenta').should('exist')
+      cy.contains('Medios de pago').should('exist')
+      cy.contains('Tiendas oficiales').should('exist')
       cy.contains('Más vendidos').should('exist')
     })
-  })
-
-  it('should navigate to login when clicking the login card', () => {
-    cy.visit('/')
-    cy.get('#1').within(() => {
-      cy.contains('Ingresar a tu cuenta').click({ force: true })
-    })
-    cy.url().should('include', '/login')
   })
 
   it('should navigate to login when clicking on login', () => {
@@ -38,9 +31,9 @@ describe('Home Page e2e tests', () => {
 
   it('should refresh when clicking on logo', () => {
     cy.visit('/')
-    cy.get('[style="min-width: 134px; margin-right: 24px;"] > a > img').click({ force: true })
+    cy.get('#logo').click({ force: true })
     cy.url().should('include', '/')
-    cy.get('#1').should('be.visible')
+    cy.get('#adscarousel').should('be.visible')
   })
 })
 

@@ -4,7 +4,7 @@ import nextarrow from "../../../assets/arrows/next-arrow.svg";
 import prevarrow from "../../../assets/arrows/prev-arrow.svg";
 import {useEffect, useState} from "react";
 
-export default function HomeCarousel({id}) {
+export default function HomeCarousel() {
     let navigate = useNavigate();
     const [cardsPerSlide, setCardsPerSlide] = useState(3);
     useEffect(() => {
@@ -60,7 +60,7 @@ export default function HomeCarousel({id}) {
     const productChunks = createProductChunks();
 
     return (
-        <div id={id} className={`carousel slide products-carousel-wrapper py-3`}>
+        <div id="homecarousel" className={`carousel slide products-carousel-wrapper py-3`}>
             <div className={`carousel-inner mx-auto w-75`}>
                 {
                     productChunks.length > 0 ?
@@ -85,11 +85,11 @@ export default function HomeCarousel({id}) {
             </div>
             {productChunks.length > 1 && (
                 <>
-                    <button className="carousel-control-prev" type="button" data-bs-target={`#${id}`}
+                    <button className="carousel-control-prev" type="button" data-bs-target={`#homecarousel`}
                             data-bs-slide="prev">
                         <img src={prevarrow} alt="Previous"/>
                     </button>
-                    <button className="carousel-control-next" type="button" data-bs-target={`#${id}`}
+                    <button className="carousel-control-next" type="button" data-bs-target={`#homecarousel`}
                             data-bs-slide="next">
                         <img src={nextarrow} alt="Next"/>
                     </button>
