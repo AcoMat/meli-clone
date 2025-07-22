@@ -24,7 +24,7 @@ FROM amazoncorretto:21.0.4-alpine3.18
 WORKDIR /app
 
 # Copy the built jar from the build stage
-COPY --from=build /app/target/segui-tus-compras-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 
 # Environment variables
 ENV JWT_SECRET=""
