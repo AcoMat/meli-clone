@@ -6,6 +6,8 @@ Este repositorio contiene el código fuente del proyecto "Seguí tus compras", u
 - **Frontend:** React, JavaScript, Vite, Bootstrap CSS
 - **Backend:** Java, Spring Boot, JPA, Hibernate, MySQL
 
+---
+
 ## Funcionalidades
 
 ### Acceso Público (sin autenticación)
