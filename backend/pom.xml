@@ -8,10 +8,10 @@
 		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>unq.pdes.2025.g1</groupId>
-	<artifactId>acomat-meli-clone-backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>MeLi Clone Backend</name>
+	<groupId>acomat</groupId>
+	<artifactId>segui-tus-compras-backend</artifactId>
+	<version>1.1.0</version>
+	<name>Segui tus Compras Backend</name>
 	<description>Backend para proyecto personal</description>
 	<url/>
 	<licenses>
