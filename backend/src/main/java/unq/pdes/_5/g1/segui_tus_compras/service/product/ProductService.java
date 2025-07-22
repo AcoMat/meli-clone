@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.out.product.ProductFavoriteCountDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
-import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
+import unq.pdes._5.g1.segui_tus_compras.repository.product.ProductsRepository;
 
 import java.util.List;
 

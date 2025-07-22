@@ -93,7 +93,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleGenericRuntime(RuntimeException ex) {
-        return ResponseEntity.status(500).body(ex.getMessage());
+        return ResponseEntity.status(500).body("Hubo un error inesperado");
     }
 
 }

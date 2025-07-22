@@ -17,7 +17,9 @@ jobs:
         working-directory: ./backend
 
     env:
-      MERCADOLIBRE_API_MOST_RECENT_TOKEN: ${{ secrets.MERCADOLIBRE_API_MOST_RECENT_TOKEN }}
+      MERCADOLIBRE_CLIENT_ID: "test"
+      MERCADOLIBRE_CLIENT_SECRET: "test"
+      MERCADOLIBRE_API_REFRESH_TOKEN: "test"
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     steps:

@@ -21,8 +21,11 @@ jwt:
 
 mercadolibre:
   api:
-    most.recent.token: test-token
-    
+    url: https://api.mercadolibre.com
+    refreshToken: test-token
+  client:
+    id: test-client-id
+    secret: test-client-secret
 # Logging configuration for tests - override the debug level from main config
 logging:
   level:

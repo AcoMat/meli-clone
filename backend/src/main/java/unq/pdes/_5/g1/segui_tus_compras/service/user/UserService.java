@@ -9,7 +9,7 @@ import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
-import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
+import unq.pdes._5.g1.segui_tus_compras.repository.user.UsersRepository;
 
 import java.util.List;
 

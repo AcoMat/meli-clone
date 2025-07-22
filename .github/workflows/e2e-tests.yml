@@ -40,12 +40,14 @@ jobs:
           nohup ./mvnw spring-boot:run -Dspring-boot.run.profiles=h2 &
           echo $! > backend.pid
         env:
-          MERCADOLIBRE_API_MOST_RECENT_TOKEN: ${{ secrets.MERCADOLIBRE_API_MOST_RECENT_TOKEN }}
+          MERCADOLIBRE_CLIENT_ID: "test"
+          MERCADOLIBRE_CLIENT_SECRET: "test"
+          MERCADOLIBRE_API_REFRESH_TOKEN: "test"
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
       - name: Wait for backend to be ready
         run: |
-          timeout 300 bash -c 'until curl -f http://localhost:8080/actuator/health 2>/dev/null; do echo "Waiting for backend..."; sleep 5; done'
+          timeout 300 bash -c 'untFil curl -f http://localhost:8080/actuator/health 2>/dev/null; do echo "Waiting for backend..."; sleep 5; done'
 
       - name: Install frontend dependencies
         run: |

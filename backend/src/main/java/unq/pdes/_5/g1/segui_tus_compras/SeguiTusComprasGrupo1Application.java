@@ -5,7 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling
 @EnableCaching
 @SpringBootApplication
 @EntityScan("unq.pdes._5.g1.segui_tus_compras.model")

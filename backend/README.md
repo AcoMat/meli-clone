@@ -51,7 +51,9 @@ Las siguientes variables de entorno son necesarias para ejecutar la aplicación:
 - `SPRING_DATASOURCE_USERNAME`: El nombre de usuario para la base de datos.
 - `SPRING_DATASOURCE_PASSWORD`: La contraseña para la base de datos.
 - `JWT_SECRET`: Una clave secreta para generar tokens JWT.
-- `MERCADOLIBRE_API_MOST_RECENT_TOKEN`: El token más reciente para la API de MercadoLibre.
+- `MERCADOLIBRE_CLIENT_ID`= Id de cliente de MercadoLibre.
+- `MERCADOLIBRE_CLIENT_SECRET`= Secreto de cliente de MercadoLibre.
+- `MERCADOLIBRE_API_REFRESH_TOKEN`= Token de actualización de la API de MercadoLibre.
 
 ## Documentación de la API
 

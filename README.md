@@ -51,7 +51,9 @@ las siguientes variables de entorno.
 En un archivo `.env` en la raíz del proyecto poner el siguiente contenido:
 
 ```
-MERCADOLIBRE_API_MOST_RECENT_TOKEN= token api mercado libre
+MERCADOLIBRE_CLIENT_ID=${MERCADOLIBRE_CLIENT_ID}
+MERCADOLIBRE_CLIENT_SECRET=${MERCADOLIBRE_CLIENT_SECRET}
+MERCADOLIBRE_API_REFRESH_TOKEN=${MERCADOLIBRE_API_REFRESH_TOKEN}
 ```
 
 ### Ejecución

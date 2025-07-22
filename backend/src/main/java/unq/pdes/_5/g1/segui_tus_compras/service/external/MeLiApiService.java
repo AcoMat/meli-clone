@@ -20,23 +20,19 @@ public class MeLiApiService {
 
     private static final Logger logger = LoggerFactory.getLogger(MeLiApiService.class);
     private final RestClient restClient;
-    private final String apiToken;
+    private final MeLiApiKeyRefresher meliApiKeyRefresher;
 
     public MeLiApiService(
             RestClient.Builder restClientBuilder,
             @Value("${mercadolibre.api.url}") String apiUrl,
-            @Value("${mercadolibre.api.most.recent.token}") String apiToken
+            MeLiApiKeyRefresher meliApiKeyRefresher
     ) {
         // Check if environment variables are properly set
         if (!StringUtils.hasText(apiUrl)) {
             throw new IllegalStateException("Environment variable 'mercadolibre.api.url' is not set");
         }
-        if (!StringUtils.hasText(apiToken)) {
-            throw new IllegalStateException("Environment variable 'mercadolibre.api.most.recent.token' is not set");
-        }
-        
         this.restClient = restClientBuilder.baseUrl(apiUrl).build();
-        this.apiToken = apiToken;
+        this.meliApiKeyRefresher = meliApiKeyRefresher;
     }
 
     public ExternalProductDto getProductById(String productId) {
@@ -74,7 +70,7 @@ public class MeLiApiService {
     private <T> T executeRequest(String uri, Class<T> responseType) {
         ResponseEntity<T> response = restClient.get()
                 .uri(uri)
-                .header("Authorization", "Bearer " + apiToken)
+                .header("Authorization", "Bearer " + meliApiKeyRefresher.getAccessToken())
                 .retrieve()
                 .toEntity(responseType);
 
