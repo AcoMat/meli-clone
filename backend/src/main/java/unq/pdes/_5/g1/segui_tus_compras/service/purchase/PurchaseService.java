@@ -10,8 +10,8 @@ import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.PurchaseItem;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
-import unq.pdes._5.g1.segui_tus_compras.repository.PurchaseItemRepository;
-import unq.pdes._5.g1.segui_tus_compras.repository.PurchaseRepository;
+import unq.pdes._5.g1.segui_tus_compras.repository.purchase.PurchaseItemRepository;
+import unq.pdes._5.g1.segui_tus_compras.repository.purchase.PurchaseRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.product.ProductService;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 

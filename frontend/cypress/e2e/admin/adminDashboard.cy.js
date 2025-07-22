@@ -21,6 +21,7 @@ describe('Admin Dashboard', () => {
   it('should not display admin dashboard for regular users', () => {
     // Login as regular user
     cy.registerRandomUser();
+    cy.visit('/');
     
     // Verify admin dashboard is NOT visible
     cy.contains('Bienvenido, Admin!').should('not.exist');
@@ -29,7 +30,7 @@ describe('Admin Dashboard', () => {
     cy.contains('Productos más comprados').should('not.exist');
     cy.contains('Top Productos Favoritos').should('not.exist');
     cy.contains('Top Compradores').should('not.exist');
-    cy.get('[data-cy="home-carousel"]').should('exist');
+    cy.get('#homecarousel').should('exist');
   });
 
   it('shouldnt show the dashboard if logged in', () => {

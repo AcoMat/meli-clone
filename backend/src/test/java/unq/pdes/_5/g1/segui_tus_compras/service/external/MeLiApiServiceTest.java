@@ -41,14 +41,15 @@ class MeLiApiServiceTest {
 
     private MeLiApiService meliApiService;
 
+    @Mock
+    private MeLiApiKeyRefresher meliApiKeyRefresher;
     private final String apiUrl = "https://api.mercadolibre.com";
-    private final String apiToken = "test-token";
 
     @BeforeEach
     void setUp() {
         when(restClientBuilder.baseUrl(apiUrl)).thenReturn(restClientBuilder);
         when(restClientBuilder.build()).thenReturn(restClient);
-        meliApiService = new MeLiApiService(restClientBuilder, apiUrl, apiToken);
+        meliApiService = new MeLiApiService(restClientBuilder, apiUrl, meliApiKeyRefresher);
 
         lenient().when(restClient.get()).thenReturn(requestHeadersUriSpec);
         lenient().when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
@@ -123,26 +124,5 @@ class MeLiApiServiceTest {
                 .thenThrow(new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
 
         assertThrows(ExternalApiException.class, () -> meliApiService.search(keywords, 0, 10));
-    }
-
-
-    @Test
-    void constructor_whenApiUrlIsNull_throwsIllegalStateException() {
-        assertThrows(IllegalStateException.class, () -> new MeLiApiService(restClientBuilder, null, apiToken));
-    }
-
-    @Test
-    void constructor_whenApiUrlIsEmpty_throwsIllegalStateException() {
-        assertThrows(IllegalStateException.class, () -> new MeLiApiService(restClientBuilder, "", apiToken));
-    }
-
-    @Test
-    void constructor_whenApiTokenIsNull_throwsIllegalStateException() {
-        assertThrows(IllegalStateException.class, () -> new MeLiApiService(restClientBuilder, apiUrl, null));
-    }
-
-    @Test
-    void constructor_whenApiTokenIsEmpty_throwsIllegalStateException() {
-        assertThrows(IllegalStateException.class, () -> new MeLiApiService(restClientBuilder, apiUrl, ""));
     }
 }

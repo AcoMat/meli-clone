@@ -2,6 +2,10 @@
 
 Este repositorio contiene el código fuente del proyecto "Seguí tus compras", una aplicación web para la gestión de compras.
 
+## Technologías utilizadas
+- **Frontend:** React, JavaScript, Vite, Bootstrap CSS
+- **Backend:** Java, Spring Boot, JPA, Hibernate, MySQL
+
 ---
 
 ## Funcionalidades
@@ -44,7 +48,9 @@ las siguientes variables de entorno.
 En un archivo `.env` en la raíz del proyecto poner el siguiente contenido:
 
 ```
-MERCADOLIBRE_API_MOST_RECENT_TOKEN= token api mercado libre
+MERCADOLIBRE_CLIENT_ID=${MERCADOLIBRE_CLIENT_ID}
+MERCADOLIBRE_CLIENT_SECRET=${MERCADOLIBRE_CLIENT_SECRET}
+MERCADOLIBRE_API_REFRESH_TOKEN=${MERCADOLIBRE_API_REFRESH_TOKEN}
 ```
 
 ### Ejecución

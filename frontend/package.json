@@ -1,7 +1,7 @@
 {
-  "name": "segui-tus-compras-frontend",
+  "name": "acomat-meli-clone-frontend",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.9.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

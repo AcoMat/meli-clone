@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Question;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
-import unq.pdes._5.g1.segui_tus_compras.repository.QuestionsRepository;
+import unq.pdes._5.g1.segui_tus_compras.repository.purchase.QuestionsRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 
 import java.util.List;

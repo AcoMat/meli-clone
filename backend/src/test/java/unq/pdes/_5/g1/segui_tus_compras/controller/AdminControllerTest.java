@@ -13,9 +13,9 @@ import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.Purchase;
 import unq.pdes._5.g1.segui_tus_compras.model.purchase.PurchaseItem;
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
-import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
-import unq.pdes._5.g1.segui_tus_compras.repository.PurchaseRepository;
-import unq.pdes._5.g1.segui_tus_compras.repository.UsersRepository;
+import unq.pdes._5.g1.segui_tus_compras.repository.product.ProductsRepository;
+import unq.pdes._5.g1.segui_tus_compras.repository.purchase.PurchaseRepository;
+import unq.pdes._5.g1.segui_tus_compras.repository.user.UsersRepository;
 import unq.pdes._5.g1.segui_tus_compras.security.JwtTokenProvider;
 
 import java.util.List;

@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import unq.pdes._5.g1.segui_tus_compras.model.dto.in.meli_api.ExternalProductDto;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
-import unq.pdes._5.g1.segui_tus_compras.repository.ProductsRepository;
+import unq.pdes._5.g1.segui_tus_compras.repository.product.ProductsRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.external.MeLiApiService;
 
 @Service

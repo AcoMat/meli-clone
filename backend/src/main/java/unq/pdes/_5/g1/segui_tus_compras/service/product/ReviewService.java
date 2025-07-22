@@ -6,7 +6,7 @@ import unq.pdes._5.g1.segui_tus_compras.exception.purchase.NotBoughtYetException
 import unq.pdes._5.g1.segui_tus_compras.model.user.User;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Product;
 import unq.pdes._5.g1.segui_tus_compras.model.product.Review;
-import unq.pdes._5.g1.segui_tus_compras.repository.ReviewsRepository;
+import unq.pdes._5.g1.segui_tus_compras.repository.purchase.ReviewsRepository;
 import unq.pdes._5.g1.segui_tus_compras.service.purchase.PurchaseService;
 import unq.pdes._5.g1.segui_tus_compras.service.user.UserService;
 
