@@ -37,4 +37,4 @@ jobs:
           MERCADOLIBRE_API_REFRESH_TOKEN: "test"
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AcoMat_meli-clone
+        run: cd backend && mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AcoMat_meli-clone
